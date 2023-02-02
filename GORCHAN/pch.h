@@ -18,7 +18,8 @@ typedef std::int64_t shape_index;
 typedef std::locale glocale;
 typedef std::experimental::filesystem::path gfs_path;
 typedef gstring gguid;
-
+template<class T> using gvector = std::vector<T>;   
+template<class T1, class T2> using gmap = std::map<T1, T2>;   
 
 #define BASE_PATH gfs_path(L"memory")
 
