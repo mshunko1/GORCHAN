@@ -18,9 +18,10 @@ protected:
 	static shape_type deserialize_type(gifstream& stream, bool reset_file_pos = true);
 	void set_index(shape_index index);
 	gfs_path get_filename();
-private:
+
 	shape_type m_type;
 	shape_index m_index;
+private:
 	linker* m_links_out;
 	linker* m_links_in;
 };

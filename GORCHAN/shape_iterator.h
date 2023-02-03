@@ -14,13 +14,14 @@ enum shape_iterator_state
 class shape_iterator
 {
 public:
-    shape_iterator();
+    shape_iterator(ls_memory* memory);
     ~shape_iterator();
     void set_initial_shapes(gvector<base_shape*> input);
     shape_iterator_state build_up();
     shape_iterator_state build_down();
     shape_iterator_state build_rules();
-
+    void init();
+    void deinit();
 private:
     gvector<base_shape*> m_input;
     gvector<base_shape*> m_down;
@@ -28,5 +29,6 @@ private:
     gvector<base_shape*> m_up;
     gvector<gvector<base_shape*>> m_ups;
     shape_iterator_state m_state;
+    ls_memory* m_ls_memory;
 };
 

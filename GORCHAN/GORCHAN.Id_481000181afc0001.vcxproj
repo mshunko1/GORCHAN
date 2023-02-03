@@ -150,7 +150,7 @@
     <ClInclude Include="eos_shape.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="shape_iterator.h" />
-    <ClInclude Include="soul_shape.h" />
+    <ClInclude Include="soul_matter_shape.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="base_shape.cpp" />
@@ -168,7 +168,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="shape_iterator.cpp" />
-    <ClCompile Include="soul_shape.cpp" />
+    <ClCompile Include="soul_matter_shape.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

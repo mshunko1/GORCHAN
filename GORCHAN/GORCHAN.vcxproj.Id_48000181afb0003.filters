@@ -57,7 +57,7 @@
     <ClInclude Include="eos_shape.h">
       <Filter>Header Files\shape</Filter>
     </ClInclude>
-    <ClInclude Include="soul_shape.h">
+    <ClInclude Include="soul_matter_shape.h">
       <Filter>Header Files\shape</Filter>
     </ClInclude>
     <ClInclude Include="linker.h">
@@ -83,7 +83,7 @@
     <ClCompile Include="shape_iterator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="soul_shape.cpp">
+    <ClCompile Include="soul_matter_shape.cpp">
       <Filter>Source Files\shape</Filter>
     </ClCompile>
     <ClCompile Include="eos_shape.cpp">

@@ -2,11 +2,18 @@
 #include "shape_iterator.h"
 
 
-shape_iterator::shape_iterator()
-:m_state(shape_iterator_state_undefined)
+shape_iterator::shape_iterator(ls_memory* memory)
+:m_state(shape_iterator_state_undefined),
+m_ls_memory(memory)
 {
-
+    
 }
+
+void shape_iterator::init()
+{
+    
+}
+
 
 shape_iterator::~shape_iterator()
 {
@@ -29,6 +36,11 @@ shape_iterator_state shape_iterator::build_down()
 }
 
 shape_iterator_state shape_iterator::build_rules()
+{
+
+}
+
+void shape_iterator::deinit()
 {
 
 }

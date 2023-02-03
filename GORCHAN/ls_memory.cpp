@@ -42,7 +42,7 @@ void ls_memory::load()
                     shape = new eos_shape();
                     break;
                 case shape_type_soul_matter:
-                    shape = new soul_shape();
+                    shape = new soul_matter_shape();
                 default:
                     throw new gexception("undefined shape type when try to load shapes in ls_memory");
                     break;
@@ -51,6 +51,13 @@ void ls_memory::load()
             stream.close();
         }
     }
+
+    add_static_shapes();
+}
+
+void ls_memory::add_static_shapes()
+{
+    
 }
 
 void ls_memory::save()
