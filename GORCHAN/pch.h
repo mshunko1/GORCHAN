@@ -17,15 +17,25 @@ typedef std::wifstream gifstream;
 typedef std::int64_t shape_index;
 typedef std::locale glocale;
 typedef std::experimental::filesystem::path gfs_path;
+namespace gfs = std::experimental::filesystem;
 typedef gstring gguid;
 template<class T> using gvector = std::vector<T>;   
-template<class T1, class T2> using gmap = std::map<T1, T2>;   
+template<class T1, class T2> using gmap = std::map<T1, T2>;
+template<class T1, class T2> using gpair = std::pair<T1,T2>;
 
-#define BASE_PATH gfs_path(L"memory")
+#define gto_gstring(x) std::to_wstring(x)
+#define BASE_PATH gfs_path(L"Mind")
 
+#include "lib/gexception.h"
+#include "indexator.h"
 #include "base_shape.h"
+#include "fona_shape.h"
+#include "eos_shape.h"
+#include "soul_shape.h"
 #include "ls_memory.h"
 #include "rule.h"
 #include "linker.h"
+#include "shape_iterator.h"
+
 
 #endif //PCH_H

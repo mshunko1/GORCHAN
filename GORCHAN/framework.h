@@ -3,7 +3,7 @@
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 #define _SILENCE_EXPERIMENTAL_FILESYSTEM_DEPRECATION_WARNING
 // Windows Header Files
-#ifdef WINDOWS
+#ifdef _WINDOWS
 #include <windows.h>
 #endif
 
@@ -17,4 +17,6 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <string>
 #include <experimental/filesystem>
+#include <exception>

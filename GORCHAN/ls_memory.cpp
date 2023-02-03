@@ -3,21 +3,72 @@
 
 
 ls_memory::ls_memory()
+:m_shape_indexator(nullptr)
 {
-
+    m_shape_indexator = new indexator(gfs_path(L"shape_indexator.txt"));
+    m_base_path /= L"ls_memory";
+    gfs::create_directories(m_base_path);
 }
 
 void ls_memory::add_shape(base_shape* shape)
 {
-
+    shape_index index = m_shape_indexator->get_next_shape_index();
+    shape->set_index(index);
+    m_shape_to_index[shape] = index;
+    m_index_to_shape[index] = shape;
 }
 
 void ls_memory::load()
 {
+    using recursive_directory_iterator = gfs::recursive_directory_iterator;
+ 
+    for (const auto& dirEntry : recursive_directory_iterator(m_base_path))
+    {
+        gfs_path path = dirEntry.path();
+        if(gfs::is_directory(path) == false)
+        { 
+            gifstream stream(path.c_str(), std::ios::binary);
+            glocale utf16(glocale(""), new std::codecvt_utf16<wchar_t, 0x10ffff, std::little_endian>);
+            stream.imbue(utf16);
 
+            base_shape* shape;
+            shape_type shape_type = base_shape::deserialize_type(stream);
+            switch (shape_type)
+            {
+                case shape_type_fona:
+                    shape = new fona_shape();
+                    break;
+                case shape_type_eos:
+                    shape = new eos_shape();
+                    break;
+                case shape_type_soul_matter:
+                    shape = new soul_shape();
+                default:
+                    throw new gexception("undefined shape type when try to load shapes in ls_memory");
+                    break;
+            }
+            shape->deserialize(stream);
+            stream.close();
+        }
+    }
 }
 
 void ls_memory::save()
 {
-    
+    for(gpair<shape_index, base_shape*> shape:m_index_to_shape)
+    {
+        gfs_path file_name = shape.second->get_filename();
+        shape_type shape_type = shape.second->get_type();
+        gfs_path path_to_shape_file = m_base_path / gto_gstring(shape_type);
+        gfs::create_directories(path_to_shape_file);
+        path_to_shape_file /= file_name;
+        gofstream stream(path_to_shape_file.c_str(), std::ios::trunc|std::ios::binary);
+
+        shape.second->serialize(stream);
+        stream.flush();
+        stream.close();
+    }
+
+    m_index_to_shape.clear();
+    m_shape_to_index.clear();
 }
