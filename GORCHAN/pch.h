@@ -23,9 +23,12 @@ typedef std::thread gthread;
 template<class T> using gvector = std::vector<T>;   
 template<class T1, class T2> using gmap = std::map<T1, T2>;
 template<class T1, class T2> using gpair = std::pair<T1,T2>;
+template<class T> using gqueue = std::queue<T>;
 
 #define gto_gstring(x) std::to_wstring(x)
 #define BASE_PATH gfs_path(L"Mind")
+#define LINKS_OUT   6
+#define LINKS_IN    6
 
 #include "lib/gexception.h"
 #include "indexator.h"

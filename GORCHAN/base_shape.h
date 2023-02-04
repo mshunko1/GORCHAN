@@ -13,6 +13,8 @@ public:
 	virtual void deserialize(gifstream& stream);
 	shape_type get_type();
 	shape_index get_index();
+
+	static bool link_shapes(base_shape* from, base_shape* to, link_type type, bool rewrite = false);// out-in
 protected:
 	static void serialize_type(base_shape* shape, gofstream& stream);
 	static shape_type deserialize_type(gifstream& stream, bool reset_file_pos = true);

@@ -10,6 +10,7 @@ class ls_memory
     void save();
     bool exist(shape_index index);
     bool exist(base_shape* shape);
+    gmap<shape_index, base_shape*>* get_index_to_shape_map();
 protected:
     void add_static_shapes();
     private:

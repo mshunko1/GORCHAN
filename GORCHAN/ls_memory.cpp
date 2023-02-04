@@ -55,6 +55,12 @@ void ls_memory::load()
     add_static_shapes();
 }
 
+
+gmap<shape_index, base_shape*>* ls_memory::get_index_to_shape_map()
+{
+    return &m_index_to_shape;
+}
+
 void ls_memory::add_static_shapes()
 {
     

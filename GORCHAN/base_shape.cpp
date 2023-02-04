@@ -33,6 +33,24 @@ shape_type base_shape::deserialize_type(gifstream& stream, bool reset_file_pos =
 	return (shape_type)type;
 }
 
+bool base_shape::link_shapes(base_shape* from, base_shape* to, link_type type, bool rewrite = false)
+{
+	if(rewrite == true)
+	{
+		throw new gexception("not impemented");		
+	}
+	
+	if(from->m_links_out->exists(to) == false)
+	{
+		from->m_links_out->add_link(to, type);
+	}
+
+	if(to->m_links_in->exists(from) == false)
+	{
+		to->m_links_in->add_link(from, type);
+	}
+}
+
 shape_index base_shape::get_index()
 {
 

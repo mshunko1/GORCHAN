@@ -3,19 +3,112 @@
 
 linker::linker()
 :m_links(nullptr),
-m_increase_num(0)
+m_increase_num(1),
+m_start_pos(0),
+m_back_pos(0)
 {
+    m_size = m_increase_num++ * 20;
+    m_links = new link*[m_size];
+    memset(m_links, 0, sizeof(link*) * m_size);
+}
+
+void linker::add_link(link* add_link)
+{
+    // IR       ADD IR  CIRCLE
+    // IR       ADD FR  EXPAND
+    // FR       ADD IR  EXPAND
+    // FR       ADD FR  CIRCLE
+
+    bool action_circle = false;
+    bool action_expand = false;
+
+    link* start = m_links[m_start_pos];
+
+    if(start->m_type <= link_type_init && add_link->m_type <= link_type_init)
+    {
+        action_circle = true;
+    }
+    else if(start->m_type <= link_type_init && add_link->m_type >= link_type_friendly)
+    {
+        action_expand = true;
+    }
+    else if(start->m_type >= link_type_friendly && add_link->m_type <= link_type_init)
+    {
+        action_expand = true;
+    }
+    else if(start->m_type >= link_type_friendly && add_link->m_type >= link_type_friendly)
+    {
+        action_circle = true;
+    }
+    else
+    {
+        throw new gexception("undefined behaviour when try add link");
+    }
+
+    if(m_back_pos >= m_size)
+    {
+        m_size = m_increase_num++ * 20;
+        link** new_links = new link*[m_size];
+        memset(new_links, 0, sizeof(link*) * m_size);
+
+        memcpy(new_links, m_links + sizeof(link*) * m_start_pos, size() * sizeof(link*));
+        delete m_links;
+        m_links = new_links;
+        m_start_pos = 0;
+        m_back_pos = 0;
+    }
+
+    if(action_circle == true)
+    {
+        link* start = m_links[m_start_pos];
+        m_start_pos++;
+        delete start;
+        m_links[m_back_pos++] = add_link;
+    }
+    if(action_expand == true)
+    {
+        m_links[m_back_pos++] = add_link;
+    }
+    if(action_circle == true && action_expand == true)
+    {
+        throw new gexception("pizdec");
+    }
 
 }
 
-void linker::init()
+gint linker::size()
 {
-
+    return m_back_pos - m_start_pos + 1;
 }
 
-void linker::increase_size()
+void linker::add_link(base_shape* to_shape, link_type type)
 {
-    m_increase_num++;
+    link* l = new link();
+    l->m_shape_to = to_shape;
+    l->m_type = type;
+    add_link(l);
+}
+
+bool linker::exists(base_shape* shape)
+{
+    for(gint i = m_start_pos; i < m_back_pos; i++)
+    {
+        if(m_links[i]->m_shape_to == shape)
+        {
+            return true;
+        }
+    }
+}
+
+bool linker::exists(shape_index shape_index)
+{
+    for(gint i = m_start_pos; i < m_back_pos; i++)
+    {
+        if(m_links[i]->m_shape_to->get_index() == shape_index)
+        {
+            return true;
+        }
+    }
 }
 
 void linker::serialize(gofstream& stream)

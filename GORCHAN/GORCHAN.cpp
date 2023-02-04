@@ -22,13 +22,14 @@ void GORCHAN::init()
     m_shape_iterator->init();
     m_memory->load();
 
-    std::thread  m_mind_proc1 (&asd);
+    m_mind_proc = gthread(GORCHAN::mind_proc, &mind_proc);
 }
 
 void GORCHAN::deinit()
 {
     m_shape_iterator->deinit();
     m_memory->save();
+    m_mind_proc.join();
 }
 
 void GORCHAN::percive(std::string signal)
@@ -42,7 +43,7 @@ void GORCHAN::percive(std::string signal)
     {
         m_memory->add_shape(shape);
     }
-
+    
     m_shape_iterator->set_initial_shapes(shape_signal);
 }
 
@@ -53,7 +54,43 @@ void GORCHAN::add_callback(mind_callback* callback)
 
 void GORCHAN::mind_proc()
 {
+    while(true)
+    {    
+        if(m_mind_status > mind_status_ready_to_new_signal)
+        {
+            continue;
+        }
 
+        shape_iterator_state status = m_shape_iterator->build_up();
+        if(status == shape_iterator_state_synced)
+        {
+            continue;
+        }
+
+        status = m_shape_iterator->build_down();
+        if(status == shape_iterator_state_synced)
+        {
+            continue;
+        }
+
+        status = m_shape_iterator->build_up();
+        if(status == shape_iterator_state_synced)
+        {
+            continue;
+        }
+
+        status = m_shape_iterator->build_rules();
+        if(status == shape_iterator_state_synced)
+        {
+            continue;
+        }
+
+        status = m_shape_iterator->build_down();
+        if(status == shape_iterator_state_synced)
+        {
+            continue;
+        }
+    }
 }
 
 void GORCHAN::react_proc()
