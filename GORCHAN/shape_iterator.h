@@ -22,6 +22,9 @@ public:
     shape_iterator_state build_rules();
     void init();
     void deinit();
+protected:
+    bool find_this_way(base_shape* from, base_shape* to, gvector<shape_index>& path, gmap<base_shape*, bool>& passed_shapes);
+
 private:
     gvector<base_shape*> m_input;
     gvector<base_shape*> m_down;

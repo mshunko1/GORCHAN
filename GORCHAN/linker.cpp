@@ -94,23 +94,31 @@ void linker::add_link(base_shape* to_shape, link_type type)
     add_link(l);
 }
 
-bool linker::exists(base_shape* shape)
+bool linker::exists(base_shape* shape, gint* index = nullptr)
 {
     for(gint i = m_start_pos; i < m_back_pos; i++)
     {
         if(m_links[i]->m_shape_to == shape)
         {
+            if(index != nullptr)
+            {
+                *index = i;
+            }
             return true;
         }
     }
 }
 
-bool linker::exists(shape_index shape_index)
+bool linker::exists(shape_index shape_index, gint* index = nullptr)
 {
     for(gint i = m_start_pos; i < m_back_pos; i++)
     {
         if(m_links[i]->m_shape_to->get_index() == shape_index)
         {
+            if(index != nullptr)
+            {
+                *index = i;
+            }
             return true;
         }
     }

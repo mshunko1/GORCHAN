@@ -9,10 +9,10 @@ public:
 	void deserialize(gifstream& stream);
 	void add_link(link* link);
 	void add_link(base_shape* to_shape, link_type type);
-	bool exists(base_shape* shape);
-	bool exists(shape_index shape_index);
+	bool exists(base_shape* shape, gint* index = nullptr);
+	bool exists(shape_index shape_index, gint* index = nullptr);
 	gint size();
-	base_shape* at(gint index);
+	link* at(gint index);
 protected:
 private:
 	link** m_links;
