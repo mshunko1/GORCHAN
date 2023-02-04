@@ -76,6 +76,11 @@ void linker::add_link(link* add_link)
 
 }
 
+base_shape* linker::at(gint index)
+{
+    return m_links[m_start_pos + index]->m_shape_to;
+}
+
 gint linker::size()
 {
     return m_back_pos - m_start_pos + 1;

@@ -39,7 +39,7 @@ bool base_shape::link_shapes(base_shape* from, base_shape* to, link_type type, b
 	{
 		throw new gexception("not impemented");		
 	}
-	
+
 	if(from->m_links_out->exists(to) == false)
 	{
 		from->m_links_out->add_link(to, type);
@@ -49,6 +49,16 @@ bool base_shape::link_shapes(base_shape* from, base_shape* to, link_type type, b
 	{
 		to->m_links_in->add_link(from, type);
 	}
+}
+
+linker* base_shape::get_outs()
+{
+	return m_links_out;
+}
+
+linker* base_shape::get_ins()
+{
+	return m_links_in;
 }
 
 shape_index base_shape::get_index()

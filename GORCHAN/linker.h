@@ -12,6 +12,7 @@ public:
 	bool exists(base_shape* shape);
 	bool exists(shape_index shape_index);
 	gint size();
+	base_shape* at(gint index);
 protected:
 private:
 	link** m_links;
