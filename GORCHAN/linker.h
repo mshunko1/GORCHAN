@@ -4,19 +4,21 @@
 class linker
 {
 public:
-	linker();
+	linker(base_shape* owner);
 	void serialize(gofstream& stream);
 	void deserialize(gifstream& stream);
 	void add_link(link* link);
-	void add_link(base_shape* to_shape, link_type type);
+	void add_link(base_shape* to_shape, rule* rule, link_type type);
 	bool exists(base_shape* shape, gint* index = nullptr);
 	bool exists(shape_index shape_index, gint* index = nullptr);
 	gint size();
 	void remove(gint index);
 	link* at(gint index);
+	base_shape* get_owner();
 protected:
 private:
 	link** m_links;
+	base_shape* m_owner;
 	gint m_increase_num;
 	gint m_start_pos;
 	gint m_back_pos;

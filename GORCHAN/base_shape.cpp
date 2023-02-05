@@ -33,7 +33,7 @@ shape_type base_shape::deserialize_type(gifstream& stream, bool reset_file_pos =
 	return (shape_type)type;
 }
 
-bool base_shape::link_shapes(base_shape* from, base_shape* to, link_type type, bool rewrite = false, bool replace = false)
+bool base_shape::link_shapes(base_shape* from, base_shape* to, rule* rule, link_type type, bool rewrite = false, bool replace = false)
 {
 	if(rewrite == true || (rewrite == true && replace == true))
 	{
@@ -42,27 +42,27 @@ bool base_shape::link_shapes(base_shape* from, base_shape* to, link_type type, b
 	gint index = -1;
 	if(from->m_links_out->exists(to, &index) == false)
 	{
-		from->m_links_out->add_link(to, type);
+		from->m_links_out->add_link(to, rule, type);
 	}
 	else
 	{
 		if(replace == true)
 		{ 
 			from->m_links_out->remove(index);
-			from->m_links_out->add_link(to, type);
+			from->m_links_out->add_link(to, rule, type);
 		}
 	}
 
 	if(to->m_links_in->exists(from, &index) == false)
 	{
-		to->m_links_in->add_link(from, type);
+		to->m_links_in->add_link(from, rule, type);
 	}
 	else
 	{
 		if(replace == true)
 		{ 
 			to->m_links_out->remove(index);
-			to->m_links_in->add_link(from, type);
+			to->m_links_in->add_link(from, rule, type);
 		}
 	}
 }

@@ -1,15 +1,21 @@
 #include "pch.h"
 #include "linker.h"
 
-linker::linker()
+linker::linker(base_shape* owner)
 :m_links(nullptr),
 m_increase_num(1),
 m_start_pos(0),
-m_back_pos(0)
+m_back_pos(0),
+m_owner(owner)
 {
     m_size = m_increase_num++ * 20;
     m_links = new link*[m_size];
     memset(m_links, 0, sizeof(link*) * m_size);
+}
+
+base_shape* linker::get_owner()
+{
+    return m_owner;
 }
 
 void linker::add_link(link* add_link)
@@ -86,11 +92,12 @@ gint linker::size()
     return m_back_pos - m_start_pos + 1;
 }
 
-void linker::add_link(base_shape* to_shape, link_type type)
+void linker::add_link(base_shape* to_shape, rule* rule,link_type type)
 {
     link* l = new link();
     l->m_shape_to = to_shape;
     l->m_type = type;
+    l->m_rules.push(rule);
     add_link(l);
 }
 

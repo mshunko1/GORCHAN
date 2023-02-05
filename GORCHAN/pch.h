@@ -10,6 +10,8 @@
 // add headers that you want to pre-compile here
 #include "framework.h"
 
+class rule;
+
 typedef std::wstring gstring;
 typedef std::int64_t gint;
 typedef std::wofstream gofstream;
@@ -24,6 +26,7 @@ template<class T> using gvector = std::vector<T>;
 template<class T1, class T2> using gmap = std::map<T1, T2>;
 template<class T1, class T2> using gpair = std::pair<T1,T2>;
 template<class T> using gqueue = std::queue<T>;
+template<class T1, class T2, class T3> using grule_queue = std::priority_queue<T1, T2, T3>;
 
 #define gto_gstring(x) std::to_wstring(x)
 #define BASE_PATH gfs_path(L"Mind")
@@ -31,6 +34,7 @@ template<class T> using gqueue = std::queue<T>;
 #define LINKS_IN    6
 
 #include "lib/gexception.h"
+#include "lib/rule_priority_queue_comparer.h"
 #include "indexator.h"
 #include "base_shape.h"
 #include "fona_shape.h"
