@@ -2,14 +2,14 @@
 #include "rule.h"
 
 rule::rule()
+:m_weight(0)
 {
-
+	
 }
 
 void rule::serialize(gofstream& stream)
 {
-	stream << (gint)m_type;
-	stream << m_from->get_guid();
+ 
 }
 
 void rule::deserialize(gifstream& stream)

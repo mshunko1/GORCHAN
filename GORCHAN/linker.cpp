@@ -76,9 +76,9 @@ void linker::add_link(link* add_link)
 
 }
 
-base_shape* linker::at(gint index)
+link* linker::at(gint index)
 {
-    return m_links[m_start_pos + index]->m_shape_to;
+    return m_links[m_start_pos + index];
 }
 
 gint linker::size()
@@ -107,6 +107,11 @@ bool linker::exists(base_shape* shape, gint* index = nullptr)
             return true;
         }
     }
+}
+
+void linker::remove(gint index)
+{
+    throw new gexception("not implemented");
 }
 
 bool linker::exists(shape_index shape_index, gint* index = nullptr)

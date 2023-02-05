@@ -12,6 +12,7 @@ public:
 	bool exists(base_shape* shape, gint* index = nullptr);
 	bool exists(shape_index shape_index, gint* index = nullptr);
 	gint size();
+	void remove(gint index);
 	link* at(gint index);
 protected:
 private:

@@ -16,6 +16,7 @@ public:
     link_type m_type;
     //shape_index m_from; same for all
     base_shape* m_shape_to;
+    
 private:
 
 };

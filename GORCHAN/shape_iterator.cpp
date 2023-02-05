@@ -35,13 +35,13 @@ void shape_iterator::set_initial_shapes(gvector<base_shape*> input)
         throw new gexception("not found");
     }
 
-    base_shape::link_shapes(input[0], input[1], link_type_init);
+    base_shape::link_shapes(input[0], input[1], link_type_temproray);
     for(gint i = 1; i < input.size() - 1; i++)
     {
-        base_shape::link_shapes(input[i], input[i + 1], link_type_init);
+        base_shape::link_shapes(input[i], input[i + 1], link_type_temproray);
     }
 
-    base_shape::link_shapes(input[input.size() - 1], eos_shape->second, link_type_init);
+    base_shape::link_shapes(input[input.size() - 1], eos_shape->second, link_type_temproray);
     
     m_down = input;
 
@@ -63,12 +63,16 @@ shape_iterator_state shape_iterator::build_up()
             base_shape* shape = m_down[i];
             linker* outs = shape->get_outs();
             gint index = fercher[outs];
-            base_shape* shape = outs->at(index);
+            if(index >= outs->size())
+            {
+                continue;
+            }
+            base_shape* shape_ray = outs->at(index)->m_shape_to;
             fercher[outs]++;
-            auto exist_shape = std::find(m_up.begin(), m_up.end(), shape);
+            auto exist_shape = std::find(m_up.begin(), m_up.end(), shape_ray);
             if(exist_shape == m_up.end())
             {
-                m_up.push_back(shape);
+                m_up.push_back(shape_ray);
             }
         }
         gint ferch_reach_end = 0;
@@ -121,9 +125,13 @@ shape_iterator_state shape_iterator::build_down()
             base_shape* shape = m_up[i];
             linker* outs = shape->get_outs();
             gint index = fercher[outs];
-            base_shape* shape = outs->at(index);
+            if(index >= outs->size())
+            {
+                continue;
+            }
+            base_shape* shape_ray = outs->at(index)->m_shape_to;
             fercher[outs]++;
-            auto exist_shape = std::find(m_down.begin(), m_down.end(), shape);
+            auto exist_shape = std::find(m_down.begin(), m_down.end(), shape_ray);
             if(exist_shape == m_down.end())
             {
                 m_down.push_back(shape);
@@ -166,6 +174,8 @@ shape_iterator_state shape_iterator::build_down()
 
 shape_iterator_state shape_iterator::build_rules()
 {
+    gint init_count = 0;
+    gint fr_count = 0;
     for(base_shape* in_shape:m_input)
     {
         for(base_shape* up_shape:m_up)
@@ -173,32 +183,79 @@ shape_iterator_state shape_iterator::build_rules()
             linker* up_ins = up_shape->get_ins();
             gint index = 0;
             bool exists = up_ins->exists(in_shape, &index);
-            bool build_find_rule = false;
             if(exists == true)
             {
                 link* link = up_ins->at(index);
                 if(link->m_type == link_type_init)
                 {
-                    build_find_rule = true;
+                    init_count++;
+                }
+                if(link->m_type >= link_type_friendly && link->m_type < link_type_soul_matter)
+                {
+                    fr_count++;
                 }
             }
+        }
+    }
+    // build find_rule, at first check fr_rules
 
-            if(build_find_rule == false)
+    //1 если нет FR создать все IR
+    if(fr_count == 0 && init_count == 0)
+    {
+        for(base_shape* in_shape:m_input)
+        {
+            for(base_shape* up_shape:m_up)
             {
-                base_shape::link_shapes(in_shape, up_shape, link_type_init);
-                continue;
-            }
-            // build find_rule
-            gvector<shape_index> path;
-            gmap<base_shape*, bool> exists_shapes_path;
-            bool way = find_this_way(up_shape, in_shape, path, exists_shapes_path);
-            if(way == true)
-            {
-                auto map = m_ls_memory->get_index_to_shape_map();
-                base_shape* soul_matter_shape = map[soul_matter_shape_index];
-                base_shape::link_shapes(in_);
+                linker* up_ins = up_shape->get_ins();
+                bool exists = up_ins->exists(in_shape, nullptr);
+                if(exists == false)
+                { 
+                    base_shape::link_shapes(in_shape, up_shape, link_type_init);
+                }
             }
         }
+    }
+    //2 если все IR то пройтись по IR и попробывать создать FR
+    else if(fr_count == 0 && init_count > 0)
+    {
+        for(base_shape* in_shape:m_input)
+        {
+            for(base_shape* up_shape:m_up)
+            {
+                linker* up_ins = up_shape->get_ins();
+                gint index = 0;
+                bool exists = up_ins->exists(in_shape, &index);
+                bool do_link = false;
+                if(exists == true)
+                {
+                    link* link = up_ins->at(index);
+                    if(link->m_type < link_type_init)
+                    {
+                        do_link = true;
+                    }
+                }
+                else
+                {
+                    do_link = true;
+                }
+
+                if(do_link == true)
+                {
+                    gvector<shape_index> path;
+                    gmap<base_shape*, bool> passed_shapes;
+                    bool way_exist = find_this_way(up_shape, in_shape, path, passed_shapes);
+                    if(way_exist == true)
+                    {
+                        base_shape::link_shapes(in_shape, up_shape, link_type_friendly);
+                    }
+                }
+            }
+        }
+    }
+    //2.1 если есть FR то собрать все FR и делать FR там где IR анализируя правила всех FR
+    else if(fr_count > 0)
+    {
+        
     }
 }
 

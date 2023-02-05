@@ -15,7 +15,7 @@ public:
 	shape_index get_index();
 	linker* get_outs();
 	linker* get_ins();
-	static bool link_shapes(base_shape* from, base_shape* to, link_type type, bool rewrite = false);// out-in
+	static bool link_shapes(base_shape* from, base_shape* to, link_type type, bool rewrite = false, bool replace = false);// out-in
 protected:
 	static void serialize_type(base_shape* shape, gofstream& stream);
 	static shape_type deserialize_type(gifstream& stream, bool reset_file_pos = true);
