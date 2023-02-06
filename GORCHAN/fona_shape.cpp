@@ -1,7 +1,10 @@
 #include "pch.h"
 #include "fona_shape.h"
 
+fona_shape::fona_shape()
+{
 
+}
 
 fona_shape::fona_shape(gstring fona)
 {

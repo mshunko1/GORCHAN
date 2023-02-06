@@ -9,8 +9,8 @@ public:
 	void deserialize(gifstream& stream);
 	void add_link(link* link);
 	void add_link(base_shape* to_shape, rule* rule, link_type type);
-	bool exists(base_shape* shape, gint* index = nullptr);
-	bool exists(shape_index shape_index, gint* index = nullptr);
+	bool exists(base_shape* shape, gint* index);
+	bool exists(shape_index shape_index, gint* index);
 	gint size();
 	void remove(gint index);
 	link* at(gint index);

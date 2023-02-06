@@ -17,7 +17,10 @@ void shape_iterator::init()
 
 shape_iterator::~shape_iterator()
 {
-
+    m_downs.clear();
+    m_ups.clear();
+    m_down.clear();
+    m_up.clear();
 }
 
 void shape_iterator::set_initial_shapes(gvector<base_shape*> input)
@@ -35,13 +38,13 @@ void shape_iterator::set_initial_shapes(gvector<base_shape*> input)
         throw new gexception("not found");
     }
 
-    base_shape::link_shapes(input[0], input[1], new rule() , link_type_temproray);
+    base_shape::link_shapes(input[0], input[1], new rule() , link_type_temproray, false, false);
     for(gint i = 1; i < input.size() - 1; i++)
     {
-        base_shape::link_shapes(input[i], input[i + 1], new rule() ,link_type_temproray);
+        base_shape::link_shapes(input[i], input[i + 1], new rule() ,link_type_temproray, false, false);
     }
 
-    base_shape::link_shapes(input[input.size() - 1], eos_shape->second, new rule() ,link_type_temproray);
+    base_shape::link_shapes(input[input.size() - 1], eos_shape->second, new rule() ,link_type_temproray, false, false);
     
     m_down = input;
 
@@ -67,7 +70,8 @@ shape_iterator_state shape_iterator::build_up()
             {
                 continue;
             }
-            base_shape* shape_ray = outs->at(index)->m_shape_to;
+            shape_index shape_ray_index = outs->at(index)->m_shape_to;
+            base_shape* shape_ray = m_ls_memory->get_index_to_shape_map()->find(shape_ray_index)->second;
             fercher[outs]++;
             auto exist_shape = std::find(m_up.begin(), m_up.end(), shape_ray);
             if(exist_shape == m_up.end())
@@ -129,7 +133,9 @@ shape_iterator_state shape_iterator::build_down()
             {
                 continue;
             }
-            base_shape* shape_ray = outs->at(index)->m_shape_to;
+            shape_index shape_ray_index = outs->at(index)->m_shape_to;
+            base_shape* shape_ray = m_ls_memory->get_index_to_shape_map()->find(shape_ray_index)->second;
+
             fercher[outs]++;
             auto exist_shape = std::find(m_down.begin(), m_down.end(), shape_ray);
             if(exist_shape == m_down.end())
@@ -170,6 +176,7 @@ shape_iterator_state shape_iterator::build_down()
     {
         return shape_iterator_state_synced;
     }
+    return shape_iterator_state_in_up;
 }
 
 shape_iterator_state shape_iterator::build_rules()
@@ -210,7 +217,7 @@ shape_iterator_state shape_iterator::build_rules()
                 bool exists = up_ins->exists(in_shape, nullptr);
                 if(exists == false)
                 { 
-                    base_shape::link_shapes(in_shape, up_shape, new rule() ,link_type_init);
+                    base_shape::link_shapes(in_shape, up_shape, new rule() ,link_type_init, false, false);
                 }
             }
         }
@@ -249,10 +256,10 @@ shape_iterator_state shape_iterator::build_rules()
                         rule* r = new rule();
                         r->m_path = path;
                         base_shape* soul_matter_shape = m_ls_memory->get_index_to_shape_map()->find(soul_matter_shape_index)->second;
-                        base_shape::link_shapes(in_shape, up_shape, r, link_type_friendly);
+                        base_shape::link_shapes(in_shape, up_shape, r, link_type_friendly, false, false);
                         rule* smr = new rule();
-                        base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter);
-                        base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter);
+                        base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter, false, false);
+                        base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, false);
                     }
                 }
             }
@@ -326,10 +333,10 @@ shape_iterator_state shape_iterator::build_rules()
                                     //пробуем выяснить, имеют ли образы хотя бы одну связь, т.е исходящую или входящую
                                     //проверяем исходящую
                                     linker* out_links = passirov_shape->get_outs();
-                                    bool out_link_exist = out_links->exists(find_shape_shape);
+                                    bool out_link_exist = out_links->exists(find_shape_shape, nullptr);
                                     //проверяем входящую
                                     linker* in_links = find_shape_shape->get_ins();
-                                    bool in_link_exist = in_links->exists(passirov_shape);
+                                    bool in_link_exist = in_links->exists(passirov_shape, nullptr);
 
                                     if(out_link_exist == false && in_link_exist == false)
                                     {
@@ -358,10 +365,10 @@ shape_iterator_state shape_iterator::build_rules()
                             find_passed_rule->up_weight();
                             rule* clone_find_passed_rule = find_passed_rule->clone();
                             base_shape* soul_matter_shape = m_ls_memory->get_index_to_shape_map()->find(soul_matter_shape_index)->second;
-                            base_shape::link_shapes(in_shape, up_shape, clone_find_passed_rule, link_type_aquare_by_rule);
+                            base_shape::link_shapes(in_shape, up_shape, clone_find_passed_rule, link_type_aquare_by_rule, false, false);
                             rule* smr = new rule();
-                            base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter);
-                            base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter);
+                            base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter, false, false);
+                            base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, false);
                         }
                         else
                         {
@@ -373,10 +380,10 @@ shape_iterator_state shape_iterator::build_rules()
                                 rule* r = new rule();
                                 r->m_path = path;
                                 base_shape* soul_matter_shape = m_ls_memory->get_index_to_shape_map()->find(soul_matter_shape_index)->second;
-                                base_shape::link_shapes(in_shape, up_shape, r, link_type_friendly);
+                                base_shape::link_shapes(in_shape, up_shape, r, link_type_friendly, false, false);
                                 rule* smr = new rule();
-                                base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter);
-                                base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter);
+                                base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter, false, false);
+                                base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, false);
                             }
                         }
                     }
@@ -395,7 +402,8 @@ bool shape_iterator::find_this_way(base_shape* from, base_shape* to, gvector<sha
     linker* linker = from->get_outs();
     for(gint i = 0; i < linker->size(); i++)
     {
-        base_shape* shape = linker->at(i)->m_shape_to;
+        base_shape* shape = m_ls_memory->get_shape(linker->at(i)->m_shape_to);
+        
         if(passed_shapes[shape] == false)
         {
             path.push_back(shape->get_index());

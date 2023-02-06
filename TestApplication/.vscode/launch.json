@@ -1,0 +1,34 @@
+{
+    "version": "0.2.0",
+    "configurations": [ 
+        {
+            "name": "(gdb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "C:/Users/mshunko/Documents/GORCHAN/TestApplication/build/TestApplication.exe",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${fileDirname}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "additionalSOLibSearchPath": "C:/Users/mshunko/Documents/GORCHAN/GORCHAN/build",
+            "sourceFileMap": {
+                "C:/Users/mshunko/Documents/GORCHAN/GORCHAN": "C:/Users/mshunko/Documents/GORCHAN/GORCHAN"
+            },
+            "miDebuggerPath": "C:/gcc/bin/gdb.exe",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
+}

@@ -7,7 +7,7 @@
 
 enum mind_status {mind_status_undefined, mind_status_ready_to_new_signal, mind_status_in_proc, mind_status_eat_context};
 
-class GORCHAN:public mind
+extern "C" class GORCHAN:public mind
 {
 public:
     GORCHAN();

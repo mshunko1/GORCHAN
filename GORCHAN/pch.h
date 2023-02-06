@@ -33,15 +33,15 @@ template<class T1, class T2, class T3> using grule_queue = std::priority_queue<T
 #define LINKS_OUT   6
 #define LINKS_IN    6
 
+#include "rule.h"
+#include "link.h"
 #include "lib/gexception.h"
-#include "lib/rule_priority_queue_comparer.h"
 #include "indexator.h"
 #include "base_shape.h"
 #include "fona_shape.h"
 #include "eos_shape.h"
 #include "soul_matter_shape.h"
 #include "ls_memory.h"
-#include "rule.h"
 #include "linker.h"
 #include "shape_iterator.h"
 #include "ear.h"

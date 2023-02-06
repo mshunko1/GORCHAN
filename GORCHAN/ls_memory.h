@@ -11,6 +11,7 @@ class ls_memory
     bool exist(shape_index index);
     bool exist(base_shape* shape);
     gmap<shape_index, base_shape*>* get_index_to_shape_map();
+    base_shape* get_shape(shape_index index);
 protected:
     void add_static_shapes();
     private:

@@ -9,10 +9,7 @@ GORCHAN::~GORCHAN()
 {
 
 }
-void asd()
-{
 
-}
 void GORCHAN::init()
 {
     m_memory = new ls_memory();
@@ -22,7 +19,7 @@ void GORCHAN::init()
     m_shape_iterator->init();
     m_memory->load();
 
-    m_mind_proc = gthread(GORCHAN::mind_proc, &mind_proc);
+    //m_mind_proc = gthread(GORCHAN::mind_proc, &mind_proc);
 }
 
 void GORCHAN::deinit()

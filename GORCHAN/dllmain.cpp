@@ -1,20 +1,19 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
-#include "pch.h"
+
 
 #ifndef LIB1_H_INCLUDED
 #define LIB1_H_INCLUDED
 
-#ifdef __cplusplus
-   extern "C" {
-#endif
+#include "mind.h"
+#include <iostream>
 
-void print_value ( int x )
+int main()
 {
-    
+   std::cout<<"Hi to all"<<std::endl;
+   return 1;
 }
 
-#ifdef __cplusplus
-   }
-#endif
+
+
 
 #endif /* LIB1_H_INCLUDED */

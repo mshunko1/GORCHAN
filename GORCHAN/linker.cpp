@@ -55,9 +55,9 @@ void linker::add_link(link* add_link)
     {
         m_size = m_increase_num++ * 20;
         link** new_links = new link*[m_size];
-        memset(new_links, 0, sizeof(link*) * m_size);
+        std::memset(new_links, 0, sizeof(link*) * m_size);
 
-        memcpy(new_links, m_links + sizeof(link*) * m_start_pos, size() * sizeof(link*));
+        std::memcpy(new_links, m_links + sizeof(link*) * m_start_pos, size() * sizeof(link*));
         delete m_links;
         m_links = new_links;
         m_start_pos = 0;
@@ -95,7 +95,7 @@ gint linker::size()
 void linker::add_link(base_shape* to_shape, rule* rule,link_type type)
 {
     link* l = new link();
-    l->m_shape_to = to_shape;
+    l->m_shape_to = to_shape->get_index();
     l->m_type = type;
     l->m_rules.push(rule);
     add_link(l);
@@ -105,7 +105,7 @@ bool linker::exists(base_shape* shape, gint* index = nullptr)
 {
     for(gint i = m_start_pos; i < m_back_pos; i++)
     {
-        if(m_links[i]->m_shape_to == shape)
+        if(m_links[i]->m_shape_to == shape->get_index())
         {
             if(index != nullptr)
             {
@@ -114,6 +114,7 @@ bool linker::exists(base_shape* shape, gint* index = nullptr)
             return true;
         }
     }
+    return false;
 }
 
 void linker::remove(gint index)
@@ -125,7 +126,7 @@ bool linker::exists(shape_index shape_index, gint* index = nullptr)
 {
     for(gint i = m_start_pos; i < m_back_pos; i++)
     {
-        if(m_links[i]->m_shape_to->get_index() == shape_index)
+        if(m_links[i]->m_shape_to == shape_index)
         {
             if(index != nullptr)
             {
@@ -134,6 +135,7 @@ bool linker::exists(shape_index shape_index, gint* index = nullptr)
             return true;
         }
     }
+    return false;
 }
 
 void linker::serialize(gofstream& stream)

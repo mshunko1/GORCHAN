@@ -20,7 +20,13 @@
       "type": "shell",
       "label": "C/C++: g++ build active file Windows",
       "command": "g++",
-      "args": ["-g", "${file}", "-shared", "-o", "${workspaceFolder}/../bin/gorchan.dll"],
+      "args": ["-g",
+      "-v",
+       "-fPIC",
+        "-shared",
+         "-o", 
+         "${workspaceFolder}/../bin/gorchan.dll", 
+         "${workspaceFolder}/*.cpp"],
       "options": {
         "cwd": "C:\\gcc\\bin"
       },

@@ -18,6 +18,7 @@ void ls_memory::add_shape(base_shape* shape)
     m_index_to_shape[index] = shape;
 }
 
+
 void ls_memory::load()
 {
     using recursive_directory_iterator = gfs::recursive_directory_iterator;
@@ -28,11 +29,11 @@ void ls_memory::load()
         if(gfs::is_directory(path) == false)
         { 
             gifstream stream(path.c_str(), std::ios::binary);
-            glocale utf16(glocale(""), new std::codecvt_utf16<wchar_t, 0x10ffff, std::little_endian>);
+            glocale utf16(glocale(), new std::codecvt_utf16<wchar_t, 0x10ffff, std::little_endian>);
             stream.imbue(utf16);
 
             base_shape* shape;
-            shape_type shape_type = base_shape::deserialize_type(stream);
+            shape_type shape_type = base_shape::deserialize_type(stream, true);
             switch (shape_type)
             {
                 case shape_type_fona:
@@ -44,7 +45,7 @@ void ls_memory::load()
                 case shape_type_soul_matter:
                     shape = new soul_matter_shape();
                 default:
-                    throw new gexception("undefined shape type when try to load shapes in ls_memory");
+                    throw new gexception((char*)"undefined shape type when try to load shapes in ls_memory");
                     break;
             }
             shape->deserialize(stream);
@@ -59,6 +60,12 @@ void ls_memory::load()
 gmap<shape_index, base_shape*>* ls_memory::get_index_to_shape_map()
 {
     return &m_index_to_shape;
+}
+
+
+base_shape* ls_memory::get_shape(shape_index index)
+{
+    return m_index_to_shape[index];
 }
 
 void ls_memory::add_static_shapes()

@@ -23,4 +23,5 @@
 #include <regex>
 #include <thread>
 #include <queue>
+#include <cstring>
 

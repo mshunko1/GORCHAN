@@ -1,6 +1,6 @@
 // TestApplication.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-
+#include <Windows.h>
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -8,25 +8,13 @@
 #include <iomanip>
 #include <codecvt>
 #include <cstdint>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <ostream>
+#include <iterator>
 
-using namespace std;
-int main()
-{
-    std::cout << "Hello World!\n";
-
-	locale utf16(locale(""), new codecvt_utf16<wchar_t, 0x10ffff, little_endian>);
-
-	wifstream fin("test_Unicode.txt");
-	fin.imbue(utf16);
-
-	wofstream fout("test_Unicode_2.txt", ios_base::out | ios_base::binary);
-	fout.imbue(utf16);
-
-	wstring line;
-	while (getline(fin, line))
-		fout << line << endl;
-
-}
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
