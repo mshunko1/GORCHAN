@@ -8,6 +8,6 @@ public:
 	gint get_next_index();
 private:
 	gint m_index;
-	gstring m_filename;
+	gfs_path m_filename;
 };
 

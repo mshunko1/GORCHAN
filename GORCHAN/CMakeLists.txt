@@ -11,6 +11,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "-O0 -ggdb")
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+
 include(CTest)
 enable_testing()
 
@@ -19,7 +20,7 @@ file(GLOB SOURCES *.cpp lib/*.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-# target_link_libraries(${PROJECT_NAME} stdc++fs)
+target_link_libraries(${PROJECT_NAME} stdc++fs)
 # set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER mind.h)
 
 find_package(Threads REQUIRED)

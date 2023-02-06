@@ -9,17 +9,30 @@
       },
     "configurations": [
         {
-            "name": "(Windows) Launch",
-            "type": "cppvsdbg",
+            "name": "(gdb) Launch",
+            "type": "cppdbg",
             "request": "launch",
-            "program": "C:/Users/mshunko/Documents/GORCHAN/GORCHAN/build/Debug/GORCHAN.exe",
+            "program": "C:/Users/mshunko/Documents/GORCHAN/GORCHAN/build/GORCHAN.exe",
             "args": [],
-            "stopAtEntry": false,
+            "stopAtEntry": true,
             "cwd": "${fileDirname}",
             "environment": [],
-            "console": "externalTerminal"
-        },
-        { 
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:/gcc-12/bin/gdb.exe",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ]
         }
+        
     ]
 }

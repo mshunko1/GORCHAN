@@ -6,9 +6,10 @@ indexator::indexator(gfs_path filename)
 {
 	gfs_path base_path = BASE_PATH / L"indexes";
 	gfs::create_directories(base_path);
-	m_filename = base_path / filename;
+	m_filename /= base_path;
+	m_filename /= filename;
 	glocale utf16(glocale(), new std::codecvt_utf16<wchar_t, 0x10ffff, std::little_endian>);
-	gifstream stream(m_filename.c_str());
+	gifstream stream(m_filename.generic_string());
 	stream.imbue(utf16);
 	stream >> m_index;
 }
