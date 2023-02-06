@@ -20,6 +20,7 @@ void GORCHAN::init()
     m_memory->load();
 
     m_mind_proc = gthread(&GORCHAN::mind_proc, this);
+    m_react_proc =  gthread(&GORCHAN::react_proc, this);
 }
 
 void GORCHAN::deinit()
@@ -42,6 +43,7 @@ void GORCHAN::percive(std::string signal)
     }
     
     m_input_q.push(shape_signal);
+    m_mind_status = mind_status_ready_to_new_signal;
 }
 
 void GORCHAN::add_callback(mind_callback* callback)
@@ -53,7 +55,7 @@ void GORCHAN::react_proc()
 {
     while(true)
     {
-        if(m_shape_iterator->get_state() == shape_iterator_state_synced)
+        if(m_mind_status == mind_status_ready_to_new_signal)
         {
             gvector<base_shape*> signals = m_input_q.front();
             m_input_q.pop();
@@ -69,9 +71,9 @@ void GORCHAN::mind_proc()
 {
     while(true)
     {    
-        if(m_mind_status > mind_status_ready_to_new_signal)
+        if(m_shape_iterator->get_state() != shape_iterator_state_init)
         {
-            std::this_thread::sleep_for(std::chrono::microseconds(100));
+            std::this_thread::sleep_for(std::chrono::microseconds(1000));
             continue;
         }
 

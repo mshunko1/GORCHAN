@@ -28,6 +28,7 @@ private:
     ls_memory* m_memory;
     ear* m_ear;
     gthread m_mind_proc;
+    gthread m_react_proc;
     mind_status m_mind_status;
 };
 

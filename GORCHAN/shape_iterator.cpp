@@ -31,7 +31,6 @@ void shape_iterator::set_initial_shapes(gvector<base_shape*> input)
     m_down.clear();
     m_up.clear();
 
-    m_state = shape_iterator_state_init;
 
     auto shapes_map = m_ls_memory->get_index_to_shape_map();
     auto eos_shape = shapes_map->find(eos_shape_index);

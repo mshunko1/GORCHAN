@@ -6,7 +6,7 @@
 
 #include "mind.h"
 #include <iostream>
-
+#include <thread>
 int main()
 {
    std::cout<<"Hi to all"<<std::endl;
@@ -15,6 +15,9 @@ int main()
    get_mind(&_mind);
    _mind->init();
    _mind->percive("a = a");
+
+
+   std::this_thread::sleep_for(std::chrono::milliseconds(1000000000000));
    return 1;
 }
 

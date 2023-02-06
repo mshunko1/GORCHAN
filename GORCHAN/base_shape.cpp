@@ -3,6 +3,8 @@
 
 
 base_shape::base_shape()
+:m_links_out(new linker(this)),
+m_links_in(new linker(this))
 {
 
 }
