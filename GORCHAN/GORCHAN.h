@@ -23,6 +23,7 @@ protected:
 
 private:
     gvector<mind_callback*> m_callbacks;
+    gqueue<gvector<base_shape*>> m_input_q;
     shape_iterator* m_shape_iterator;
     ls_memory* m_memory;
     ear* m_ear;

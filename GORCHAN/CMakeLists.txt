@@ -15,13 +15,22 @@ include(CTest)
 enable_testing()
 
 # Find source files 
-
 file(GLOB SOURCES *.cpp lib/*.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-target_link_libraries(${PROJECT_NAME} stdc++fs)
-set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER mind.h)
+# target_link_libraries(${PROJECT_NAME} stdc++fs)
+# set_target_properties(${PROJECT_NAME} PROPERTIES PUBLIC_HEADER mind.h)
+
+find_package(Threads REQUIRED)
+
+if(THREADS_HAVE_PTHREAD_ARG)
+  target_compile_options(${PROJECT_NAME} PUBLIC "-pthread")
+endif()
+if(CMAKE_THREAD_LIBS_INIT)
+  target_link_libraries(${PROJECT_NAME} "${CMAKE_THREAD_LIBS_INIT}")
+endif()
+
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

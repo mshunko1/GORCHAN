@@ -10,6 +10,11 @@
 int main()
 {
    std::cout<<"Hi to all"<<std::endl;
+
+   mind* _mind = nullptr;
+   get_mind(&_mind);
+   _mind->init();
+   _mind->percive("a = a");
    return 1;
 }
 

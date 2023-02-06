@@ -6,7 +6,7 @@ ls_memory::ls_memory()
 :m_shape_indexator(nullptr)
 {
     m_shape_indexator = new indexator(gfs_path(L"shape_indexator.txt"));
-    m_base_path /= L"ls_memory";
+    m_base_path /= BASE_PATH / L"ls_memory";
     gfs::create_directories(m_base_path);
 }
 

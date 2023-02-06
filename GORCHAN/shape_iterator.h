@@ -20,6 +20,7 @@ public:
     shape_iterator_state build_up();
     shape_iterator_state build_down();
     shape_iterator_state build_rules();
+    shape_iterator_state get_state();
     void init();
     void deinit();
 protected:
@@ -31,7 +32,7 @@ private:
     gvector<gvector<base_shape*>> m_downs;
     gvector<base_shape*> m_up;
     gvector<gvector<base_shape*>> m_ups;
-    shape_iterator_state m_state;
+    volatile shape_iterator_state m_state;
     ls_memory* m_ls_memory;
 };
 

@@ -50,6 +50,7 @@ bool base_shape::link_shapes(base_shape* from, base_shape* to, rule* rule, link_
 		{ 
 			from->m_links_out->remove(index);
 			from->m_links_out->add_link(to, rule, type);
+			return true;
 		}
 	}
 
@@ -63,8 +64,10 @@ bool base_shape::link_shapes(base_shape* from, base_shape* to, rule* rule, link_
 		{ 
 			to->m_links_out->remove(index);
 			to->m_links_in->add_link(from, rule, type);
+			return true;
 		}
 	}
+	return false;
 }
 
 linker* base_shape::get_outs()
@@ -79,12 +82,12 @@ linker* base_shape::get_ins()
 
 shape_index base_shape::get_index()
 {
-
+	return (shape_index)1;
 }
 
 shape_type base_shape::get_type()
 {
-
+	return shape_type_undefined;
 }
 
 void base_shape::set_index(shape_index index)
@@ -94,5 +97,5 @@ void base_shape::set_index(shape_index index)
 
 gfs_path base_shape::get_filename()
 {
-
+	return L"";
 }

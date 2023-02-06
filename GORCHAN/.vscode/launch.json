@@ -3,72 +3,23 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "requireExactSource":true,
-    "symbolOptions": {
-        "searchPaths": [
-            "C:\\Users\\mshunko\\Documents\\GORCHAN\\GORCHAN\\build"
-        ],
-        "searchMicrosoftSymbolServer": true,
-        "cachePath": "%TEMP%\\symcache",
-        "moduleFilter": {
-            "mode": "loadAllButExcluded",
-            "excludedModules": [ "DoNotLookForThisOne*.dll" ]
-        }
-    },
     "logging": {
         "moduleLoad": true,
         "trace": true
       },
     "configurations": [
         {
-            "name": "(gdb) Launch",
-            "type": "cppdbg",
+            "name": "(Windows) Launch",
+            "type": "cppvsdbg",
             "request": "launch",
-            "program": "C:/Users/mshunko/Documents/GORCHAN/GORCHAN/build/TestApplication.exe",
+            "program": "C:/Users/mshunko/Documents/GORCHAN/GORCHAN/build/Debug/GORCHAN.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "C:/Users/mshunko/Documents/GORCHAN/GORCHAN/build/",
+            "cwd": "${fileDirname}",
             "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "miDebuggerPath": "C:/gcc/bin/gdb.exe",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                },
-                {
-                    "description": "Set Disassembly Flavor to Intel",
-                    "text": "-gdb-set disassembly-flavor intel",
-                    "ignoreFailures": true
-                }
-            ]
+            "console": "externalTerminal"
         },
-        {
-            "name": "(gdb) Attach",
-            "type": "cppdbg",
-            "request": "attach",
-            "program": "C:/Users/mshunko/Documents/GORCHAN/GORCHAN/build/TestApplication.exe",
-            "MIMode": "gdb",
-            "additionalSOLibSearchPath": "C:/Users/mshunko/Documents/GORCHAN/GORCHAN/build",
-            "sourceFileMap": {
-                "C:/Users/mshunko/Documents/GORCHAN/GORCHAN": "C:/Users/mshunko/Documents/GORCHAN/GORCHAN"
-            },
-            "miDebuggerPath": "C:/gcc/bin/gdb.exe",
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                },
-                {
-                    "description": "Set Disassembly Flavor to Intel",
-                    "text": "-gdb-set disassembly-flavor intel",
-                    "ignoreFailures": true
-                }
-            ]
+        { 
         }
-
     ]
 }

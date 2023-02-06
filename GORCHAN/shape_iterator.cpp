@@ -31,6 +31,8 @@ void shape_iterator::set_initial_shapes(gvector<base_shape*> input)
     m_down.clear();
     m_up.clear();
 
+    m_state = shape_iterator_state_init;
+
     auto shapes_map = m_ls_memory->get_index_to_shape_map();
     auto eos_shape = shapes_map->find(eos_shape_index);
     if(eos_shape == shapes_map->end())
@@ -181,6 +183,7 @@ shape_iterator_state shape_iterator::build_down()
 
 shape_iterator_state shape_iterator::build_rules()
 {
+    m_state = shape_iterator_state_in_build_rules;
     gint init_count = 0;
     gint fr_count = 0;
     for(base_shape* in_shape:m_input)
@@ -417,4 +420,9 @@ bool shape_iterator::find_this_way(base_shape* from, base_shape* to, gvector<sha
 void shape_iterator::deinit()
 {
 
+}
+
+shape_iterator_state shape_iterator::get_state()
+{
+    return m_state;
 }
