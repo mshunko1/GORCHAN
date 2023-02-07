@@ -25,7 +25,7 @@ void shape_iterator::dump_gvector(bg_context* vector)
     for(gint i = 0; i < vector->size(); i++)
     {
         base_shape* sh = m_ls_memory->get_shape(vector->at(i)->m_shape_to);
-        (*folog)<<sh->get_guid()<<L"   "<<vector->at(i)->m_type<<std::endl;
+        (*folog)<<sh->get_guid()<<L"   index:"<<sh->get_index()<<L"  "<<vector->at(i)->m_type<<std::endl;
     }
 
 }
@@ -274,7 +274,7 @@ shape_iterator_state shape_iterator::build_rules()
                 bool exists = up_ins->exists(in_shape, nullptr);
                 if(exists == false && in_shape != up_shape)
                 {
-                    base_shape::link_shapes(in_shape, up_shape, new rule() ,link_type_init, false, false);
+                    base_shape::link_shapes(in_shape, up_shape, new rule() ,link_type_init, false, true);
                 }
             }
         }
@@ -317,10 +317,10 @@ shape_iterator_state shape_iterator::build_rules()
                         rule* r = new rule();
                         r->m_path = path;
                         base_shape* soul_matter_shape = m_ls_memory->get_index_to_shape_map()->find(soul_matter_shape_index)->second;
-                        base_shape::link_shapes(in_shape, up_shape, r, link_type_friendly, false, false);
+                        base_shape::link_shapes(in_shape, up_shape, r, link_type_friendly, false, true);
                         rule* smr = new rule();
-                        base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter, false, false);
-                        base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, false);
+                        base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter, false, true);
+                        base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, true);
                     }
                 }
             }
@@ -426,10 +426,10 @@ shape_iterator_state shape_iterator::build_rules()
                             find_passed_rule->up_weight();
                             rule* clone_find_passed_rule = find_passed_rule->clone();
                             base_shape* soul_matter_shape = m_ls_memory->get_index_to_shape_map()->find(soul_matter_shape_index)->second;
-                            base_shape::link_shapes(in_shape, up_shape, clone_find_passed_rule, link_type_aquare_by_rule, false, false);
+                            base_shape::link_shapes(in_shape, up_shape, clone_find_passed_rule, link_type_aquare_by_rule, false, true);
                             rule* smr = new rule();
-                            base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter, false, false);
-                            base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, false);
+                            base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter, false, true);
+                            base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, true);
                         }
                         else
                         {
@@ -441,10 +441,10 @@ shape_iterator_state shape_iterator::build_rules()
                                 rule* r = new rule();
                                 r->m_path = path;
                                 base_shape* soul_matter_shape = m_ls_memory->get_index_to_shape_map()->find(soul_matter_shape_index)->second;
-                                base_shape::link_shapes(in_shape, up_shape, r, link_type_friendly, false, false);
+                                base_shape::link_shapes(in_shape, up_shape, r, link_type_friendly, false, true);
                                 rule* smr = new rule();
-                                base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter, false, false);
-                                base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, false);
+                                base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter, false, true);
+                                base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, true);
                             }
                         }
                     }

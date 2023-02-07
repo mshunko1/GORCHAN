@@ -49,11 +49,17 @@ void GORCHAN::percive(std::string signal)
         }
         shape_signal.push_back(exist_shape);
     }
-
-    base_shape* whois = new whois_shape(L"mshunko");
-    m_memory->add_shape(whois);
-    base_shape* howis = new howis_shape(L"normal");
-    m_memory->add_shape(howis);
+ 
+    if(whois == nullptr)
+    {
+        whois  = new whois_shape(L"mshunko");
+        m_memory->add_shape(whois);
+    }
+    if(howis == nullptr)
+    { 
+        howis = new howis_shape(L"normal");
+        m_memory->add_shape(howis);
+    }
 
     shape_signal.insert(shape_signal.begin(), howis);
     shape_signal.insert(shape_signal.begin(), whois);

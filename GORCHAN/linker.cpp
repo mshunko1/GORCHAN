@@ -34,10 +34,9 @@ void linker::add_link(link* add_link)
 
     link* start = m_links[m_start_pos];
 
-    if(start == nullptr) 
+    if(size() == 0) 
     {
-        m_links[0] = add_link;
-        m_back_pos++;
+        m_links[m_back_pos++] = add_link;
         return;
     }
 
@@ -125,7 +124,7 @@ bool linker::exists(base_shape* shape, gint* index = nullptr)
         {
             if(index != nullptr)
             {
-                *index = i - m_start_pos;
+                *index = (m_back_pos - m_start_pos) - (m_back_pos - i) ;
             }
             return true;
         }
@@ -135,7 +134,30 @@ bool linker::exists(base_shape* shape, gint* index = nullptr)
 
 void linker::remove(gint index)
 {
-    throw new gexception("not implemented");
+    gint start_pos = m_start_pos + index;
+    if(start_pos == 0)
+    {
+        if(m_back_pos == 1)
+        {
+            link* l = m_links[0];
+            delete l;
+            m_links[0] = nullptr;
+            m_back_pos--;
+            return;
+        }
+        memcpy(m_links + ((start_pos)), m_links + ((start_pos + 1)) , (size() - index) * sizeof(link*));
+        m_links[size() - 1] = nullptr;
+        m_back_pos--;
+        return;
+    }
+    else
+    { 
+        link* l = m_links[start_pos];
+        delete l;
+        memcpy(m_links + (start_pos), m_links + (start_pos + 1) , (size() - index) * sizeof(link*));
+        m_links[size() - 1] = nullptr;
+        m_back_pos--;
+    }
 }
 
 bool linker::exists(shape_index shape_index, gint* index = nullptr)

@@ -65,9 +65,10 @@ shape_type base_shape::deserialize_type(gifstream& stream, bool reset_file_pos =
 	}
 	return (shape_type)type;
 }
-
+gint ssss = 0;
 bool base_shape::link_shapes(base_shape* from, base_shape* to, rule* rule, link_type type, bool rewrite = false, bool replace = false)
 {
+	ssss++;
 	if(rewrite == true || (rewrite == true && replace == true))
 	{
 		throw new gexception("not impemented");		
@@ -103,7 +104,7 @@ bool base_shape::link_shapes(base_shape* from, base_shape* to, rule* rule, link_
 	{
 		if(replace == true)
 		{ 
-			to->m_links_out->remove(index);
+			to->m_links_in->remove(index);
 			to->m_links_in->add_link(from, rule, type);
 			to->m_ray_count_additional++;
 			ok++;

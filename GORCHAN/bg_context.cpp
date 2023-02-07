@@ -19,8 +19,10 @@ m_back_pos(0)
 
 void bg_context::add_link(link* add_link)
 {
-    if(this->exists(add_link->m_shape_to, nullptr) == true)
+    gint index = 0;
+    if(this->exists(add_link->m_shape_to, &index) == true)
     {
+        this->at(index)->m_type = add_link->m_type;
         return;
     }
     // IR       ADD IR  CIRCLE
@@ -33,10 +35,9 @@ void bg_context::add_link(link* add_link)
 
     link* start = m_links[m_start_pos];
 
-    if(start == nullptr) 
+    if(size() == 0) 
     {
-        m_links[0] = add_link;
-        m_back_pos++;
+        m_links[m_back_pos++] = add_link;
         return;
     }
 
@@ -143,7 +144,7 @@ bool bg_context::exists(shape_index shape_index, gint* index = nullptr)
         {
             if(index != nullptr)
             {
-                *index = i;
+                *index = (m_back_pos - m_start_pos) - (m_back_pos - i) ;
             }
             return true;
         }
