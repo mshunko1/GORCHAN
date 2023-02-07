@@ -48,7 +48,9 @@ void shape_iterator::set_initial_shapes(gvector<base_shape*> input)
     }
   
     m_up = input;
-
+    (*folog)<<L"init:";
+    dump_gvector(m_up);
+    (*folog)<<std::endl;
     m_state = shape_iterator_state_init;
 }
 
@@ -57,7 +59,9 @@ shape_iterator_state shape_iterator::build_up()
     m_state = shape_iterator_state_in_up; 
     gmap<linker*, gint> fercher;
     bool ferch = true;
-
+    (*folog)<<L"build_up look at m_down:";
+    dump_gvector(m_down);
+    (*folog)<<std::endl;
     m_up.clear();
 
     while(ferch == true)
@@ -77,7 +81,12 @@ shape_iterator_state shape_iterator::build_up()
             auto exist_shape = std::find(m_up.begin(), m_up.end(), shape_ray);
             if(exist_shape == m_up.end() && shape_ray->can_be_raised(false))
             {
+                (*folog)<<L"up FROM: "<<shape->get_guid()<<L" WE ADD:    "<<shape_ray->get_guid()<<std::endl;
                 m_up.push_back(shape_ray);
+            }
+            else
+            {
+                (*folog)<<L"CAN NOT up FROM: "<<shape->get_guid()<<L" WE ADD:"<<shape_ray->get_guid()<<std::endl;
             }
         }
         gint ferch_reach_end = 0;
@@ -90,7 +99,7 @@ shape_iterator_state shape_iterator::build_up()
                 ferch_reach_end++;
             }
         }
-        if(ferch_reach_end == m_down.size())
+        if(ferch_reach_end == fercher.size())
         {
             ferch = false;
         }
@@ -127,7 +136,9 @@ shape_iterator_state shape_iterator::build_down()
     m_state = shape_iterator_state_in_down;
     gmap<linker*, gint> fercher;
     bool ferch = true;
-
+    (*folog)<<L"build_down look at m_up:";
+    dump_gvector(m_up);
+    (*folog)<<std::endl;
     m_down.clear();
 
     while(ferch == true)
@@ -148,7 +159,12 @@ shape_iterator_state shape_iterator::build_down()
             auto exist_shape = std::find(m_down.begin(), m_down.end(), shape_ray);
             if(exist_shape == m_down.end() && shape_ray->can_be_raised(false))
             {
-                m_down.push_back(shape);
+                (*folog)<<L"down FROM: "<<shape->get_guid()<<L" WE ADD:"<<shape_ray->get_guid()<<std::endl;
+                m_down.push_back(shape_ray);
+            }
+            else
+            {
+                (*folog)<<L"CAN NOT up FROM: "<<shape->get_guid()<<L" WE ADD:"<<shape_ray->get_guid()<<std::endl;
             }
         }
         gint ferch_reach_end = 0;
@@ -161,7 +177,7 @@ shape_iterator_state shape_iterator::build_down()
                 ferch_reach_end++;
             }
         }
-        if(ferch_reach_end == m_up.size())
+        if(ferch_reach_end == fercher.size())
         {
             ferch = false;
         }
@@ -232,8 +248,8 @@ shape_iterator_state shape_iterator::build_rules()
             {
                 linker* up_ins = up_shape->get_ins();
                 bool exists = up_ins->exists(in_shape, nullptr);
-                if(exists == false)
-                { 
+                if(exists == false && in_shape != up_shape)
+                {
                     base_shape::link_shapes(in_shape, up_shape, new rule() ,link_type_init, false, false);
                 }
             }
@@ -272,7 +288,7 @@ shape_iterator_state shape_iterator::build_rules()
                     gvector<shape_index> path;
                     gmap<base_shape*, bool> passed_shapes;
                     bool way_exist = find_this_way(up_shape, in_shape, path, passed_shapes);
-                    if(way_exist == true)
+                    if(way_exist == true && in_shape != up_shape)
                     {
                         rule* r = new rule();
                         r->m_path = path;
@@ -378,7 +394,7 @@ shape_iterator_state shape_iterator::build_rules()
                                 break;
                             }
                         }
-                        if(find_passed_rule != nullptr)
+                        if(find_passed_rule != nullptr && in_shape != up_shape)
                         {
                             // мы нашли правило по которому достижим образ
                             // оно нужно для того что бы создать новое правило, и добавить его в существующие ???
@@ -396,7 +412,7 @@ shape_iterator_state shape_iterator::build_rules()
                             gvector<shape_index> path;
                             gmap<base_shape*, bool> passed_shapes;
                             bool way_exist = find_this_way(up_shape, in_shape, path, passed_shapes);
-                            if(way_exist == true)
+                            if(way_exist == true && in_shape != up_shape)
                             {
                                 rule* r = new rule();
                                 r->m_path = path;

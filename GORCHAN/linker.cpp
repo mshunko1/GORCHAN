@@ -37,7 +37,11 @@ void linker::add_link(link* add_link)
         return;
     }
 
-    if(start->m_type <= link_type_init && add_link->m_type <= link_type_init)
+    if(start->m_type <= link_type_temproray && add_link->m_type <= link_type_temproray)
+    {
+        action_expand = true;
+    }
+    else if(start->m_type <= link_type_init && add_link->m_type <= link_type_init)
     {
         action_circle = true;
     }
