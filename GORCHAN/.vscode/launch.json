@@ -19,8 +19,13 @@
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
-            "miDebuggerPath": "C:/gcc-12/bin/gdb.exe",
+            "miDebuggerPath": "C:/cygwin64/bin/gdb.exe",
             "setupCommands": [
+                {
+                    "description": "Test",
+                    "text": "python import sys;sys.path.insert(0, 'C:/cygwin64/usr/share/gdb/python');from libstdcxx.v6.printers import register_libstdcxx_printers;register_libstdcxx_printers(None)" ,
+                    "ignoreFailures": false
+                },
                 {
                     "description": "Enable pretty-printing for gdb",
                     "text": "-enable-pretty-printing",

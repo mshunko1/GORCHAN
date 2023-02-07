@@ -84,7 +84,7 @@ linker* base_shape::get_ins()
 
 shape_index base_shape::get_index()
 {
-	return (shape_index)1;
+	return m_index;
 }
 
 shape_type base_shape::get_type()
@@ -94,10 +94,15 @@ shape_type base_shape::get_type()
 
 void base_shape::set_index(shape_index index)
 {
-
+	m_index = index;
 }
 
 gfs_path base_shape::get_filename()
 {
 	return L"";
+}
+
+gguid base_shape::get_guid()
+{
+	throw new gexception("not implemented");
 }

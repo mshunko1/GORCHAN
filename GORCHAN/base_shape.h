@@ -11,6 +11,7 @@ public:
 	base_shape();
 	virtual void serialize(gofstream& stream);
 	virtual void deserialize(gifstream& stream);
+	virtual gguid get_guid();
 	shape_type get_type();
 	shape_index get_index();
 	linker* get_outs();
@@ -20,7 +21,7 @@ protected:
 	static void serialize_type(base_shape* shape, gofstream& stream);
 	static shape_type deserialize_type(gifstream& stream, bool reset_file_pos);
 	void set_index(shape_index index);
-	gfs_path get_filename();
+	virtual gfs_path get_filename();
 
 	shape_type m_type;
 	shape_index m_index;

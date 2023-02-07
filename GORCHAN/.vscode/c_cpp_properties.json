@@ -16,8 +16,14 @@
             "includePath": [
                 "${workspaceFolder}/**"
             ],
-            "defines": [],
-            "compilerPath": "c:/gcc/bin/gcc",
+            "defines": 
+            [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"  
+            ],
+            "windowsSdkVersion": "10.0.19041.0",
+            "compilerPath": "C:/cygwin64/bin/gcc",
             "cStandard": "gnu17",
             "cppStandard": "gnu++14",
             "intelliSenseMode": "linux-gcc-x64",
