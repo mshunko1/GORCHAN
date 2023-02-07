@@ -6,7 +6,17 @@ shape_iterator::shape_iterator(ls_memory* memory)
 :m_state(shape_iterator_state_undefined),
 m_ls_memory(memory)
 {
-    
+    folog = new gofstream("C:/dev/Mind/log.txt", std::ios::trunc);
+}
+
+
+void shape_iterator::dump_gvector(gvector<base_shape*> vector)
+{
+    for(base_shape* shape:vector)
+    {
+        (*folog)<<shape->get_guid()+L" ; ";
+    }
+
 }
 
 void shape_iterator::init()
@@ -30,24 +40,14 @@ void shape_iterator::set_initial_shapes(gvector<base_shape*> input)
     m_ups.clear();
     m_down.clear();
     m_up.clear();
-
-
-    auto shapes_map = m_ls_memory->get_index_to_shape_map();
-    auto eos_shape = shapes_map->find(eos_shape_index);
-    if(eos_shape == shapes_map->end())
-    {
-        throw new gexception("not found");
-    }
-
+ 
     base_shape::link_shapes(input[0], input[1], new rule() , link_type_temproray, false, false);
     for(gint i = 1; i < input.size() - 1; i++)
     {
         base_shape::link_shapes(input[i], input[i + 1], new rule() ,link_type_temproray, false, false);
     }
-
-    base_shape::link_shapes(input[input.size() - 1], eos_shape->second, new rule() ,link_type_temproray, false, false);
-    
-    m_down = input;
+  
+    m_up = input;
 
     m_state = shape_iterator_state_init;
 }
@@ -75,7 +75,7 @@ shape_iterator_state shape_iterator::build_up()
             base_shape* shape_ray = m_ls_memory->get_index_to_shape_map()->find(shape_ray_index)->second;
             fercher[outs]++;
             auto exist_shape = std::find(m_up.begin(), m_up.end(), shape_ray);
-            if(exist_shape == m_up.end())
+            if(exist_shape == m_up.end() && shape_ray->can_be_raised(false))
             {
                 m_up.push_back(shape_ray);
             }
@@ -105,6 +105,12 @@ shape_iterator_state shape_iterator::build_up()
             break;
         }
     }
+
+    (*folog)<<L"ups:";
+    dump_gvector(m_up);
+    (*folog)<<std::endl;
+
+
     if(eq == false)
     {
         m_ups.push_back(m_up);
@@ -113,6 +119,7 @@ shape_iterator_state shape_iterator::build_up()
     {
         return shape_iterator_state_synced;
     }
+    return shape_iterator_state_in_up;
 }
 
 shape_iterator_state shape_iterator::build_down()
@@ -139,7 +146,7 @@ shape_iterator_state shape_iterator::build_down()
 
             fercher[outs]++;
             auto exist_shape = std::find(m_down.begin(), m_down.end(), shape_ray);
-            if(exist_shape == m_down.end())
+            if(exist_shape == m_down.end() && shape_ray->can_be_raised(false))
             {
                 m_down.push_back(shape);
             }
@@ -154,7 +161,7 @@ shape_iterator_state shape_iterator::build_down()
                 ferch_reach_end++;
             }
         }
-        if(ferch_reach_end == m_down.size())
+        if(ferch_reach_end == m_up.size())
         {
             ferch = false;
         }
@@ -169,6 +176,11 @@ shape_iterator_state shape_iterator::build_down()
             break;
         }
     }
+
+    (*folog)<<L"downs:";
+    dump_gvector(m_down);
+    (*folog)<<std::endl;
+
     if(eq == false)
     {
         m_downs.push_back(m_down);
@@ -177,11 +189,14 @@ shape_iterator_state shape_iterator::build_down()
     {
         return shape_iterator_state_synced;
     }
-    return shape_iterator_state_in_up;
+    return shape_iterator_state_in_down;
 }
 
 shape_iterator_state shape_iterator::build_rules()
 {
+    (*folog)<<std::endl;
+    (*folog)<<std::endl;
+
     m_state = shape_iterator_state_in_build_rules;
     gint init_count = 0;
     gint fr_count = 0;
@@ -250,6 +265,10 @@ shape_iterator_state shape_iterator::build_rules()
 
                 if(do_link == true)
                 {
+                    if(up_shape == in_shape)
+                    {
+                        continue;
+                    }
                     gvector<shape_index> path;
                     gmap<base_shape*, bool> passed_shapes;
                     bool way_exist = find_this_way(up_shape, in_shape, path, passed_shapes);
@@ -393,6 +412,8 @@ shape_iterator_state shape_iterator::build_rules()
             }
         }
     }
+    folog->flush(); 
+    return shape_iterator_state_in_build_rules;
 }
 
 bool shape_iterator::find_this_way(base_shape* from, base_shape* to, gvector<shape_index>& path, gmap<base_shape*, bool>& passed_shapes)

@@ -30,6 +30,13 @@ void linker::add_link(link* add_link)
 
     link* start = m_links[m_start_pos];
 
+    if(start == nullptr) 
+    {
+        m_links[0] = add_link;
+        m_back_pos++;
+        return;
+    }
+
     if(start->m_type <= link_type_init && add_link->m_type <= link_type_init)
     {
         action_circle = true;
@@ -67,6 +74,7 @@ void linker::add_link(link* add_link)
     if(action_circle == true)
     {
         link* start = m_links[m_start_pos];
+        m_links[m_start_pos] = nullptr;
         m_start_pos++;
         delete start;
         m_links[m_back_pos++] = add_link;
@@ -89,7 +97,7 @@ link* linker::at(gint index)
 
 gint linker::size()
 {
-    return m_back_pos - m_start_pos + 1;
+    return m_back_pos - m_start_pos;
 }
 
 void linker::add_link(base_shape* to_shape, rule* rule,link_type type)
@@ -109,7 +117,7 @@ bool linker::exists(base_shape* shape, gint* index = nullptr)
         {
             if(index != nullptr)
             {
-                *index = i;
+                *index = i - m_start_pos;
             }
             return true;
         }

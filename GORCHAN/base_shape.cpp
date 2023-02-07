@@ -4,9 +4,40 @@
 
 base_shape::base_shape()
 :m_links_out(new linker(this)),
-m_links_in(new linker(this))
+m_links_in(new linker(this)),
+m_ray_count_initial(0),
+m_ray_count_additional(0),
+m_ray_count_pass(0)
 {
 
+}
+bool base_shape::can_be_raised(bool just_check)
+{
+	if(just_check == true)
+	{
+		return (m_ray_count_initial + m_ray_count_additional) > 0;
+	}
+	else
+	{
+		bool encount = false;
+		if(m_ray_count_initial > 0)
+		{
+			m_ray_count_initial--;
+			encount = true;
+		}
+		if(m_ray_count_additional > 0 && encount == false)
+		{
+			m_ray_count_additional--;
+			encount = true;
+		}
+		return (m_ray_count_initial + m_ray_count_additional) > 0 || (encount == true && (m_ray_count_initial + m_ray_count_additional) == 0);
+	}
+}
+
+void base_shape::reset_daycaster()
+{
+	m_ray_count_additional = 0;
+	m_ray_count_initial = m_links_in->size() + m_links_out->size();
 }
 
 void base_shape::serialize(gofstream& stream)
@@ -42,9 +73,13 @@ bool base_shape::link_shapes(base_shape* from, base_shape* to, rule* rule, link_
 		throw new gexception("not impemented");		
 	}
 	gint index = -1;
+	gint ok = 0;
+	const gint okcount = 2;
 	if(from->m_links_out->exists(to, &index) == false)
 	{
 		from->m_links_out->add_link(to, rule, type);
+		from->m_ray_count_additional++;
+		ok++;
 	}
 	else
 	{
@@ -52,13 +87,17 @@ bool base_shape::link_shapes(base_shape* from, base_shape* to, rule* rule, link_
 		{ 
 			from->m_links_out->remove(index);
 			from->m_links_out->add_link(to, rule, type);
-			return true;
+			from->m_ray_count_additional++;
+			ok++;
 		}
 	}
 
 	if(to->m_links_in->exists(from, &index) == false)
 	{
 		to->m_links_in->add_link(from, rule, type);
+		to->m_ray_count_additional++;
+		ok++;
+		return ok == okcount;
 	}
 	else
 	{
@@ -66,10 +105,12 @@ bool base_shape::link_shapes(base_shape* from, base_shape* to, rule* rule, link_
 		{ 
 			to->m_links_out->remove(index);
 			to->m_links_in->add_link(from, rule, type);
-			return true;
+			to->m_ray_count_additional++;
+			ok++;
+			return ok == okcount;
 		}
 	}
-	return false;
+	return ok == okcount;
 }
 
 linker* base_shape::get_outs()

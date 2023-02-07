@@ -10,6 +10,7 @@ fona_shape::fona_shape(gstring fona)
 {
     m_fona = fona;
     m_type = shape_type_fona;
+    m_guid = fona;
 }
 
 fona_shape::~fona_shape()

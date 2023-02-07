@@ -12,9 +12,11 @@ public:
 	virtual void serialize(gofstream& stream);
 	virtual void deserialize(gifstream& stream);
     virtual gfs_path get_filename();
+    static eos_shape* get_instance();
 protected:
 	virtual gguid get_guid();
 private:
     const gguid oes_shape_guid = L"[*EOS*]";
+    static eos_shape* m_instance;
 };
 

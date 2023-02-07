@@ -12,11 +12,13 @@ class ls_memory
     bool exist(base_shape* shape);
     gmap<shape_index, base_shape*>* get_index_to_shape_map();
     base_shape* get_shape(shape_index index);
+    base_shape* get_shape(gguid guid);
+    void reset_raycast();
 protected:
     void add_static_shapes();
     private:
     gmap<shape_index, base_shape*> m_index_to_shape;
-    gmap<base_shape*, shape_index> m_shape_to_index;
+    gmap<gguid, base_shape*> m_gguid_to_shape;
     indexator* m_shape_indexator;
     gfs_path m_base_path; 
 };

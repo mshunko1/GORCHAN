@@ -34,5 +34,10 @@ private:
     gvector<gvector<base_shape*>> m_ups;
     volatile shape_iterator_state m_state;
     ls_memory* m_ls_memory;
+
+
+
+    void dump_gvector(gvector<base_shape*> vector);
+    gofstream* folog;
 };
 

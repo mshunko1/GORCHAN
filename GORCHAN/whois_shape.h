@@ -3,14 +3,17 @@
 
 #pragma once
 
-class whois_shape
+class whois_shape: public base_shape
 {
 public:
-    whois_shape();
+    whois_shape(gguid guid);
     ~whois_shape();
-
-private:
-
+	virtual void serialize(gofstream& stream);
+	virtual void deserialize(gifstream& stream);
+    virtual gfs_path get_filename();
+protected:
+	virtual gguid get_guid();
+private: 
 };
 
 #endif

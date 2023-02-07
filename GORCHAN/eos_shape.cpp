@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "eos_shape.h"
 
+eos_shape* eos_shape::m_instance = nullptr;
 
 eos_shape::eos_shape()
 {
@@ -11,6 +12,15 @@ eos_shape::eos_shape()
 eos_shape::~eos_shape()
 {
 
+}
+
+eos_shape* eos_shape::get_instance()
+{
+    if(m_instance == nullptr)
+    {
+        m_instance = new eos_shape();
+    }
+    return m_instance;
 }
 
 void eos_shape::serialize(gofstream& stream)

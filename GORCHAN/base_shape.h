@@ -1,6 +1,6 @@
 #pragma once
 
-enum shape_type {shape_type_undefined, shape_type_fona, shape_type_eos, shape_type_soul_matter};
+enum shape_type {shape_type_undefined, shape_type_whois, shape_type_howis , shape_type_fona, shape_type_eos, shape_type_soul_matter};
 
 class linker;
 
@@ -16,6 +16,8 @@ public:
 	shape_index get_index();
 	linker* get_outs();
 	linker* get_ins();
+	bool can_be_raised(bool just_check);
+	void reset_daycaster();
 	static bool link_shapes(base_shape* from, base_shape* to, rule* rule, link_type type, bool rewrite, bool replace);// out-in
 protected:
 	static void serialize_type(base_shape* shape, gofstream& stream);
@@ -25,7 +27,11 @@ protected:
 
 	shape_type m_type;
 	shape_index m_index;
+	gguid m_guid;
 private:
+	gint m_ray_count_initial;
+	gint m_ray_count_additional;
+	gint m_ray_count_pass;
 	linker* m_links_out;
 	linker* m_links_in;
 };

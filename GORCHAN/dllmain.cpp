@@ -17,7 +17,7 @@ int main()
    _mind->percive("a = a");
 
 
-   std::this_thread::sleep_for(std::chrono::milliseconds(1000000000000));
+   std::this_thread::sleep_for(std::chrono::minutes(1000000000000));
    return 1;
 }
 

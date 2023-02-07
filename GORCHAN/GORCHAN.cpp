@@ -35,12 +35,30 @@ void GORCHAN::percive(std::string signal)
     std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter; 
     std::wstring wide = converter.from_bytes(signal);
 
-    gvector<base_shape*> shape_signal = m_ear->parse_shapes(wide);
+    gvector<base_shape*> shaped_signal = m_ear->parse_shapes(wide);
+    gvector<base_shape*> shape_signal;
 
-    for(base_shape* shape:shape_signal)
+    for(base_shape* shape:shaped_signal)
     {
-        m_memory->add_shape(shape);
+        base_shape* exist_shape = m_memory->get_shape(shape->get_guid());
+        if(exist_shape == nullptr)
+        {
+            exist_shape = shape;
+            m_memory->add_shape(shape);
+        }
+        shape_signal.push_back(exist_shape);
     }
+
+    base_shape* whois = new whois_shape(L"mshunko");
+    m_memory->add_shape(whois);
+    base_shape* howis = new howis_shape(L"normal");
+    m_memory->add_shape(howis);
+
+    shape_signal.insert(shape_signal.begin(), howis);
+    shape_signal.insert(shape_signal.begin(), whois);
+
+    base_shape* eos = m_memory->get_shape(eos_shape_index);
+    shape_signal.push_back(eos);
     
     m_input_q.push(shape_signal);
     m_mind_status = mind_status_ready_to_new_signal;
@@ -59,6 +77,7 @@ void GORCHAN::react_proc()
         {
             gvector<base_shape*> signals = m_input_q.front();
             m_input_q.pop();
+            m_memory->reset_raycast();
             m_shape_iterator->set_initial_shapes(signals);
             m_mind_status = mind_status_in_proc;
         }
@@ -71,20 +90,13 @@ void GORCHAN::mind_proc()
 {
     while(true)
     {    
-        if(m_shape_iterator->get_state() != shape_iterator_state_init)
+        if(m_shape_iterator->get_state() != shape_iterator_state_in_build_rules && (m_shape_iterator->get_state() < shape_iterator_state_init))
         {
             std::this_thread::sleep_for(std::chrono::microseconds(1000));
             continue;
         }
 
-        shape_iterator_state status = m_shape_iterator->build_up();
-        if(status == shape_iterator_state_synced)
-        {
-            m_mind_status = mind_status_ready_to_new_signal;
-            continue;
-        }
-
-        status = m_shape_iterator->build_down();
+        shape_iterator_state status = m_shape_iterator->build_down();
         if(status == shape_iterator_state_synced)
         {
             m_mind_status = mind_status_ready_to_new_signal;
@@ -103,14 +115,7 @@ void GORCHAN::mind_proc()
         {
             m_mind_status = mind_status_ready_to_new_signal;
             continue;
-        }
-
-        status = m_shape_iterator->build_down();
-        if(status == shape_iterator_state_synced)
-        {
-            m_mind_status = mind_status_ready_to_new_signal;
-            continue;
-        }
+        } 
     }
 }
 
