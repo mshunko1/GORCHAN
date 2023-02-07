@@ -7,7 +7,7 @@ shape_iterator::shape_iterator(ls_memory* memory, bg_context* context)
 m_context(context),
 m_ls_memory(memory)
 {
-    folog = new gofstream("C:/dev/Mind/log.txt", std::ios::trunc);
+    folog = new gofstream("Mind/log.txt", std::ios::trunc);
 }
 
 void shape_iterator::dump_gvector(gvector<base_shape*> vector)

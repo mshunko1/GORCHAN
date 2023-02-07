@@ -22,6 +22,8 @@ void GORCHAN::init()
 
     m_mind_proc = gthread(&GORCHAN::mind_proc, this);
     m_react_proc =  gthread(&GORCHAN::react_proc, this);
+
+    m_mind_status = mind_status_ready_to_new_signal;
 }
 
 void GORCHAN::deinit()
@@ -68,7 +70,6 @@ void GORCHAN::percive(std::string signal)
     shape_signal.push_back(eos);
     
     m_input_q.push(shape_signal);
-    m_mind_status = mind_status_ready_to_new_signal;
 }
 
 void GORCHAN::add_callback(mind_callback* callback)

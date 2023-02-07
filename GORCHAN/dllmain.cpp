@@ -15,9 +15,13 @@ int main()
    get_mind(&_mind);
    _mind->init();
    _mind->percive("a = a");
+   std::this_thread::sleep_for(std::chrono::milliseconds(3000));
    _mind->percive("b = b");
+   std::this_thread::sleep_for(std::chrono::milliseconds(3000));
    _mind->percive("c = c");
+   std::this_thread::sleep_for(std::chrono::milliseconds(3000));
    _mind->percive("a = b");
+   std::this_thread::sleep_for(std::chrono::milliseconds(3000));
    _mind->percive("b = c");
 
 

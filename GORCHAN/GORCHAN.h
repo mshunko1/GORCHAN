@@ -30,7 +30,7 @@ private:
     bg_context* m_context;
     gthread m_mind_proc;
     gthread m_react_proc;
-    mind_status m_mind_status;
+    volatile mind_status m_mind_status;
 
 
     base_shape* whois  =  nullptr;

@@ -31,9 +31,10 @@ template<class T> using gqueue = std::queue<T>;
 template<class T1, class T2, class T3> using grule_queue = std::priority_queue<T1, T2, T3>;
 
 #define gto_gstring(x) std::to_wstring(x)
-#define BASE_PATH gfs_path(L"C:/dev/Mind")
+#define BASE_PATH gfs_path(L"Mind")
 #define LINKS_OUT   6
 #define LINKS_IN    6
+
 
 #include "rule.h"
 #include "link.h"

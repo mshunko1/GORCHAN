@@ -73,9 +73,27 @@ bool base_shape::link_shapes(base_shape* from, base_shape* to, rule* rule, link_
 	{
 		throw new gexception("not impemented");		
 	}
+	if(ssss == 71 || ssss == 29)
+	{
+		int a = 21;
+		bool ss = true;
+		//while(ss)
+		{
+			std::cout<<L"MAZAFAKA"<<std::endl;
+		}
+	}
 	gint index = -1;
 	gint ok = 0;
 	const gint okcount = 2;
+	if(from->get_index() == eos_shape_index && to->get_index() == soul_matter_shape_index)
+	{
+		int a = 21;
+		bool ss = true;
+		//while(ss)
+		{
+			std::cout<<L"MAZAFAKA"<<std::endl;
+		}
+	}
 	if(from->m_links_out->exists(to, &index) == false)
 	{
 		from->m_links_out->add_link(to, rule, type);

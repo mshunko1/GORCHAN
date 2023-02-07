@@ -36,11 +36,13 @@ void linker::add_link(link* add_link)
 
     if(size() == 0) 
     {
+        m_start_pos = 0;
+        m_back_pos = 0;
         m_links[m_back_pos++] = add_link;
         return;
     }
 
-    if(start->m_type <= link_type_temproray && add_link->m_type <= link_type_temproray)
+    if(add_link->m_type <= link_type_temproray)
     {
         action_expand = true;
     }
@@ -81,8 +83,7 @@ void linker::add_link(link* add_link)
     if(action_circle == true)
     {
         link* start = m_links[m_start_pos];
-        m_links[m_start_pos] = nullptr;
-        m_start_pos++;
+        m_links[m_start_pos++] = nullptr;
         delete start;
         m_links[m_back_pos++] = add_link;
     }
@@ -135,6 +136,13 @@ bool linker::exists(base_shape* shape, gint* index = nullptr)
 void linker::remove(gint index)
 {
     gint start_pos = m_start_pos + index;
+
+
+    if(m_start_pos > 0 && m_links[m_start_pos - 1] != nullptr)
+    {
+        int a = 21;
+    }
+
     if(start_pos == 0)
     {
         if(m_back_pos == 1)
@@ -146,16 +154,16 @@ void linker::remove(gint index)
             return;
         }
         memcpy(m_links + ((start_pos)), m_links + ((start_pos + 1)) , (size() - index) * sizeof(link*));
-        m_links[size() - 1] = nullptr;
+        m_links[m_back_pos - 1] = nullptr;
         m_back_pos--;
         return;
     }
     else
-    { 
+    {
         link* l = m_links[start_pos];
         delete l;
         memcpy(m_links + (start_pos), m_links + (start_pos + 1) , (size() - index) * sizeof(link*));
-        m_links[size() - 1] = nullptr;
+        m_links[m_back_pos - 1] = nullptr;
         m_back_pos--;
     }
 }
@@ -168,7 +176,7 @@ bool linker::exists(shape_index shape_index, gint* index = nullptr)
         {
             if(index != nullptr)
             {
-                *index = i;
+                *index = (m_back_pos - m_start_pos) - (m_back_pos - i) ;
             }
             return true;
         }
