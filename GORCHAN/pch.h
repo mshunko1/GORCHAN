@@ -47,6 +47,7 @@ template<class T1, class T2, class T3> using grule_queue = std::priority_queue<T
 #include "soul_matter_shape.h"
 #include "ls_memory.h"
 #include "linker.h"
+#include "bg_context.h"
 #include "shape_iterator.h"
 #include "ear.h"
 

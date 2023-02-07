@@ -13,7 +13,8 @@ GORCHAN::~GORCHAN()
 void GORCHAN::init()
 {
     m_memory = new ls_memory();
-    m_shape_iterator = new shape_iterator(m_memory);
+    m_context = new bg_context();
+    m_shape_iterator = new shape_iterator(m_memory, m_context);
     m_ear = new ear();
 
     m_shape_iterator->init();
@@ -75,6 +76,10 @@ void GORCHAN::react_proc()
     {
         if(m_mind_status == mind_status_ready_to_new_signal)
         {
+            if(m_input_q.empty())
+            {
+                continue;
+            }
             gvector<base_shape*> signals = m_input_q.front();
             m_input_q.pop();
             m_memory->reset_raycast();
@@ -90,7 +95,7 @@ void GORCHAN::mind_proc()
 {
     while(true)
     {    
-        if(m_shape_iterator->get_state() != shape_iterator_state_in_build_rules && (m_shape_iterator->get_state() < shape_iterator_state_init))
+        if(m_mind_status != mind_status_in_proc)
         {
             std::this_thread::sleep_for(std::chrono::microseconds(1000));
             continue;

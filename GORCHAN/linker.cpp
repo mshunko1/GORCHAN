@@ -8,7 +8,7 @@ m_start_pos(0),
 m_back_pos(0),
 m_owner(owner)
 {
-    m_size = m_increase_num++ * 20;
+    m_size = m_increase_num++ * 200;
     m_links = new link*[m_size];
     memset(m_links, 0, sizeof(link*) * m_size);
 }
@@ -20,6 +20,10 @@ base_shape* linker::get_owner()
 
 void linker::add_link(link* add_link)
 {
+    if(this->exists(add_link->m_shape_to, nullptr) == true)
+    {
+        return;
+    }
     // IR       ADD IR  CIRCLE
     // IR       ADD FR  EXPAND
     // FR       ADD IR  EXPAND

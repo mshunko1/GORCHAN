@@ -2,13 +2,13 @@
 #include "shape_iterator.h"
 
 
-shape_iterator::shape_iterator(ls_memory* memory)
+shape_iterator::shape_iterator(ls_memory* memory, bg_context* context)
 :m_state(shape_iterator_state_undefined),
+m_context(context),
 m_ls_memory(memory)
 {
     folog = new gofstream("C:/dev/Mind/log.txt", std::ios::trunc);
 }
-
 
 void shape_iterator::dump_gvector(gvector<base_shape*> vector)
 {
@@ -19,11 +19,21 @@ void shape_iterator::dump_gvector(gvector<base_shape*> vector)
 
 }
 
+void shape_iterator::dump_gvector(bg_context* vector)
+{
+     (*folog)<<L"CONTEXT:"<<std::endl;
+    for(gint i = 0; i < vector->size(); i++)
+    {
+        base_shape* sh = m_ls_memory->get_shape(vector->at(i)->m_shape_to);
+        (*folog)<<sh->get_guid()<<L"   "<<vector->at(i)->m_type<<std::endl;
+    }
+
+}
+
 void shape_iterator::init()
 {
     
 }
-
 
 shape_iterator::~shape_iterator()
 {
@@ -63,7 +73,7 @@ shape_iterator_state shape_iterator::build_up()
     dump_gvector(m_down);
     (*folog)<<std::endl;
     m_up.clear();
-
+    gint item_to_context_added = 0;
     while(ferch == true)
     {
         for(gint i = 0; i < m_down.size(); i++)
@@ -75,6 +85,7 @@ shape_iterator_state shape_iterator::build_up()
             {
                 continue;
             }
+            link* shape_ray_link = outs->at(index);
             shape_index shape_ray_index = outs->at(index)->m_shape_to;
             base_shape* shape_ray = m_ls_memory->get_index_to_shape_map()->find(shape_ray_index)->second;
             fercher[outs]++;
@@ -83,6 +94,12 @@ shape_iterator_state shape_iterator::build_up()
             {
                 (*folog)<<L"up FROM: "<<shape->get_guid()<<L" WE ADD:    "<<shape_ray->get_guid()<<std::endl;
                 m_up.push_back(shape_ray);
+                if(item_to_context_added < 1)
+                {
+                    m_context->add_link(shape_ray, shape_ray_link->m_type);
+                    item_to_context_added++;
+                    (*folog)<<L"ADD TO CONTEXT: "<<shape_ray->get_guid()<<std::endl;
+                }
             }
             else
             {
@@ -140,7 +157,7 @@ shape_iterator_state shape_iterator::build_down()
     dump_gvector(m_up);
     (*folog)<<std::endl;
     m_down.clear();
-
+    gint item_to_context_added = 0;
     while(ferch == true)
     {
         for(gint i = 0; i < m_up.size(); i++)
@@ -152,6 +169,7 @@ shape_iterator_state shape_iterator::build_down()
             {
                 continue;
             }
+            link* shape_ray_link = outs->at(index);
             shape_index shape_ray_index = outs->at(index)->m_shape_to;
             base_shape* shape_ray = m_ls_memory->get_index_to_shape_map()->find(shape_ray_index)->second;
 
@@ -161,6 +179,12 @@ shape_iterator_state shape_iterator::build_down()
             {
                 (*folog)<<L"down FROM: "<<shape->get_guid()<<L" WE ADD:"<<shape_ray->get_guid()<<std::endl;
                 m_down.push_back(shape_ray);
+                if(item_to_context_added < 1)
+                {
+                    m_context->add_link(shape_ray, shape_ray_link->m_type);
+                    item_to_context_added++;
+                    (*folog)<<L"ADD TO CONTEXT: "<<shape_ray->get_guid()<<std::endl;
+                }
             }
             else
             {
@@ -428,7 +452,12 @@ shape_iterator_state shape_iterator::build_rules()
             }
         }
     }
-    folog->flush(); 
+    folog->flush();
+
+    (*folog)<<L"CONTEXT:";
+    dump_gvector(m_context);
+    (*folog)<<std::endl;
+
     return shape_iterator_state_in_build_rules;
 }
 

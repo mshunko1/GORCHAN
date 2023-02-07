@@ -27,6 +27,7 @@ private:
     shape_iterator* m_shape_iterator;
     ls_memory* m_memory;
     ear* m_ear;
+    bg_context* m_context;
     gthread m_mind_proc;
     gthread m_react_proc;
     mind_status m_mind_status;

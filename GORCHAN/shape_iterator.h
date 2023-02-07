@@ -10,11 +10,11 @@ enum shape_iterator_state
         shape_iterator_state_in_build_rules,
         shape_iterator_state_synced
     };
-
+class bg_context;
 class shape_iterator
 {
 public:
-    shape_iterator(ls_memory* memory);
+    shape_iterator(ls_memory* memory, bg_context* context);
     ~shape_iterator();
     void set_initial_shapes(gvector<base_shape*> input);
     shape_iterator_state build_up();
@@ -34,10 +34,12 @@ private:
     gvector<gvector<base_shape*>> m_ups;
     volatile shape_iterator_state m_state;
     ls_memory* m_ls_memory;
+    bg_context* m_context;
 
 
 
     void dump_gvector(gvector<base_shape*> vector);
+    void dump_gvector(bg_context* vector);
     gofstream* folog;
 };
 
