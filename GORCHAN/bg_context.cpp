@@ -15,6 +15,37 @@ m_back_pos(0)
     m_links = new link*[m_size];
     memset(m_links, 0, sizeof(link*) * m_size);
 }
+
+
+
+gint bg_context::get_warring_weight(link_type link)
+{
+    switch (link)
+    {
+    case link_type_temproray:
+            return 0; 
+    case link_type_init:
+            return -1; 
+    case link_type_soul_matter:
+            return -2; 
+    case link_type_friendly:
+            return 1; 
+    case link_type_aquare_by_rule:
+            return 2; 
+    default:
+        throw new gexception("GADY!!!");
+    }
+}
+
+gint bg_context::calc_warrings()
+{
+    gint waring_value = 0;
+    for(gint i = 0; i < size(); i++)
+    {
+        waring_value += get_warring_weight(at(i)->m_type);
+    }
+    return waring_value;
+}
  
 
 void bg_context::add_link(link* add_link)
@@ -37,7 +68,7 @@ void bg_context::add_link(link* add_link)
     bool action_expand = false;
 
     link* start = m_links[m_start_pos];
-
+ 
     if(size() == 0) 
     {
         m_start_pos = 0;
@@ -45,6 +76,42 @@ void bg_context::add_link(link* add_link)
         m_links[m_back_pos++] = add_link;
         return;
     }
+ 
+    gint warning = calc_warrings();
+    gint adding_warning = get_warring_weight(add_link->m_type);
+    
+    gint result_warning = warning + adding_warning;
+
+    if(warning == 0)
+    {
+        m_links[m_back_pos++] = add_link;
+        //remove(0);
+    }
+    else if(result_warning == 0)
+    {
+        m_links[m_back_pos++] = add_link;
+    }
+    else
+    {
+        // пытаемся добавить новую связь с минимизацией текущих тревог
+        // мы ее и добавляем для этого, если нужно то какуюто связь нужно удалить
+        // добавляем а потом ищем звязь которая бы уравновесила все
+        bool balanced = false;
+        m_links[m_back_pos++] = add_link;
+        for(gint i = 0; i < size() - 1; i++)
+        {
+            gint wv = get_warring_weight(at(i)->m_type);
+            gint new_wv = calc_warrings() - wv;
+            if(new_wv > 0)
+            {
+                remove(i);
+               // balanced = true;
+               // break;
+            }
+        }
+    }
+    return;
+
 
     if(add_link->m_type <= link_type_temproray)
     {
@@ -138,7 +205,37 @@ bool bg_context::exists(base_shape* shape, gint* index = nullptr)
 
 void bg_context::remove(gint index)
 {
-    throw new gexception("not implemented");
+    gint start_pos = m_start_pos + index;
+
+
+    if(m_start_pos > 0 && m_links[m_start_pos - 1] != nullptr)
+    {
+        int a = 21;
+    }
+
+    if(start_pos == 0)
+    {
+        if(m_back_pos == 1)
+        {
+            link* l = m_links[0];
+            delete l;
+            m_links[0] = nullptr;
+            m_back_pos--;
+            return;
+        }
+        memcpy(m_links + ((start_pos)), m_links + ((start_pos + 1)) , (size() - index) * sizeof(link*));
+        m_links[m_back_pos - 1] = nullptr;
+        m_back_pos--;
+        return;
+    }
+    else
+    {
+        link* l = m_links[start_pos];
+        delete l;
+        memcpy(m_links + (start_pos), m_links + (start_pos + 1) , (size() - index) * sizeof(link*));
+        m_links[m_back_pos - 1] = nullptr;
+        m_back_pos--;
+    }
 }
 
 bool bg_context::exists(shape_index shape_index, gint* index = nullptr)

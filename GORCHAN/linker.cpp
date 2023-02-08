@@ -18,6 +18,35 @@ base_shape* linker::get_owner()
     return m_owner;
 }
 
+gint linker::get_warring_weight(link_type link)
+{
+    switch (link)
+    {
+    case link_type_temproray:
+            return 0; 
+    case link_type_init:
+            return -1; 
+    case link_type_soul_matter:
+            return -2; 
+    case link_type_friendly:
+            return 1; 
+    case link_type_aquare_by_rule:
+            return 2; 
+    default:
+        throw new gexception("GADY!!!");
+    }
+}
+
+gint linker::calc_warrings()
+{
+    gint waring_value = 0;
+    for(gint i = 0; i < size(); i++)
+    {
+        waring_value += get_warring_weight(at(i)->m_type);
+    }
+    return waring_value;
+}
+
 void linker::add_link(link* add_link)
 {
     if(this->exists(add_link->m_shape_to, nullptr) == true)
@@ -31,6 +60,7 @@ void linker::add_link(link* add_link)
 
     bool action_circle = false;
     bool action_expand = false;
+    bool action_narrow = false;
 
     link* start = m_links[m_start_pos];
 
@@ -41,31 +71,40 @@ void linker::add_link(link* add_link)
         m_links[m_back_pos++] = add_link;
         return;
     }
+ 
+    
+    gint warning = calc_warrings();
+    gint adding_warning = get_warring_weight(add_link->m_type);
+    
+    gint result_warning = warning + adding_warning;
 
-    if(add_link->m_type <= link_type_temproray)
+    if(warning == 0)
     {
-        action_expand = true;
+        m_links[m_back_pos++] = add_link;
+        //remove(0);
     }
-    else if(start->m_type <= link_type_init && add_link->m_type <= link_type_init)
+    else if(result_warning == 0)
     {
-        action_circle = true;
-    }
-    else if(start->m_type <= link_type_init && add_link->m_type >= link_type_friendly)
-    {
-        action_expand = true;
-    }
-    else if(start->m_type >= link_type_friendly && add_link->m_type <= link_type_init)
-    {
-        action_expand = true;
-    }
-    else if(start->m_type >= link_type_friendly && add_link->m_type >= link_type_friendly)
-    {
-        action_circle = true;
+        m_links[m_back_pos++] = add_link;
     }
     else
     {
-        throw new gexception("undefined behaviour when try add link");
+        // пытаемся добавить новую связь с минимизацией текущих тревог
+        // мы ее и добавляем для этого, если нужно то какуюто связь нужно удалить
+        // добавляем а потом ищем звязь которая бы уравновесила все
+        bool balanced = false;
+        m_links[m_back_pos++] = add_link;
+        for(gint i = 0; i < size() - 1; i++)
+        {
+            gint wv = get_warring_weight(at(i)->m_type);
+            gint new_wv = calc_warrings() - wv;
+            if(new_wv > 0)
+            {
+                remove(i);
+            }
+        }
     }
+    return;
 
     if(m_back_pos >= m_size)
     {

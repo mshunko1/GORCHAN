@@ -12,7 +12,6 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 
-
 include(CTest)
 enable_testing()
 # Find source files 

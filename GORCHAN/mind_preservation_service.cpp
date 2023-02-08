@@ -30,6 +30,12 @@ void mind_preservation_service::mind_preserve_operation()
         bool passed = false;
         for(gint i = 0; i < m_context->size(); i++)
         {
+            if(item.first == m_context->at(i)->m_shape_to)
+            {
+                continue;
+            }
+
+
             shape_index shape_index = m_context->at(i)->m_shape_to;
             base_shape* context_shape = m_memory->get_shape(shape_index);
             gmap<base_shape*, bool> passed_shapes;

@@ -16,6 +16,8 @@ public:
 	link* at(gint index);
 	base_shape* get_owner();
 protected:
+	gint calc_warrings();
+	gint get_warring_weight(link_type link);
 private:
 	link** m_links;
 	base_shape* m_owner;

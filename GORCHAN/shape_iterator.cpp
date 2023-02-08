@@ -99,7 +99,7 @@ shape_iterator_state shape_iterator::build_up()
                 }
                 (*folog)<<L"up FROM: "<<shape->get_guid()<<L" WE ADD:    "<<shape_ray->get_guid()<<std::endl;
                 m_up.push_back(shape_ray);
-                if(item_to_context_added < 1 && shape_ray_link->m_type >= link_type_temproray)
+                if(item_to_context_added < 1 && shape_ray_link->m_type > link_type_temproray)
                 {
                     m_context->add_link(shape_ray, shape_ray_link->m_type);
                     item_to_context_added++;
@@ -191,7 +191,7 @@ shape_iterator_state shape_iterator::build_down()
 
                 (*folog)<<L"down FROM: "<<shape->get_guid()<<L" WE ADD:"<<shape_ray->get_guid()<<std::endl;
                 m_down.push_back(shape_ray);
-                if(item_to_context_added < 1 && shape_ray_link->m_type >= link_type_temproray)
+                if(item_to_context_added < 1 && shape_ray_link->m_type > link_type_temproray)
                 {
                     m_context->add_link(shape_ray, shape_ray_link->m_type);
                     item_to_context_added++;
