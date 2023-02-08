@@ -51,6 +51,7 @@ template<class T1, class T2, class T3> using grule_queue = std::priority_queue<T
 #include "bg_context.h"
 #include "shape_iterator.h"
 #include "ear.h"
+#include "mind_preservation_service.h"
 
 
 #endif //PCH_H

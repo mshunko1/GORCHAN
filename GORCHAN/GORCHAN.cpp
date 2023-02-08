@@ -16,6 +16,7 @@ void GORCHAN::init()
     m_context = new bg_context();
     m_shape_iterator = new shape_iterator(m_memory, m_context);
     m_ear = new ear();
+    m_mind_preservation_service = new mind_preservation_service(m_memory, m_context);
 
     m_shape_iterator->init();
     m_memory->load();
@@ -111,6 +112,8 @@ void GORCHAN::mind_proc()
         shape_iterator_state status = m_shape_iterator->build_down();
         if(status == shape_iterator_state_synced)
         {
+            m_memory->reset_raycast();
+            m_mind_preservation_service->mind_preserve_operation();
             m_mind_status = mind_status_ready_to_new_signal;
             continue;
         }
@@ -118,6 +121,8 @@ void GORCHAN::mind_proc()
         status = m_shape_iterator->build_up();
         if(status == shape_iterator_state_synced)
         {
+            m_memory->reset_raycast();
+            m_mind_preservation_service->mind_preserve_operation();
             m_mind_status = mind_status_ready_to_new_signal;
             continue;
         }
@@ -125,6 +130,8 @@ void GORCHAN::mind_proc()
         status = m_shape_iterator->build_rules();
         if(status == shape_iterator_state_synced)
         {
+            m_memory->reset_raycast();
+            m_mind_preservation_service->mind_preserve_operation();
             m_mind_status = mind_status_ready_to_new_signal;
             continue;
         } 

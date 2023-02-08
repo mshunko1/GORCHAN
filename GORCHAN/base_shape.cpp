@@ -34,6 +34,11 @@ bool base_shape::can_be_raised(bool just_check)
 	}
 }
 
+gint base_shape::raycast_size()
+{
+	return (m_ray_count_initial + m_ray_count_additional);
+}
+
 void base_shape::reset_daycaster()
 {
 	m_ray_count_additional = 0;

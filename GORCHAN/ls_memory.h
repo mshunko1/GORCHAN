@@ -14,6 +14,7 @@ class ls_memory
     base_shape* get_shape(shape_index index);
     base_shape* get_shape(gguid guid);
     void reset_raycast();
+    gint remove_shape(base_shape* shape);
 protected:
     void add_static_shapes();
     private:

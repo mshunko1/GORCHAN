@@ -1,547 +1,441 @@
 init:mshunko ; normal ; a ; = ; a ; [*EOS*] ; 
 build_down look at m_up:mshunko ; normal ; a ; = ; a ; [*EOS*] ; 
 down FROM: mshunko WE ADD:normal
-ADD TO CONTEXT: normal
+ADD TO CONTEXT IN DOWN: normal
 down FROM: normal WE ADD:a
 down FROM: a WE ADD:=
-CAN NOT up FROM: = WE ADD:a
+CAN NOT ADD IN up FROM: = SHAPE:a BECAUSE OF RAYCAST?:1
 down FROM: a WE ADD:[*EOS*]
 downs:normal ; a ; = ; [*EOS*] ; 
 build_up look at m_down:normal ; a ; = ; [*EOS*] ; 
 up FROM: normal WE ADD:    a
-ADD TO CONTEXT: a
+ADD TO CONTEXT FROM UP: a
 up FROM: a WE ADD:    =
-CAN NOT up FROM: = WE ADD:a
-CAN NOT up FROM: a WE ADD:[*EOS*]
-ups:a ; = ; 
+CAN NOT ADD IN up FROM: = SHAPE:a BECAUSE OF RAYCAST?:1
+up FROM: a WE ADD:    [*EOS*]
+ups:a ; = ; [*EOS*] ; 
 
 
 CONTEXT:CONTEXT:
 normal   index:4  1
 a   index:1  1
 
-build_down look at m_up:a ; = ; 
-down FROM: a WE ADD:=
-ADD TO CONTEXT: =
-down FROM: = WE ADD:a
-downs:= ; a ; 
-build_up look at m_down:= ; a ; 
-up FROM: = WE ADD:    a
-ADD TO CONTEXT: a
-up FROM: a WE ADD:    =
-ups:a ; = ; 
-init:mshunko ; normal ; b ; = ; b ; [*EOS*] ; 
-build_down look at m_up:mshunko ; normal ; b ; = ; b ; [*EOS*] ; 
-down FROM: mshunko WE ADD:=
-ADD TO CONTEXT: =
-CAN NOT up FROM: normal WE ADD:=
-CAN NOT up FROM: b WE ADD:=
-down FROM: = WE ADD:a
-down FROM: b WE ADD:[*EOS*]
-CAN NOT up FROM: [*EOS*] WE ADD:=
-down FROM: mshunko WE ADD:normal
-down FROM: normal WE ADD:b
-CAN NOT up FROM: = WE ADD:b
-downs:= ; a ; [*EOS*] ; normal ; b ; 
-build_up look at m_down:= ; a ; [*EOS*] ; normal ; b ; 
-up FROM: = WE ADD:    a
-ADD TO CONTEXT: a
-up FROM: a WE ADD:    =
-CAN NOT up FROM: [*EOS*] WE ADD:=
-CAN NOT up FROM: normal WE ADD:=
-CAN NOT up FROM: b WE ADD:=
-up FROM: = WE ADD:    b
-CAN NOT up FROM: normal WE ADD:b
-up FROM: b WE ADD:    [*EOS*]
-ups:a ; = ; b ; [*EOS*] ; 
+build_down look at m_up:a ; = ; [*EOS*] ; 
+down FROM: a WE ADD:[*EOS*]
+ADD TO CONTEXT IN DOWN: [*EOS*]
+CAN NOT ADD IN up FROM: = SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+down FROM: [*EOS*] WE ADD:=
+downs:[*EOS*] ; = ; 
+build_up look at m_down:[*EOS*] ; = ; 
+up FROM: [*EOS*] WE ADD:    =
+ADD TO CONTEXT FROM UP: =
+up FROM: = WE ADD:    [*EOS*]
+ups:= ; [*EOS*] ; 
 
 
 CONTEXT:CONTEXT:
-a   index:1  2
+[*EOS*]   index:-1  2
 =   index:2  2
 
-build_down look at m_up:a ; = ; b ; [*EOS*] ; 
-down FROM: a WE ADD:=
-ADD TO CONTEXT: =
-down FROM: = WE ADD:a
-down FROM: b WE ADD:[*EOS*]
-CAN NOT up FROM: [*EOS*] WE ADD:=
-down FROM: = WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: b WE ADD:=
-CAN NOT up FROM: [*EOS*] WE ADD:[*SOUL_MATTER*]
-down FROM: = WE ADD:b
-CAN NOT up FROM: b WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: [*EOS*] WE ADD:b
-CAN NOT up FROM: = WE ADD:[*EOS*]
-downs:= ; a ; [*EOS*] ; [*SOUL_MATTER*] ; b ; 
-build_up look at m_down:= ; a ; [*EOS*] ; [*SOUL_MATTER*] ; b ; 
-CAN NOT up FROM: = WE ADD:a
-up FROM: a WE ADD:    =
-ADD TO CONTEXT: =
-CAN NOT up FROM: [*EOS*] WE ADD:=
-up FROM: [*SOUL_MATTER*] WE ADD:    [*EOS*]
-CAN NOT up FROM: b WE ADD:[*EOS*]
-up FROM: = WE ADD:    [*SOUL_MATTER*]
-CAN NOT up FROM: [*EOS*] WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: b WE ADD:=
+build_down look at m_up:= ; [*EOS*] ; 
+down FROM: = WE ADD:[*EOS*]
+ADD TO CONTEXT IN DOWN: [*EOS*]
+down FROM: [*EOS*] WE ADD:=
+down FROM: [*EOS*] WE ADD:[*SOUL_MATTER*]
+downs:[*EOS*] ; = ; [*SOUL_MATTER*] ; 
+init:mshunko ; normal ; b ; = ; b ; [*EOS*] ; 
+build_down look at m_up:mshunko ; normal ; b ; = ; b ; [*EOS*] ; 
+down FROM: mshunko WE ADD:[*EOS*]
+ADD TO CONTEXT IN DOWN: [*EOS*]
+CAN NOT ADD IN up FROM: normal SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+down FROM: b WE ADD:=
+CAN NOT ADD IN up FROM: = SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: b SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: [*EOS*] SHAPE:= BECAUSE OF RAYCAST?:1
+down FROM: mshunko WE ADD:normal
+down FROM: normal WE ADD:b
+CAN NOT ADD IN up FROM: = SHAPE:b BECAUSE OF RAYCAST?:1
+down FROM: [*EOS*] WE ADD:[*SOUL_MATTER*]
+downs:[*EOS*] ; = ; normal ; b ; [*SOUL_MATTER*] ; 
+build_up look at m_down:[*EOS*] ; = ; normal ; b ; [*SOUL_MATTER*] ; 
+up FROM: [*EOS*] WE ADD:    =
+ADD TO CONTEXT FROM UP: =
+up FROM: = WE ADD:    [*EOS*]
+CAN NOT ADD IN up FROM: normal SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: b SHAPE:= BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: [*SOUL_MATTER*] SHAPE:= BECAUSE OF RAYCAST?:1
+up FROM: [*EOS*] WE ADD:    [*SOUL_MATTER*]
 up FROM: = WE ADD:    b
-CAN NOT up FROM: [*EOS*] WE ADD:b
-CAN NOT up FROM: b WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:[*EOS*]
+CAN NOT ADD IN up FROM: normal SHAPE:b BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: b SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
 ups:= ; [*EOS*] ; [*SOUL_MATTER*] ; b ; 
 
 
 CONTEXT:CONTEXT:
-a   index:1  2
+[*EOS*]   index:-1  3
 =   index:2  2
 
 build_down look at m_up:= ; [*EOS*] ; [*SOUL_MATTER*] ; b ; 
-CAN NOT up FROM: = WE ADD:a
-down FROM: [*EOS*] WE ADD:b
-ADD TO CONTEXT: b
-down FROM: [*SOUL_MATTER*] WE ADD:[*EOS*]
-CAN NOT up FROM: b WE ADD:[*EOS*]
-CAN NOT up FROM: = WE ADD:b
+down FROM: = WE ADD:b
+ADD TO CONTEXT IN DOWN: b
 down FROM: [*EOS*] WE ADD:=
-CAN NOT up FROM: b WE ADD:=
-CAN NOT up FROM: = WE ADD:[*EOS*]
-down FROM: b WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:[*SOUL_MATTER*]
-downs:b ; [*EOS*] ; = ; [*SOUL_MATTER*] ; 
-build_up look at m_down:b ; [*EOS*] ; = ; [*SOUL_MATTER*] ; 
-up FROM: b WE ADD:    [*EOS*]
-ADD TO CONTEXT: [*EOS*]
-up FROM: [*EOS*] WE ADD:    b
-CAN NOT up FROM: = WE ADD:a
-CAN NOT up FROM: [*SOUL_MATTER*] WE ADD:[*EOS*]
+down FROM: [*SOUL_MATTER*] WE ADD:[*EOS*]
+CAN NOT ADD IN up FROM: b SHAPE:= BECAUSE OF RAYCAST?:1
+down FROM: = WE ADD:[*SOUL_MATTER*]
+CAN NOT ADD IN up FROM: b SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+downs:b ; = ; [*EOS*] ; [*SOUL_MATTER*] ; 
+build_up look at m_down:b ; = ; [*EOS*] ; [*SOUL_MATTER*] ; 
 up FROM: b WE ADD:    =
-CAN NOT up FROM: [*EOS*] WE ADD:=
-CAN NOT up FROM: = WE ADD:b
-up FROM: b WE ADD:    [*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:[*EOS*]
-CAN NOT up FROM: = WE ADD:[*SOUL_MATTER*]
-ups:[*EOS*] ; b ; = ; [*SOUL_MATTER*] ; 
+ADD TO CONTEXT FROM UP: =
+up FROM: = WE ADD:    b
+CAN NOT ADD IN up FROM: [*EOS*] SHAPE:= BECAUSE OF RAYCAST?:1
+up FROM: [*SOUL_MATTER*] WE ADD:    [*EOS*]
+CAN NOT ADD IN up FROM: b SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+up FROM: = WE ADD:    [*SOUL_MATTER*]
+ups:= ; b ; [*EOS*] ; [*SOUL_MATTER*] ; 
 
 
 CONTEXT:CONTEXT:
-a   index:1  2
+[*EOS*]   index:-1  3
 =   index:2  2
-b   index:5  3
-[*EOS*]   index:-1  1
+b   index:5  1
 
-build_down look at m_up:[*EOS*] ; b ; = ; [*SOUL_MATTER*] ; 
-down FROM: [*EOS*] WE ADD:b
-ADD TO CONTEXT: b
-down FROM: b WE ADD:[*EOS*]
-CAN NOT up FROM: = WE ADD:a
-CAN NOT up FROM: [*SOUL_MATTER*] WE ADD:[*EOS*]
-down FROM: [*EOS*] WE ADD:=
-CAN NOT up FROM: b WE ADD:=
-CAN NOT up FROM: = WE ADD:b
-down FROM: b WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:[*EOS*]
-CAN NOT up FROM: = WE ADD:[*SOUL_MATTER*]
-downs:b ; [*EOS*] ; = ; [*SOUL_MATTER*] ; 
+build_down look at m_up:= ; b ; [*EOS*] ; [*SOUL_MATTER*] ; 
+down FROM: = WE ADD:b
+ADD TO CONTEXT IN DOWN: b
+down FROM: b WE ADD:=
+CAN NOT ADD IN up FROM: [*EOS*] SHAPE:= BECAUSE OF RAYCAST?:1
+down FROM: [*SOUL_MATTER*] WE ADD:[*EOS*]
+CAN NOT ADD IN downd FROM CONDITION 2: = SHAPE:[*SOUL_MATTER*] BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN up FROM: b SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+downs:b ; = ; [*EOS*] ; 
 init:mshunko ; normal ; c ; = ; c ; [*EOS*] ; 
 build_down look at m_up:mshunko ; normal ; c ; = ; c ; [*EOS*] ; 
-down FROM: mshunko WE ADD:=
-ADD TO CONTEXT: =
-CAN NOT up FROM: normal WE ADD:=
-CAN NOT up FROM: c WE ADD:=
-down FROM: = WE ADD:a
-down FROM: c WE ADD:[*EOS*]
-down FROM: [*EOS*] WE ADD:b
+down FROM: mshunko WE ADD:[*EOS*]
+ADD TO CONTEXT IN DOWN: [*EOS*]
+CAN NOT ADD IN up FROM: normal SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+down FROM: c WE ADD:=
+down FROM: = WE ADD:b
+CAN NOT ADD IN up FROM: c SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: [*EOS*] SHAPE:= BECAUSE OF RAYCAST?:1
 down FROM: mshunko WE ADD:normal
-CAN NOT up FROM: normal WE ADD:b
-CAN NOT up FROM: = WE ADD:b
-CAN NOT up FROM: [*EOS*] WE ADD:=
+CAN NOT ADD IN up FROM: normal SHAPE:b BECAUSE OF RAYCAST?:1
+down FROM: = WE ADD:[*SOUL_MATTER*]
 down FROM: normal WE ADD:c
-CAN NOT up FROM: = WE ADD:[*EOS*]
-down FROM: = WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:c
-downs:= ; a ; [*EOS*] ; b ; normal ; c ; [*SOUL_MATTER*] ; 
-build_up look at m_down:= ; a ; [*EOS*] ; b ; normal ; c ; [*SOUL_MATTER*] ; 
-up FROM: = WE ADD:    a
-ADD TO CONTEXT: a
-up FROM: a WE ADD:    =
-up FROM: [*EOS*] WE ADD:    b
-up FROM: b WE ADD:    [*EOS*]
-CAN NOT up FROM: normal WE ADD:=
-CAN NOT up FROM: c WE ADD:=
-CAN NOT up FROM: [*SOUL_MATTER*] WE ADD:[*EOS*]
-CAN NOT up FROM: = WE ADD:b
-CAN NOT up FROM: [*EOS*] WE ADD:=
-CAN NOT up FROM: b WE ADD:=
-CAN NOT up FROM: normal WE ADD:b
-CAN NOT up FROM: c WE ADD:[*EOS*]
-CAN NOT up FROM: = WE ADD:[*EOS*]
-up FROM: b WE ADD:    [*SOUL_MATTER*]
-up FROM: normal WE ADD:    c
-CAN NOT up FROM: = WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:c
-ups:a ; = ; b ; [*EOS*] ; [*SOUL_MATTER*] ; c ; 
-
-
-CONTEXT:CONTEXT:
-a   index:1  2
-=   index:2  2
-b   index:5  3
-[*EOS*]   index:-1  1
-
-build_down look at m_up:a ; = ; b ; [*EOS*] ; [*SOUL_MATTER*] ; c ; 
-down FROM: a WE ADD:=
-ADD TO CONTEXT: =
-down FROM: = WE ADD:[*EOS*]
-CAN NOT up FROM: b WE ADD:[*EOS*]
-CAN NOT up FROM: [*EOS*] WE ADD:=
-CAN NOT up FROM: [*SOUL_MATTER*] WE ADD:[*EOS*]
-CAN NOT up FROM: c WE ADD:=
-down FROM: a WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: b WE ADD:=
-down FROM: [*EOS*] WE ADD:a
-CAN NOT up FROM: c WE ADD:[*EOS*]
-down FROM: = WE ADD:c
-CAN NOT up FROM: b WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:a
-downs:= ; [*EOS*] ; [*SOUL_MATTER*] ; a ; c ; 
-build_up look at m_down:= ; [*EOS*] ; [*SOUL_MATTER*] ; a ; c ; 
-up FROM: = WE ADD:    [*EOS*]
-ADD TO CONTEXT: [*EOS*]
+CAN NOT ADD IN up FROM: = SHAPE:c BECAUSE OF RAYCAST?:1
+downs:[*EOS*] ; = ; b ; normal ; [*SOUL_MATTER*] ; c ; 
+build_up look at m_down:[*EOS*] ; = ; b ; normal ; [*SOUL_MATTER*] ; c ; 
 up FROM: [*EOS*] WE ADD:    =
-CAN NOT up FROM: [*SOUL_MATTER*] WE ADD:[*EOS*]
-CAN NOT up FROM: a WE ADD:=
-CAN NOT up FROM: c WE ADD:=
+ADD TO CONTEXT FROM UP: =
+up FROM: = WE ADD:    b
+CAN NOT ADD IN up FROM: b SHAPE:= BECAUSE OF RAYCAST?:1
+up FROM: normal WE ADD:    [*EOS*]
+CAN NOT ADD IN up FROM: [*SOUL_MATTER*] SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: c SHAPE:= BECAUSE OF RAYCAST?:1
 up FROM: = WE ADD:    [*SOUL_MATTER*]
-up FROM: [*EOS*] WE ADD:    a
-CAN NOT up FROM: a WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: c WE ADD:[*EOS*]
+CAN NOT ADD IN up FROM: b SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: normal SHAPE:b BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: c SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
 up FROM: = WE ADD:    c
-CAN NOT up FROM: = WE ADD:a
-ups:[*EOS*] ; = ; [*SOUL_MATTER*] ; a ; c ; 
+CAN NOT ADD IN up FROM: normal SHAPE:c BECAUSE OF RAYCAST?:1
+ups:= ; b ; [*EOS*] ; [*SOUL_MATTER*] ; c ; 
 
 
 CONTEXT:CONTEXT:
-a   index:1  2
-=   index:2  2
-b   index:5  3
 [*EOS*]   index:-1  3
+=   index:2  3
+b   index:5  1
 
-build_down look at m_up:[*EOS*] ; = ; [*SOUL_MATTER*] ; a ; c ; 
+build_down look at m_up:= ; b ; [*EOS*] ; [*SOUL_MATTER*] ; c ; 
+down FROM: = WE ADD:b
+ADD TO CONTEXT IN DOWN: b
+down FROM: b WE ADD:=
+CAN NOT ADD IN up FROM: [*EOS*] SHAPE:= BECAUSE OF RAYCAST?:1
+down FROM: [*SOUL_MATTER*] WE ADD:[*EOS*]
+CAN NOT ADD IN up FROM: c SHAPE:= BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN downd FROM CONDITION 2: = SHAPE:[*SOUL_MATTER*] BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN up FROM: b SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: c SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN downd FROM CONDITION 2: = SHAPE:c BECAUSE OF RAYCAST?:0
+downs:b ; = ; [*EOS*] ; 
+build_up look at m_down:b ; = ; [*EOS*] ; 
+up FROM: b WE ADD:    =
+ADD TO CONTEXT FROM UP: =
+CAN NOT ADD IN up FROM CONDITION 2: = SHAPE:b BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN up FROM: [*EOS*] SHAPE:= BECAUSE OF RAYCAST?:1
+up FROM: b WE ADD:    [*EOS*]
+CAN NOT ADD IN up FROM CONDITION 2: = SHAPE:[*SOUL_MATTER*] BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN up FROM CONDITION 2: = SHAPE:c BECAUSE OF RAYCAST?:0
+ups:= ; [*EOS*] ; 
+
+
+CONTEXT:CONTEXT:
+[*EOS*]   index:-1  3
+=   index:2  3
+b   index:5  1
+
+build_down look at m_up:= ; [*EOS*] ; 
+CAN NOT ADD IN downd FROM CONDITION 2: = SHAPE:b BECAUSE OF RAYCAST?:0
 down FROM: [*EOS*] WE ADD:=
-ADD TO CONTEXT: =
-down FROM: = WE ADD:[*EOS*]
-CAN NOT up FROM: [*SOUL_MATTER*] WE ADD:[*EOS*]
-CAN NOT up FROM: a WE ADD:=
-CAN NOT up FROM: c WE ADD:=
-down FROM: [*EOS*] WE ADD:a
-down FROM: = WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: a WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: c WE ADD:[*EOS*]
-CAN NOT up FROM: = WE ADD:c
-CAN NOT up FROM: = WE ADD:a
-downs:= ; [*EOS*] ; a ; [*SOUL_MATTER*] ; 
-build_up look at m_down:= ; [*EOS*] ; a ; [*SOUL_MATTER*] ; 
-up FROM: = WE ADD:    [*EOS*]
-ADD TO CONTEXT: [*EOS*]
-up FROM: [*EOS*] WE ADD:    =
-CAN NOT up FROM: a WE ADD:=
-CAN NOT up FROM: [*SOUL_MATTER*] WE ADD:[*EOS*]
-up FROM: = WE ADD:    [*SOUL_MATTER*]
-up FROM: [*EOS*] WE ADD:    a
-CAN NOT up FROM: a WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:c
-CAN NOT up FROM: = WE ADD:a
-ups:[*EOS*] ; = ; [*SOUL_MATTER*] ; a ; 
+ADD TO CONTEXT IN DOWN: =
+CAN NOT ADD IN downd FROM CONDITION 2: = SHAPE:[*SOUL_MATTER*] BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN downd FROM CONDITION 2: = SHAPE:c BECAUSE OF RAYCAST?:0
+downs:= ; 
+build_up look at m_down:= ; 
+CAN NOT ADD IN up FROM CONDITION 2: = SHAPE:b BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN up FROM CONDITION 2: = SHAPE:[*SOUL_MATTER*] BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN up FROM CONDITION 2: = SHAPE:c BECAUSE OF RAYCAST?:0
+ups:
 init:mshunko ; normal ; a ; = ; b ; [*EOS*] ; 
 build_down look at m_up:mshunko ; normal ; a ; = ; b ; [*EOS*] ; 
-down FROM: mshunko WE ADD:=
-ADD TO CONTEXT: =
-CAN NOT up FROM: normal WE ADD:=
-CAN NOT up FROM: a WE ADD:=
-down FROM: = WE ADD:[*EOS*]
-CAN NOT up FROM: b WE ADD:[*EOS*]
-CAN NOT up FROM: [*EOS*] WE ADD:=
+down FROM: mshunko WE ADD:[*EOS*]
+ADD TO CONTEXT IN DOWN: [*EOS*]
+CAN NOT ADD IN up FROM: normal SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: a SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+down FROM: = WE ADD:b
+down FROM: b WE ADD:=
+CAN NOT ADD IN up FROM: [*EOS*] SHAPE:= BECAUSE OF RAYCAST?:1
 down FROM: mshunko WE ADD:normal
-down FROM: normal WE ADD:b
-down FROM: a WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: b WE ADD:=
-down FROM: [*EOS*] WE ADD:a
+CAN NOT ADD IN up FROM: normal SHAPE:b BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: a SHAPE:= BECAUSE OF RAYCAST?:1
+down FROM: = WE ADD:[*SOUL_MATTER*]
+CAN NOT ADD IN up FROM: b SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
 down FROM: normal WE ADD:c
-CAN NOT up FROM: = WE ADD:c
-CAN NOT up FROM: b WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: normal WE ADD:a
-CAN NOT up FROM: = WE ADD:a
-CAN NOT up FROM: = WE ADD:b
-downs:= ; [*EOS*] ; normal ; b ; [*SOUL_MATTER*] ; a ; c ; 
-build_up look at m_down:= ; [*EOS*] ; normal ; b ; [*SOUL_MATTER*] ; a ; c ; 
-up FROM: = WE ADD:    [*EOS*]
-ADD TO CONTEXT: [*EOS*]
+CAN NOT ADD IN up FROM: = SHAPE:c BECAUSE OF RAYCAST?:1
+down FROM: normal WE ADD:a
+downs:[*EOS*] ; b ; = ; normal ; [*SOUL_MATTER*] ; c ; a ; 
+build_up look at m_down:[*EOS*] ; b ; = ; normal ; [*SOUL_MATTER*] ; c ; a ; 
 up FROM: [*EOS*] WE ADD:    =
-CAN NOT up FROM: normal WE ADD:=
-CAN NOT up FROM: b WE ADD:[*EOS*]
-CAN NOT up FROM: [*SOUL_MATTER*] WE ADD:[*EOS*]
-CAN NOT up FROM: a WE ADD:=
-CAN NOT up FROM: c WE ADD:=
+ADD TO CONTEXT FROM UP: =
+CAN NOT ADD IN up FROM: b SHAPE:= BECAUSE OF RAYCAST?:1
+up FROM: = WE ADD:    b
+up FROM: normal WE ADD:    [*EOS*]
+CAN NOT ADD IN up FROM: [*SOUL_MATTER*] SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: c SHAPE:= BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: a SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: b SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
 up FROM: = WE ADD:    [*SOUL_MATTER*]
-up FROM: [*EOS*] WE ADD:    a
-up FROM: normal WE ADD:    b
-CAN NOT up FROM: b WE ADD:=
-CAN NOT up FROM: a WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: c WE ADD:[*EOS*]
+CAN NOT ADD IN up FROM: normal SHAPE:b BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: c SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: a SHAPE:= BECAUSE OF RAYCAST?:1
 up FROM: = WE ADD:    c
-CAN NOT up FROM: normal WE ADD:c
-CAN NOT up FROM: b WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:a
-CAN NOT up FROM: normal WE ADD:a
-CAN NOT up FROM: = WE ADD:b
-ups:[*EOS*] ; = ; [*SOUL_MATTER*] ; a ; b ; c ; 
+CAN NOT ADD IN up FROM: normal SHAPE:c BECAUSE OF RAYCAST?:1
+up FROM: normal WE ADD:    a
+ups:= ; b ; [*EOS*] ; [*SOUL_MATTER*] ; c ; a ; 
 
 
 CONTEXT:CONTEXT:
-a   index:1  2
-=   index:2  4
-b   index:5  3
 [*EOS*]   index:-1  3
+=   index:2  3
+b   index:5  1
 
-build_down look at m_up:[*EOS*] ; = ; [*SOUL_MATTER*] ; a ; b ; c ; 
-down FROM: [*EOS*] WE ADD:=
-ADD TO CONTEXT: =
-down FROM: = WE ADD:[*EOS*]
-CAN NOT up FROM: [*SOUL_MATTER*] WE ADD:[*EOS*]
-CAN NOT up FROM: a WE ADD:=
-CAN NOT up FROM: b WE ADD:[*EOS*]
-CAN NOT up FROM: c WE ADD:=
+build_down look at m_up:= ; b ; [*EOS*] ; [*SOUL_MATTER*] ; c ; a ; 
+down FROM: = WE ADD:b
+ADD TO CONTEXT IN DOWN: b
+down FROM: b WE ADD:=
 down FROM: [*EOS*] WE ADD:a
-CAN NOT up FROM: = WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: a WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: b WE ADD:=
-CAN NOT up FROM: c WE ADD:[*EOS*]
+down FROM: [*SOUL_MATTER*] WE ADD:[*EOS*]
+CAN NOT ADD IN up FROM: c SHAPE:= BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: a SHAPE:= BECAUSE OF RAYCAST?:1
+down FROM: = WE ADD:[*SOUL_MATTER*]
+CAN NOT ADD IN up FROM: b SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: c SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: a SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
 down FROM: = WE ADD:c
-CAN NOT up FROM: b WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:a
-down FROM: = WE ADD:b
-downs:= ; [*EOS*] ; a ; c ; b ; 
-build_up look at m_down:= ; [*EOS*] ; a ; c ; b ; 
-up FROM: = WE ADD:    [*EOS*]
-ADD TO CONTEXT: [*EOS*]
-up FROM: [*EOS*] WE ADD:    =
-CAN NOT up FROM: a WE ADD:=
-CAN NOT up FROM: c WE ADD:=
-CAN NOT up FROM: b WE ADD:[*EOS*]
-CAN NOT up FROM: = WE ADD:[*SOUL_MATTER*]
+CAN NOT ADD IN up FROM: a SHAPE:[*SOUL_MATTER*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: = SHAPE:a BECAUSE OF RAYCAST?:1
+downs:b ; = ; a ; [*EOS*] ; [*SOUL_MATTER*] ; c ; 
+build_up look at m_down:b ; = ; a ; [*EOS*] ; [*SOUL_MATTER*] ; c ; 
+up FROM: b WE ADD:    =
+ADD TO CONTEXT FROM UP: =
+up FROM: = WE ADD:    b
+CAN NOT ADD IN up FROM: a SHAPE:= BECAUSE OF RAYCAST?:1
 up FROM: [*EOS*] WE ADD:    a
-CAN NOT up FROM: a WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: c WE ADD:[*EOS*]
-CAN NOT up FROM: b WE ADD:=
-up FROM: = WE ADD:    c
-CAN NOT up FROM: b WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:a
-up FROM: = WE ADD:    b
-ups:[*EOS*] ; = ; a ; c ; b ; 
+up FROM: [*SOUL_MATTER*] WE ADD:    [*EOS*]
+CAN NOT ADD IN up FROM: c SHAPE:= BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: b SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM CONDITION 2: = SHAPE:[*SOUL_MATTER*] BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN up FROM: a SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: c SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM CONDITION 2: = SHAPE:c BECAUSE OF RAYCAST?:0
+up FROM: a WE ADD:    [*SOUL_MATTER*]
+CAN NOT ADD IN up FROM: = SHAPE:a BECAUSE OF RAYCAST?:0
+ups:= ; b ; a ; [*EOS*] ; [*SOUL_MATTER*] ; 
 
 
 CONTEXT:CONTEXT:
-a   index:1  2
-=   index:2  4
-b   index:5  3
 [*EOS*]   index:-1  3
+=   index:2  3
+b   index:5  1
 
-build_down look at m_up:[*EOS*] ; = ; a ; c ; b ; 
-down FROM: [*EOS*] WE ADD:=
-ADD TO CONTEXT: =
-down FROM: = WE ADD:[*EOS*]
-CAN NOT up FROM: a WE ADD:=
-CAN NOT up FROM: c WE ADD:=
-CAN NOT up FROM: b WE ADD:[*EOS*]
-CAN NOT up FROM: [*EOS*] WE ADD:a
-CAN NOT up FROM: = WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: a WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: c WE ADD:[*EOS*]
-CAN NOT up FROM: b WE ADD:=
-CAN NOT up FROM: = WE ADD:c
-CAN NOT up FROM: b WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:a
-down FROM: = WE ADD:b
-downs:= ; [*EOS*] ; b ; 
-build_up look at m_down:= ; [*EOS*] ; b ; 
-up FROM: = WE ADD:    [*EOS*]
-ADD TO CONTEXT: [*EOS*]
-up FROM: [*EOS*] WE ADD:    =
-CAN NOT up FROM: b WE ADD:[*EOS*]
-CAN NOT up FROM: = WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: [*EOS*] WE ADD:a
-CAN NOT up FROM: b WE ADD:=
-CAN NOT up FROM: = WE ADD:c
-CAN NOT up FROM: b WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:a
-up FROM: = WE ADD:    b
-ups:[*EOS*] ; = ; b ; 
+build_down look at m_up:= ; b ; a ; [*EOS*] ; [*SOUL_MATTER*] ; 
+CAN NOT ADD IN downd FROM CONDITION 2: = SHAPE:b BECAUSE OF RAYCAST?:0
+down FROM: b WE ADD:=
+ADD TO CONTEXT IN DOWN: =
+CAN NOT ADD IN up FROM: a SHAPE:= BECAUSE OF RAYCAST?:1
+down FROM: [*EOS*] WE ADD:a
+down FROM: [*SOUL_MATTER*] WE ADD:[*EOS*]
+CAN NOT ADD IN downd FROM CONDITION 2: = SHAPE:[*SOUL_MATTER*] BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN up FROM: b SHAPE:[*EOS*] BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN up FROM: a SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN downd FROM CONDITION 2: = SHAPE:c BECAUSE OF RAYCAST?:0
+down FROM: a WE ADD:[*SOUL_MATTER*]
+CAN NOT ADD IN up FROM: = SHAPE:a BECAUSE OF RAYCAST?:0
+downs:= ; a ; [*EOS*] ; [*SOUL_MATTER*] ; 
+build_up look at m_down:= ; a ; [*EOS*] ; [*SOUL_MATTER*] ; 
+CAN NOT ADD IN up FROM CONDITION 2: = SHAPE:b BECAUSE OF RAYCAST?:0
+up FROM: a WE ADD:    =
+ADD TO CONTEXT FROM UP: =
+up FROM: [*EOS*] WE ADD:    a
+up FROM: [*SOUL_MATTER*] WE ADD:    [*EOS*]
+CAN NOT ADD IN up FROM CONDITION 2: = SHAPE:[*SOUL_MATTER*] BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN up FROM: a SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM CONDITION 2: = SHAPE:c BECAUSE OF RAYCAST?:0
+up FROM: a WE ADD:    [*SOUL_MATTER*]
+CAN NOT ADD IN up FROM: = SHAPE:a BECAUSE OF RAYCAST?:0
+ups:= ; a ; [*EOS*] ; [*SOUL_MATTER*] ; 
 
 
 CONTEXT:CONTEXT:
-a   index:1  2
-=   index:2  4
-b   index:5  3
 [*EOS*]   index:-1  3
+=   index:2  3
+b   index:5  1
 
-build_down look at m_up:[*EOS*] ; = ; b ; 
-down FROM: [*EOS*] WE ADD:=
-ADD TO CONTEXT: =
-down FROM: = WE ADD:[*EOS*]
-CAN NOT up FROM: b WE ADD:[*EOS*]
-CAN NOT up FROM: [*EOS*] WE ADD:a
-CAN NOT up FROM: = WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: b WE ADD:=
-CAN NOT up FROM: = WE ADD:c
-CAN NOT up FROM: b WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:a
-down FROM: = WE ADD:b
-downs:= ; [*EOS*] ; b ; 
+build_down look at m_up:= ; a ; [*EOS*] ; [*SOUL_MATTER*] ; 
+CAN NOT ADD IN downd FROM CONDITION 2: = SHAPE:b BECAUSE OF RAYCAST?:0
+down FROM: a WE ADD:=
+ADD TO CONTEXT IN DOWN: =
+down FROM: [*EOS*] WE ADD:a
+down FROM: [*SOUL_MATTER*] WE ADD:[*EOS*]
+CAN NOT ADD IN downd FROM CONDITION 2: = SHAPE:[*SOUL_MATTER*] BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN up FROM: a SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN downd FROM CONDITION 2: = SHAPE:c BECAUSE OF RAYCAST?:0
+down FROM: a WE ADD:[*SOUL_MATTER*]
+CAN NOT ADD IN up FROM: = SHAPE:a BECAUSE OF RAYCAST?:0
+downs:= ; a ; [*EOS*] ; [*SOUL_MATTER*] ; 
 init:mshunko ; normal ; b ; = ; c ; [*EOS*] ; 
 build_down look at m_up:mshunko ; normal ; b ; = ; c ; [*EOS*] ; 
-down FROM: mshunko WE ADD:=
-ADD TO CONTEXT: =
-CAN NOT up FROM: normal WE ADD:=
-down FROM: b WE ADD:[*EOS*]
-CAN NOT up FROM: = WE ADD:[*EOS*]
-CAN NOT up FROM: c WE ADD:=
-CAN NOT up FROM: [*EOS*] WE ADD:=
+down FROM: mshunko WE ADD:[*EOS*]
+ADD TO CONTEXT IN DOWN: [*EOS*]
+CAN NOT ADD IN up FROM: normal SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+down FROM: b WE ADD:=
+down FROM: = WE ADD:b
+CAN NOT ADD IN up FROM: c SHAPE:= BECAUSE OF RAYCAST?:1
+down FROM: [*EOS*] WE ADD:a
 down FROM: mshunko WE ADD:normal
-down FROM: normal WE ADD:b
-CAN NOT up FROM: b WE ADD:=
+CAN NOT ADD IN up FROM: normal SHAPE:b BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: b SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
 down FROM: = WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: c WE ADD:[*EOS*]
-down FROM: [*EOS*] WE ADD:a
+CAN NOT ADD IN up FROM: c SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
 down FROM: normal WE ADD:c
-CAN NOT up FROM: b WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:c
-CAN NOT up FROM: normal WE ADD:a
-CAN NOT up FROM: = WE ADD:a
-CAN NOT up FROM: = WE ADD:b
-downs:= ; [*EOS*] ; normal ; b ; [*SOUL_MATTER*] ; a ; c ; 
-build_up look at m_down:= ; [*EOS*] ; normal ; b ; [*SOUL_MATTER*] ; a ; c ; 
-up FROM: = WE ADD:    [*EOS*]
-ADD TO CONTEXT: [*EOS*]
-up FROM: [*EOS*] WE ADD:    =
-CAN NOT up FROM: normal WE ADD:=
-CAN NOT up FROM: b WE ADD:[*EOS*]
-CAN NOT up FROM: [*SOUL_MATTER*] WE ADD:[*EOS*]
-CAN NOT up FROM: a WE ADD:=
-CAN NOT up FROM: c WE ADD:=
+CAN NOT ADD IN up FROM: = SHAPE:c BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: normal SHAPE:a BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: = SHAPE:a BECAUSE OF RAYCAST?:1
+downs:[*EOS*] ; = ; b ; a ; normal ; [*SOUL_MATTER*] ; c ; 
+build_up look at m_down:[*EOS*] ; = ; b ; a ; normal ; [*SOUL_MATTER*] ; c ; 
+up FROM: [*EOS*] WE ADD:    a
+ADD TO CONTEXT FROM UP: a
+up FROM: = WE ADD:    b
+up FROM: b WE ADD:    =
+CAN NOT ADD IN up FROM: a SHAPE:= BECAUSE OF RAYCAST?:1
+up FROM: normal WE ADD:    [*EOS*]
+CAN NOT ADD IN up FROM: [*SOUL_MATTER*] SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: c SHAPE:= BECAUSE OF RAYCAST?:1
 up FROM: = WE ADD:    [*SOUL_MATTER*]
-up FROM: [*EOS*] WE ADD:    a
-up FROM: normal WE ADD:    b
-CAN NOT up FROM: b WE ADD:=
-CAN NOT up FROM: a WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: c WE ADD:[*EOS*]
+CAN NOT ADD IN up FROM: b SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: a SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: normal SHAPE:b BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: c SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
 up FROM: = WE ADD:    c
-CAN NOT up FROM: normal WE ADD:c
-CAN NOT up FROM: b WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:a
-CAN NOT up FROM: normal WE ADD:a
-CAN NOT up FROM: = WE ADD:b
-ups:[*EOS*] ; = ; [*SOUL_MATTER*] ; a ; b ; c ; 
+CAN NOT ADD IN up FROM: a SHAPE:[*SOUL_MATTER*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: normal SHAPE:c BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: = SHAPE:a BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: normal SHAPE:a BECAUSE OF RAYCAST?:1
+ups:a ; b ; = ; [*EOS*] ; [*SOUL_MATTER*] ; c ; 
 
 
 CONTEXT:CONTEXT:
-a   index:1  2
-=   index:2  4
-b   index:5  3
-[*EOS*]   index:-1  3
+=   index:2  3
+b   index:5  1
+a   index:1  4
 
-build_down look at m_up:[*EOS*] ; = ; [*SOUL_MATTER*] ; a ; b ; c ; 
-down FROM: [*EOS*] WE ADD:=
-ADD TO CONTEXT: =
-down FROM: = WE ADD:[*EOS*]
-CAN NOT up FROM: [*SOUL_MATTER*] WE ADD:[*EOS*]
-CAN NOT up FROM: a WE ADD:=
-CAN NOT up FROM: b WE ADD:[*EOS*]
-CAN NOT up FROM: c WE ADD:=
+build_down look at m_up:a ; b ; = ; [*EOS*] ; [*SOUL_MATTER*] ; c ; 
+down FROM: a WE ADD:=
+ADD TO CONTEXT IN DOWN: =
+CAN NOT ADD IN up FROM: b SHAPE:= BECAUSE OF RAYCAST?:1
+down FROM: = WE ADD:b
 down FROM: [*EOS*] WE ADD:a
-CAN NOT up FROM: = WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: a WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: b WE ADD:=
-CAN NOT up FROM: c WE ADD:[*EOS*]
+down FROM: [*SOUL_MATTER*] WE ADD:[*EOS*]
+CAN NOT ADD IN up FROM: c SHAPE:= BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: a SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: b SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+down FROM: = WE ADD:[*SOUL_MATTER*]
+CAN NOT ADD IN up FROM: c SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: a SHAPE:[*SOUL_MATTER*] BECAUSE OF RAYCAST?:1
 down FROM: = WE ADD:c
-CAN NOT up FROM: b WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:a
-down FROM: = WE ADD:b
-downs:= ; [*EOS*] ; a ; c ; b ; 
-build_up look at m_down:= ; [*EOS*] ; a ; c ; b ; 
-up FROM: = WE ADD:    [*EOS*]
-ADD TO CONTEXT: [*EOS*]
-up FROM: [*EOS*] WE ADD:    =
-CAN NOT up FROM: a WE ADD:=
-CAN NOT up FROM: c WE ADD:=
-CAN NOT up FROM: b WE ADD:[*EOS*]
-CAN NOT up FROM: = WE ADD:[*SOUL_MATTER*]
+CAN NOT ADD IN up FROM: = SHAPE:a BECAUSE OF RAYCAST?:1
+downs:= ; b ; a ; [*EOS*] ; [*SOUL_MATTER*] ; c ; 
+build_up look at m_down:= ; b ; a ; [*EOS*] ; [*SOUL_MATTER*] ; c ; 
+up FROM: = WE ADD:    b
+ADD TO CONTEXT FROM UP: b
+up FROM: b WE ADD:    =
+CAN NOT ADD IN up FROM: a SHAPE:= BECAUSE OF RAYCAST?:1
 up FROM: [*EOS*] WE ADD:    a
-CAN NOT up FROM: a WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: c WE ADD:[*EOS*]
-CAN NOT up FROM: b WE ADD:=
-up FROM: = WE ADD:    c
-CAN NOT up FROM: b WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:a
-up FROM: = WE ADD:    b
-ups:[*EOS*] ; = ; a ; c ; b ; 
+up FROM: [*SOUL_MATTER*] WE ADD:    [*EOS*]
+CAN NOT ADD IN up FROM: c SHAPE:= BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM CONDITION 2: = SHAPE:[*SOUL_MATTER*] BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN up FROM: b SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: a SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM: c SHAPE:[*EOS*] BECAUSE OF RAYCAST?:1
+CAN NOT ADD IN up FROM CONDITION 2: = SHAPE:c BECAUSE OF RAYCAST?:0
+up FROM: a WE ADD:    [*SOUL_MATTER*]
+CAN NOT ADD IN up FROM: = SHAPE:a BECAUSE OF RAYCAST?:0
+ups:b ; = ; a ; [*EOS*] ; [*SOUL_MATTER*] ; 
 
 
 CONTEXT:CONTEXT:
-a   index:1  2
-=   index:2  4
-b   index:5  3
-[*EOS*]   index:-1  3
+=   index:2  3
+b   index:5  1
+a   index:1  4
 
-build_down look at m_up:[*EOS*] ; = ; a ; c ; b ; 
-down FROM: [*EOS*] WE ADD:=
-ADD TO CONTEXT: =
-down FROM: = WE ADD:[*EOS*]
-CAN NOT up FROM: a WE ADD:=
-CAN NOT up FROM: c WE ADD:=
-CAN NOT up FROM: b WE ADD:[*EOS*]
-CAN NOT up FROM: [*EOS*] WE ADD:a
-CAN NOT up FROM: = WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: a WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: c WE ADD:[*EOS*]
-CAN NOT up FROM: b WE ADD:=
-CAN NOT up FROM: = WE ADD:c
-CAN NOT up FROM: b WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:a
-down FROM: = WE ADD:b
-downs:= ; [*EOS*] ; b ; 
-build_up look at m_down:= ; [*EOS*] ; b ; 
-up FROM: = WE ADD:    [*EOS*]
-ADD TO CONTEXT: [*EOS*]
-up FROM: [*EOS*] WE ADD:    =
-CAN NOT up FROM: b WE ADD:[*EOS*]
-CAN NOT up FROM: = WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: [*EOS*] WE ADD:a
-CAN NOT up FROM: b WE ADD:=
-CAN NOT up FROM: = WE ADD:c
-CAN NOT up FROM: b WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:a
-up FROM: = WE ADD:    b
-ups:[*EOS*] ; = ; b ; 
+build_down look at m_up:b ; = ; a ; [*EOS*] ; [*SOUL_MATTER*] ; 
+down FROM: b WE ADD:=
+ADD TO CONTEXT IN DOWN: =
+CAN NOT ADD IN downd FROM CONDITION 2: = SHAPE:b BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN up FROM: a SHAPE:= BECAUSE OF RAYCAST?:1
+down FROM: [*EOS*] WE ADD:a
+CAN NOT ADD IN downd FROM CONDITION 2: [*SOUL_MATTER*] SHAPE:[*EOS*] BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN downd FROM CONDITION 2: b SHAPE:[*EOS*] BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN downd FROM CONDITION 2: = SHAPE:[*SOUL_MATTER*] BECAUSE OF RAYCAST?:0
+down FROM: a WE ADD:[*EOS*]
+CAN NOT ADD IN downd FROM CONDITION 2: = SHAPE:c BECAUSE OF RAYCAST?:0
+down FROM: a WE ADD:[*SOUL_MATTER*]
+CAN NOT ADD IN up FROM: = SHAPE:a BECAUSE OF RAYCAST?:0
+downs:= ; a ; [*EOS*] ; [*SOUL_MATTER*] ; 
+build_up look at m_down:= ; a ; [*EOS*] ; [*SOUL_MATTER*] ; 
+CAN NOT ADD IN up FROM CONDITION 2: = SHAPE:b BECAUSE OF RAYCAST?:0
+up FROM: a WE ADD:    =
+ADD TO CONTEXT FROM UP: =
+CAN NOT ADD IN up FROM CONDITION 2: [*EOS*] SHAPE:a BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN up FROM CONDITION 2: [*SOUL_MATTER*] SHAPE:[*EOS*] BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN up FROM CONDITION 2: = SHAPE:[*SOUL_MATTER*] BECAUSE OF RAYCAST?:0
+up FROM: a WE ADD:    [*EOS*]
+CAN NOT ADD IN up FROM CONDITION 2: = SHAPE:c BECAUSE OF RAYCAST?:0
+up FROM: a WE ADD:    [*SOUL_MATTER*]
+CAN NOT ADD IN up FROM CONDITION 2: = SHAPE:a BECAUSE OF RAYCAST?:0
+ups:= ; [*EOS*] ; [*SOUL_MATTER*] ; 
 
 
 CONTEXT:CONTEXT:
-a   index:1  2
-=   index:2  4
-b   index:5  3
-[*EOS*]   index:-1  3
+=   index:2  3
+b   index:5  1
+a   index:1  4
 
-build_down look at m_up:[*EOS*] ; = ; b ; 
-down FROM: [*EOS*] WE ADD:=
-ADD TO CONTEXT: =
-down FROM: = WE ADD:[*EOS*]
-CAN NOT up FROM: b WE ADD:[*EOS*]
-CAN NOT up FROM: [*EOS*] WE ADD:a
-CAN NOT up FROM: = WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: b WE ADD:=
-CAN NOT up FROM: = WE ADD:c
-CAN NOT up FROM: b WE ADD:[*SOUL_MATTER*]
-CAN NOT up FROM: = WE ADD:a
-down FROM: = WE ADD:b
-downs:= ; [*EOS*] ; b ; 
+build_down look at m_up:= ; [*EOS*] ; [*SOUL_MATTER*] ; 
+CAN NOT ADD IN downd FROM CONDITION 2: = SHAPE:b BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN downd FROM CONDITION 2: [*EOS*] SHAPE:a BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN downd FROM CONDITION 2: [*SOUL_MATTER*] SHAPE:[*EOS*] BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN downd FROM CONDITION 2: = SHAPE:[*SOUL_MATTER*] BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN downd FROM CONDITION 2: = SHAPE:c BECAUSE OF RAYCAST?:0
+CAN NOT ADD IN downd FROM CONDITION 2: = SHAPE:a BECAUSE OF RAYCAST?:0
+downs:

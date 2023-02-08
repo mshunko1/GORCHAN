@@ -7,6 +7,7 @@ soul_matter_shape::soul_matter_shape()
 {
     m_index = soul_matter_shape_index;
     m_type = shape_type_soul_matter;
+    m_guid = sm_shape_guid;
 }
 
 

@@ -7,10 +7,10 @@ set(CMAKE_C_FLAGS_DEBUG "-O0 -ggdb")
 set(CMAKE_CXX_FLAGS "-O0 -ggdb")
 set(CMAKE_CXX_FLAGS_DEBUG "-O0 -ggdb")
 
-
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+
 
 
 include(CTest)

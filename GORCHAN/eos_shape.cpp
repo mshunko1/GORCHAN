@@ -7,6 +7,7 @@ eos_shape::eos_shape()
 {
     m_type = shape_type_eos;
     m_index = eos_shape_index;
+    m_guid = oes_shape_guid;
 }
 
 eos_shape::~eos_shape()

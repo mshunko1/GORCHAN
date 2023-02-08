@@ -90,21 +90,27 @@ shape_iterator_state shape_iterator::build_up()
             base_shape* shape_ray = m_ls_memory->get_index_to_shape_map()->find(shape_ray_index)->second;
             fercher[outs]++;
             auto exist_shape = std::find(m_up.begin(), m_up.end(), shape_ray);
-            if(exist_shape == m_up.end() && shape_ray->can_be_raised(false))
+            if(exist_shape == m_up.end())
             {
+                if(shape->can_be_raised(false) == false)
+                {
+                    (*folog)<<L"CAN NOT ADD IN up FROM CONDITION 2: "<<shape->get_guid()<<L" SHAPE:"<<shape_ray->get_guid()<<L" BECAUSE OF RAYCAST?:"<<shape->can_be_raised(true)<<std::endl;
+                    continue;
+                }
                 (*folog)<<L"up FROM: "<<shape->get_guid()<<L" WE ADD:    "<<shape_ray->get_guid()<<std::endl;
                 m_up.push_back(shape_ray);
-                if(item_to_context_added < 1)
+                if(item_to_context_added < 1 && shape_ray_link->m_type >= link_type_temproray)
                 {
                     m_context->add_link(shape_ray, shape_ray_link->m_type);
                     item_to_context_added++;
-                    (*folog)<<L"ADD TO CONTEXT: "<<shape_ray->get_guid()<<std::endl;
+                    (*folog)<<L"ADD TO CONTEXT FROM UP: "<<shape_ray->get_guid()<<std::endl;
                 }
             }
             else
-            {
-                (*folog)<<L"CAN NOT up FROM: "<<shape->get_guid()<<L" WE ADD:"<<shape_ray->get_guid()<<std::endl;
+            { 
+                (*folog)<<L"CAN NOT ADD IN up FROM: "<<shape->get_guid()<<L" SHAPE:"<<shape_ray->get_guid()<<L" BECAUSE OF RAYCAST?:"<<shape->can_be_raised(true)<<std::endl;
             }
+
         }
         gint ferch_reach_end = 0;
         for(auto item:fercher)
@@ -175,20 +181,26 @@ shape_iterator_state shape_iterator::build_down()
 
             fercher[outs]++;
             auto exist_shape = std::find(m_down.begin(), m_down.end(), shape_ray);
-            if(exist_shape == m_down.end() && shape_ray->can_be_raised(false))
+            if(exist_shape == m_down.end())
             {
+                if(shape->can_be_raised(false) == false)
+                {
+                    (*folog)<<L"CAN NOT ADD IN downd FROM CONDITION 2: "<<shape->get_guid()<<L" SHAPE:"<<shape_ray->get_guid()<<L" BECAUSE OF RAYCAST?:"<<shape->can_be_raised(true)<<std::endl;
+                    continue;
+                }
+
                 (*folog)<<L"down FROM: "<<shape->get_guid()<<L" WE ADD:"<<shape_ray->get_guid()<<std::endl;
                 m_down.push_back(shape_ray);
-                if(item_to_context_added < 1)
+                if(item_to_context_added < 1 && shape_ray_link->m_type >= link_type_temproray)
                 {
                     m_context->add_link(shape_ray, shape_ray_link->m_type);
                     item_to_context_added++;
-                    (*folog)<<L"ADD TO CONTEXT: "<<shape_ray->get_guid()<<std::endl;
+                    (*folog)<<L"ADD TO CONTEXT IN DOWN: "<<shape_ray->get_guid()<<std::endl;
                 }
             }
             else
             {
-                (*folog)<<L"CAN NOT up FROM: "<<shape->get_guid()<<L" WE ADD:"<<shape_ray->get_guid()<<std::endl;
+                (*folog)<<L"CAN NOT ADD IN up FROM: "<<shape->get_guid()<<L" SHAPE:"<<shape_ray->get_guid()<<L" BECAUSE OF RAYCAST?:"<<shape->can_be_raised(true)<<std::endl;
             }
         }
         gint ferch_reach_end = 0;

@@ -80,6 +80,52 @@ base_shape* ls_memory::get_shape(gguid guid)
     return m_gguid_to_shape[guid];
 }
 
+
+gint ls_memory::remove_shape(base_shape* shape)
+{
+    gint removed_links_count = 0;
+    linker* ins = shape->get_ins();
+    for(gint i = 0; i < ins->size(); i++)
+    {
+        link* link = ins->at(i);
+        shape_index shape_index_for_remove_out = link->m_shape_to;
+        base_shape* shape_for_remove_out = m_index_to_shape[shape_index_for_remove_out];
+        linker* linker_for_remove_out = shape_for_remove_out->get_outs();
+        gint index = -1;
+        if(linker_for_remove_out->exists(shape, &index) == true)
+        {
+            linker_for_remove_out->remove(index);
+            removed_links_count++;
+        }
+    }
+
+    linker* outs = shape->get_outs();
+    for(gint i = 0; i < outs->size(); i++)
+    {
+        link* link = outs->at(i);
+        shape_index shape_index_for_remove_in = link->m_shape_to;
+        base_shape* shape_for_remove_in = m_index_to_shape[shape_index_for_remove_in];
+        linker* linker_for_remove_in = shape_for_remove_in->get_ins();
+        gint index = -1;
+        if(linker_for_remove_in->exists(shape, &index) == true)
+        {
+            linker_for_remove_in->remove(index);
+            removed_links_count++;
+        }
+    }
+
+    gfs_path file_name = shape->get_filename();
+    shape_type shape_type = shape->get_type();
+    gfs_path path_to_shape_file = m_base_path / gto_gstring(shape_type);
+    path_to_shape_file /= file_name;
+    gfs::remove(path_to_shape_file);
+    
+    m_gguid_to_shape.erase(shape->get_guid());
+    m_index_to_shape.erase(shape->get_index());
+
+    return removed_links_count;
+}
+
 void ls_memory::add_static_shapes()
 {
     auto shape_eos = m_index_to_shape.find(eos_shape_index);

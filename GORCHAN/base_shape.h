@@ -18,6 +18,7 @@ public:
 	linker* get_ins();
 	bool can_be_raised(bool just_check);
 	void reset_daycaster();
+	gint raycast_size();
 	static bool link_shapes(base_shape* from, base_shape* to, rule* rule, link_type type, bool rewrite, bool replace);// out-in
 protected:
 	static void serialize_type(base_shape* shape, gofstream& stream);

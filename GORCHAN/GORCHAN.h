@@ -28,6 +28,7 @@ private:
     ls_memory* m_memory;
     ear* m_ear;
     bg_context* m_context;
+    mind_preservation_service* m_mind_preservation_service;
     gthread m_mind_proc;
     gthread m_react_proc;
     volatile mind_status m_mind_status;
