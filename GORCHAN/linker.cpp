@@ -71,40 +71,31 @@ void linker::add_link(link* add_link)
         m_links[m_back_pos++] = add_link;
         return;
     }
- 
     
-    gint warning = calc_warrings();
-    gint adding_warning = get_warring_weight(add_link->m_type);
-    
-    gint result_warning = warning + adding_warning;
-
-    if(warning == 0)
+    if(add_link->m_type <= link_type_temproray)
     {
-        m_links[m_back_pos++] = add_link;
-        //remove(0);
+        action_expand = true;
     }
-    else if(result_warning == 0)
+    else if(start->m_type <= link_type_init && add_link->m_type <= link_type_init)
     {
-        m_links[m_back_pos++] = add_link;
+        action_circle = true;
+    }
+    else if(start->m_type <= link_type_init && add_link->m_type >= link_type_friendly)
+    {
+        action_expand = true;
+    }
+    else if(start->m_type >= link_type_friendly && add_link->m_type <= link_type_init)
+    {
+        action_expand = true;
+    }
+    else if(start->m_type >= link_type_friendly && add_link->m_type >= link_type_friendly)
+    {
+        action_circle = true;
     }
     else
     {
-        // пытаемся добавить новую связь с минимизацией текущих тревог
-        // мы ее и добавляем для этого, если нужно то какуюто связь нужно удалить
-        // добавляем а потом ищем звязь которая бы уравновесила все
-        bool balanced = false;
-        m_links[m_back_pos++] = add_link;
-        for(gint i = 0; i < size() - 1; i++)
-        {
-            gint wv = get_warring_weight(at(i)->m_type);
-            gint new_wv = calc_warrings() - wv;
-            if(new_wv > 0)
-            {
-                remove(i);
-            }
-        }
+        throw new gexception("undefined behaviour when try add link");
     }
-    return;
 
     if(m_back_pos >= m_size)
     {
