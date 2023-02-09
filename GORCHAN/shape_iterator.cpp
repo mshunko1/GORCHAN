@@ -244,6 +244,9 @@ shape_iterator_state shape_iterator::build_rules()
     (*folog)<<std::endl;
     (*folog)<<std::endl;
 
+
+    gvector<base_shape*> shape_was_already_added_to_context;
+
     m_state = shape_iterator_state_in_build_rules;
     gint init_count = 0;
     gint fr_count = 0;
@@ -329,14 +332,21 @@ shape_iterator_state shape_iterator::build_rules()
                         base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter, false, true);
                         base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, true);
 
-                        m_context->add_shape(up_shape);
+                        auto exists = std::find(shape_was_already_added_to_context.begin(), shape_was_already_added_to_context.end(), up_shape);
 
-                        (*folog) << L"CONTEXT:";
-                        dump_gvector(m_context);
-                        (*folog) << std::endl;
-                        
-                        (*folog)<<L"CONTEXT OPERATION:"<<m_context->try_merge()<<std::endl;
-              
+                        if (exists == shape_was_already_added_to_context.end())
+                        {
+                            shape_was_already_added_to_context.push_back(up_shape);
+                            (*folog) << L"CONTEXT ADD TO CONTEXT:" << up_shape->get_guid() << std::endl;
+
+                            m_context->add_shape(up_shape);
+
+                            (*folog) << L"CONTEXT:";
+                            dump_gvector(m_context);
+                            (*folog) << std::endl;
+
+                            (*folog) << L"CONTEXT OPERATION:" << m_context->try_merge() << std::endl;
+                        }
                     }
                 }
             }
@@ -446,15 +456,22 @@ shape_iterator_state shape_iterator::build_rules()
                             rule* smr = new rule();
                             base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter, false, true);
                             base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, true);
-                            
-                            m_context->add_shape(up_shape);
 
-                            (*folog) << L"CONTEXT:";
-                            dump_gvector(m_context);
-                            (*folog) << std::endl;
+                            auto exists = std::find(shape_was_already_added_to_context.begin(), shape_was_already_added_to_context.end(), up_shape);
 
+                            if (exists == shape_was_already_added_to_context.end())
+                            {
+                                shape_was_already_added_to_context.push_back(up_shape);
+                                (*folog) << L"CONTEXT ADD TO CONTEXT:" << up_shape->get_guid() << std::endl;
 
-                            (*folog)<<L"CONTEXT OPERATION:"<<m_context->try_merge()<<std::endl;;
+                                m_context->add_shape(up_shape);
+
+                                (*folog) << L"CONTEXT:";
+                                dump_gvector(m_context);
+                                (*folog) << std::endl;
+
+                                (*folog) << L"CONTEXT OPERATION:" << m_context->try_merge() << std::endl;
+                            }
 
                         }
                         else
@@ -472,14 +489,22 @@ shape_iterator_state shape_iterator::build_rules()
                                 base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter, false, true);
                                 base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, true);
 
-                                
-                                m_context->add_shape(up_shape);
-                                
-                                (*folog) << L"CONTEXT:";
-                                dump_gvector(m_context);
-                                (*folog) << std::endl;
 
-                                (*folog)<<L"CONTEXT OPERATION:"<<m_context->try_merge()<<std::endl;;
+                                auto exists = std::find(shape_was_already_added_to_context.begin(), shape_was_already_added_to_context.end(), up_shape);
+
+                                if (exists == shape_was_already_added_to_context.end())
+                                {
+                                    shape_was_already_added_to_context.push_back(up_shape);
+                                    (*folog) << L"CONTEXT ADD TO CONTEXT:" << up_shape->get_guid() << std::endl;
+
+                                    m_context->add_shape(up_shape);
+
+                                    (*folog) << L"CONTEXT:";
+                                    dump_gvector(m_context);
+                                    (*folog) << std::endl;
+
+                                    (*folog) << L"CONTEXT OPERATION:" << m_context->try_merge() << std::endl;
+                                }
                                
                             }
                         }

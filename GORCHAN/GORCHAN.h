@@ -14,7 +14,7 @@ public:
     ~GORCHAN();
     void init();
     void deinit();
-    virtual void percive(std::string signal);
+    virtual void percive(std::string signal, bool debug);
     virtual void add_callback(mind_callback* callback);
 
 protected:
@@ -37,6 +37,10 @@ private:
     base_shape* whois  =  nullptr;
     
     base_shape* howis = nullptr;
+
+    base_shape* whois_gorchan = nullptr;
+
+    base_shape* howis_mindprocess = nullptr;
 };
 
 #endif

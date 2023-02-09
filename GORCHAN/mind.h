@@ -10,7 +10,7 @@ class mind
 public:
     mind();
     ~mind();
-    virtual void percive(std::string signal) = 0;
+    virtual void percive(std::string signal, bool debug) = 0;
     virtual void add_callback(mind_callback* callback) = 0;
     virtual void init() = 0;
 private:

@@ -159,15 +159,23 @@ int main()
    mind* _mind = nullptr;
    get_mind(&_mind);
    _mind->init();
-   _mind->percive("a = a");
+   _mind->percive("a = a", false);
    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-   _mind->percive("b = b");
+   _mind->percive("b = b", false);
    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-   _mind->percive("c = c");
+   _mind->percive("bc", true);
    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-   _mind->percive("a = b");
+   _mind->percive("c = c", false);
    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-   _mind->percive("b = c");
+  
+   std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+   _mind->percive("=a", true);
+ //  std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+  // _mind->percive("=a", true);
+   std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+   _mind->percive("a = b", false);
+   std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+   _mind->percive("b = c", false);
 
 
    std::this_thread::sleep_for(std::chrono::minutes(1));

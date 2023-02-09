@@ -25,6 +25,16 @@ void GORCHAN::init()
     m_react_proc =  gthread(&GORCHAN::react_proc, this);
 
     m_mind_status = mind_status_ready_to_new_signal;
+
+
+
+    whois = nullptr;
+
+    howis = nullptr;
+
+    whois_gorchan = nullptr;
+
+    howis_mindprocess = nullptr;
 }
 
 void GORCHAN::deinit()
@@ -34,43 +44,76 @@ void GORCHAN::deinit()
     m_mind_proc.join();
 }
 
-void GORCHAN::percive(std::string signal)
+void GORCHAN::percive(std::string signal, bool debug)
 {
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter; 
-    std::wstring wide = converter.from_bytes(signal);
-
-    gvector<base_shape*> shaped_signal = m_ear->parse_shapes(wide);
-    gvector<base_shape*> shape_signal;
-
-    for(base_shape* shape:shaped_signal)
+    if (whois == nullptr)
     {
-        base_shape* exist_shape = m_memory->get_shape(shape->get_guid());
-        if(exist_shape == nullptr)
-        {
-            exist_shape = shape;
-            m_memory->add_shape(shape);
-        }
-        shape_signal.push_back(exist_shape);
-    }
- 
-    if(whois == nullptr)
-    {
-        whois  = new whois_shape(L"mshunko");
+        whois = new whois_shape(L"mshunko");
         m_memory->add_shape(whois);
     }
-    if(howis == nullptr)
-    { 
+    if (howis == nullptr)
+    {
         howis = new howis_shape(L"normal");
         m_memory->add_shape(howis);
     }
 
-    shape_signal.insert(shape_signal.begin(), howis);
-    shape_signal.insert(shape_signal.begin(), whois);
+    if (whois_gorchan == nullptr)
+    {
+        whois_gorchan = new whois_shape(L"gorchan");
+        m_memory->add_shape(whois_gorchan);
+    }
+    if (howis_mindprocess == nullptr)
+    {
+        howis_mindprocess = new howis_shape(L"mindprocess");
+        m_memory->add_shape(howis_mindprocess);
+    }
 
-    base_shape* eos = m_memory->get_shape(eos_shape_index);
-    shape_signal.push_back(eos);
-    
-    m_input_q.push(shape_signal);
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+    std::wstring wide = converter.from_bytes(signal);
+    gvector<base_shape*> shape_signal;
+
+    if (debug == false)
+    {
+        gvector<base_shape*> shaped_signal = m_ear->parse_shapes(wide);
+
+        for (base_shape* shape : shaped_signal)
+        {
+            base_shape* exist_shape = m_memory->get_shape(shape->get_guid());
+            if (exist_shape == nullptr)
+            {
+                exist_shape = shape;
+                m_memory->add_shape(shape);
+            }
+            shape_signal.push_back(exist_shape);
+        }
+
+        shape_signal.insert(shape_signal.begin(), howis);
+        shape_signal.insert(shape_signal.begin(), whois);
+
+        base_shape* eos = m_memory->get_shape(eos_shape_index);
+        shape_signal.push_back(eos);
+
+        m_input_q.push(shape_signal);
+    }
+    else
+    { 
+        base_shape* exist_shape = m_memory->get_shape(wide);
+        base_shape* shape = nullptr;
+        if (exist_shape == nullptr)
+        {
+            shape = new fona_shape(wide);
+            m_memory->add_shape(shape);
+            exist_shape = shape;
+        }
+
+        base_shape* eos = m_memory->get_shape(eos_shape_index);
+        shape_signal.push_back(whois_gorchan);
+        shape_signal.push_back(howis_mindprocess);
+        shape_signal.push_back(shape);
+        shape_signal.push_back(eos);
+
+        m_input_q.push(shape_signal);
+    }
 }
 
 void GORCHAN::add_callback(mind_callback* callback)
