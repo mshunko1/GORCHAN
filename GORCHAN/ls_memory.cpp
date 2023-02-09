@@ -114,15 +114,6 @@ gint ls_memory::remove_shape(base_shape* shape)
         }
     }
 
-    gfs_path file_name = shape->get_filename();
-    shape_type shape_type = shape->get_type();
-    gfs_path path_to_shape_file = m_base_path / gto_gstring(shape_type);
-    path_to_shape_file /= file_name;
-    gfs::remove(path_to_shape_file);
-    
-    m_gguid_to_shape.erase(shape->get_guid());
-    m_index_to_shape.erase(shape->get_index());
-
     return removed_links_count;
 }
 
