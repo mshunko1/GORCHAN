@@ -10,11 +10,11 @@ m_ls_memory(memory)
     folog = new gofstream("Mind/log.txt", std::ios::trunc);
 }
 
-void shape_iterator::dump_gvector(gvector<base_shape*> vector)
+void shape_iterator::dump_gvector(gvector<base_shape*> &vector)
 {
     for(base_shape* shape:vector)
     {
-        (*folog)<<shape->get_guid()+L" ; ";
+        (*folog) << shape->get_guid() << L" ; ";
     }
 
 }
@@ -56,14 +56,16 @@ void shape_iterator::set_initial_shapes(gvector<base_shape*> input)
     }
   
     m_up = input;
-    (*folog)<<L"init:";
-    dump_gvector(m_up);
-    (*folog)<<std::endl;
+
     m_state = shape_iterator_state_init;
 }
 
 shape_iterator_state shape_iterator::build_up()
 {
+    (*folog) << L"init_was:";
+    dump_gvector(m_input);
+    (*folog) << std::endl;
+
     m_state = shape_iterator_state_in_up; 
     gmap<linker*, gint> fercher;
     bool ferch = true;
@@ -122,6 +124,10 @@ shape_iterator_state shape_iterator::build_up()
     bool eq = false;
     for(auto up:m_ups)
     {
+        if (up.size() != m_up.size())
+        {
+            continue;
+        }
         eq = std::equal(up.begin(), up.end(), m_up.begin());
         if(eq == true)
         {
@@ -207,6 +213,10 @@ shape_iterator_state shape_iterator::build_down()
     bool eq = false;
     for(auto down:m_downs)
     {
+        if (down.size() != m_down.size())
+        {
+            continue;
+        }
         eq = std::equal(down.begin(), down.end(), m_down.begin());
         if(eq == true)
         {

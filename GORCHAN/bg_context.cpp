@@ -24,20 +24,31 @@ gstring bg_context::try_merge()
     gmap<shape_type, gint> merge_map;
     for(gint i = 0; i < size(); i++)
     {
-        merge_map[at(i)->get_type()]++;
+        auto exists = merge_map.find(at(i)->get_type());
+        shape_type st;
+        if (exists == merge_map.end())
+        {
+            shape_type st = at(i)->get_type();
+            merge_map[st]=1;
+        }
+        else
+        {
+            shape_type st = at(i)->get_type();
+            merge_map[st]++;
+        }
     }
     for(auto i:merge_map)
     {
         if(i.second > 1)
         {
-            gvector<gint> merged_shapes;
+            gvector<base_shape*> merged_shapes;
             for(gint j = 0; j < size(); j++)
             {
                 if(i.first == at(j)->get_type())
                 {
                     if(merged_shapes.size() < 2)
                     {
-                        merged_shapes.push_back(j);
+                        merged_shapes.push_back(at(j));
                     }
                 }
             }
@@ -46,9 +57,12 @@ gstring bg_context::try_merge()
             if(merged_shapes.size() == 2)
             {
 
-                auto retu = L"MERGED SHAPES ["+m_context[merged_shapes[0]]->get_guid()+L"] : [" +m_context[merged_shapes[1]]->get_guid()+L"]\r\n";
-                m_context.erase(m_context.begin() + merged_shapes[0]);
-                m_context.erase(m_context.begin() + merged_shapes[1]);
+                auto retu = L"MERGED SHAPES ["+merged_shapes[0]->get_guid()+L"] : [" +merged_shapes[1]->get_guid()+L"]\r\n";
+                auto erase1 = std::find(m_context.begin(), m_context.end(), merged_shapes[0]);
+                m_context.erase(erase1);
+
+                auto erase2 = std::find(m_context.begin(), m_context.end(), merged_shapes[1]);
+                m_context.erase(erase2);
                 return retu;
             }
         }

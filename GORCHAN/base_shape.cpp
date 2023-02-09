@@ -154,7 +154,7 @@ shape_index base_shape::get_index()
 
 shape_type base_shape::get_type()
 {
-	return shape_type_undefined;
+	return m_type;
 }
 
 void base_shape::set_index(shape_index index)
@@ -169,5 +169,5 @@ gfs_path base_shape::get_filename()
 
 gguid base_shape::get_guid()
 {
-	throw new gexception("not implemented");
+	return m_guid;
 }

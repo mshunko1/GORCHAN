@@ -12,7 +12,7 @@ public:
 	virtual void serialize(gofstream& stream);
 	virtual void deserialize(gifstream& stream);
 	virtual gguid get_guid();
-	shape_type get_type();
+	virtual shape_type get_type();
 	shape_index get_index();
 	linker* get_outs();
 	linker* get_ins();

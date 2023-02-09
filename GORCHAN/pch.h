@@ -21,9 +21,8 @@ typedef std::locale glocale;
 typedef std::experimental::filesystem::path gfs_path;
 namespace gfs = std::experimental::filesystem;
 typedef gstring gguid;
-#ifndef _WINDOWS
 typedef std::thread gthread;
-#endif
+
 template<class T> using gvector = std::vector<T>;   
 template<class T1, class T2> using gmap = std::map<T1, T2>;
 template<class T1, class T2> using gpair = std::pair<T1,T2>;
