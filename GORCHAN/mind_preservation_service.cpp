@@ -14,7 +14,7 @@ mind_preservation_service::~mind_preservation_service()
 
 
 /// @brief Перебрать все образы в ls memory и если они не достигают bg_context 
-/// содержимого удалить их
+/// содержимого отвязать их от всех но оставить в памяти
 void mind_preservation_service::mind_preserve_operation()
 {
     auto shapes = m_memory->get_index_to_shape_map();
