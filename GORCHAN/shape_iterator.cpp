@@ -49,10 +49,10 @@ void shape_iterator::set_initial_shapes(gvector<base_shape*> input)
     m_down.clear();
     m_up.clear();
  
-    base_shape::link_shapes(input[0], input[1], new rule() , link_type_temproray, false, false);
+    base_shape::link_shapes(input[0], input[1], new rule() , link_type_temproray, false, true);
     for(gint i = 1; i < input.size() - 1; i++)
     {
-        base_shape::link_shapes(input[i], input[i + 1], new rule() ,link_type_temproray, false, false);
+        base_shape::link_shapes(input[i], input[i + 1], new rule() ,link_type_temproray, false, true);
     }
   
     m_up = input;

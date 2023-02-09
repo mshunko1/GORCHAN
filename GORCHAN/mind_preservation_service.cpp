@@ -29,7 +29,7 @@ void mind_preservation_service::mind_preserve_operation()
         }
         if(soul_matter_shape::get_instance() == item.second || eos_shape::get_instance() == item.second)
         {
-           // continue;
+            continue;
         }
 
 

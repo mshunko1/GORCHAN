@@ -12,6 +12,10 @@ bg_context::bg_context()
 
 void bg_context::add_shape(base_shape* shape)
 {
+    if (shape->get_type() == shape_type_eos || shape->get_type() == shape_type_soul_matter)
+    {
+        return;
+    }
     auto exists = std::find(m_context.begin(), m_context.end(), shape);
     if(exists == m_context.end())
     {
