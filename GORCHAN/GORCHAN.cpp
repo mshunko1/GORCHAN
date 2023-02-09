@@ -95,7 +95,7 @@ void GORCHAN::react_proc()
             m_mind_status = mind_status_in_proc;
         }
 
-        std::this_thread::sleep_for(std::chrono::microseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }
 
@@ -105,7 +105,7 @@ void GORCHAN::mind_proc()
     {    
         if(m_mind_status != mind_status_in_proc)
         {
-            std::this_thread::sleep_for(std::chrono::microseconds(1000));
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
             continue;
         }
 

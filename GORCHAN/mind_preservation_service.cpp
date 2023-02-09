@@ -27,17 +27,22 @@ void mind_preservation_service::mind_preserve_operation()
         {
             continue;
         }
+        if(soul_matter_shape::get_instance() == item.second || eos_shape::get_instance() == item.second)
+        {
+           // continue;
+        }
+
+
+
         bool passed = false;
         for(gint i = 0; i < m_context->size(); i++)
         {
-            if(item.first == m_context->at(i)->m_shape_to)
+            if(item.second == m_context->at(i))
             {
                 continue;
             }
-
-
-            shape_index shape_index = m_context->at(i)->m_shape_to;
-            base_shape* context_shape = m_memory->get_shape(shape_index);
+ 
+            base_shape* context_shape = m_context->at(i);
             gmap<base_shape*, bool> passed_shapes;
             gint ray_cast_limit = item.second->raycast_size();
             passed = is_this_shape_passed_to(item.second, context_shape, ray_cast_limit, passed_shapes);

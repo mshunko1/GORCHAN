@@ -24,10 +24,8 @@ void shape_iterator::dump_gvector(bg_context* vector)
      (*folog)<<L"CONTEXT:"<<std::endl;
     for(gint i = 0; i < vector->size(); i++)
     {
-        base_shape* sh = m_ls_memory->get_shape(vector->at(i)->m_shape_to);
-        (*folog)<<sh->get_guid()<<L"   index:"<<sh->get_index()<<L"  "<<vector->at(i)->m_type<<std::endl;
+        (*folog)<<vector->at(i)->get_guid()<<L"   index:"<<vector->at(i)->get_index()<<std::endl;
     }
-
 }
 
 void shape_iterator::init()
@@ -72,8 +70,7 @@ shape_iterator_state shape_iterator::build_up()
     (*folog)<<L"build_up look at m_down:";
     dump_gvector(m_down);
     (*folog)<<std::endl;
-    m_up.clear();
-    gint item_to_context_added = 0;
+    m_up.clear(); 
     while(ferch == true)
     {
         for(gint i = 0; i < m_down.size(); i++)
@@ -98,13 +95,7 @@ shape_iterator_state shape_iterator::build_up()
                     continue;
                 }
                 (*folog)<<L"up FROM: "<<shape->get_guid()<<L" WE ADD:    "<<shape_ray->get_guid()<<std::endl;
-                m_up.push_back(shape_ray);
-                if(item_to_context_added < 1 && shape_ray_link->m_type > link_type_temproray)
-                {
-                    m_context->add_link(shape_ray, shape_ray_link->m_type);
-                    item_to_context_added++;
-                    (*folog)<<L"ADD TO CONTEXT FROM UP: "<<shape_ray->get_guid()<<std::endl;
-                }
+                m_up.push_back(shape_ray); 
             }
             else
             { 
@@ -163,7 +154,7 @@ shape_iterator_state shape_iterator::build_down()
     dump_gvector(m_up);
     (*folog)<<std::endl;
     m_down.clear();
-    gint item_to_context_added = 0;
+    
     while(ferch == true)
     {
         for(gint i = 0; i < m_up.size(); i++)
@@ -191,12 +182,6 @@ shape_iterator_state shape_iterator::build_down()
 
                 (*folog)<<L"down FROM: "<<shape->get_guid()<<L" WE ADD:"<<shape_ray->get_guid()<<std::endl;
                 m_down.push_back(shape_ray);
-                if(item_to_context_added < 1 && shape_ray_link->m_type > link_type_temproray)
-                {
-                    m_context->add_link(shape_ray, shape_ray_link->m_type);
-                    item_to_context_added++;
-                    (*folog)<<L"ADD TO CONTEXT IN DOWN: "<<shape_ray->get_guid()<<std::endl;
-                }
             }
             else
             {
@@ -333,6 +318,11 @@ shape_iterator_state shape_iterator::build_rules()
                         rule* smr = new rule();
                         base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter, false, true);
                         base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, true);
+
+                        m_context->add_shape(up_shape);
+
+                        
+                        (*folog)<<L"CONTEXT OPERATION:"<<m_context->try_merge()<<std::endl;
                     }
                 }
             }
@@ -442,6 +432,10 @@ shape_iterator_state shape_iterator::build_rules()
                             rule* smr = new rule();
                             base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter, false, true);
                             base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, true);
+                            
+                            m_context->add_shape(up_shape);
+
+                            (*folog)<<L"CONTEXT OPERATION:"<<m_context->try_merge()<<std::endl;;
                         }
                         else
                         {
@@ -457,6 +451,11 @@ shape_iterator_state shape_iterator::build_rules()
                                 rule* smr = new rule();
                                 base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter, false, true);
                                 base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, true);
+
+                                
+                                m_context->add_shape(up_shape);
+                                
+                                (*folog)<<L"CONTEXT OPERATION:"<<m_context->try_merge()<<std::endl;;
                             }
                         }
                     }

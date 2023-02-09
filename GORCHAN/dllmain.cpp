@@ -11,6 +11,8 @@ int main()
 {
    std::cout<<"Hi to all"<<std::endl;
 
+   try {
+ 
    mind* _mind = nullptr;
    get_mind(&_mind);
    _mind->init();
@@ -26,6 +28,14 @@ int main()
 
 
    std::this_thread::sleep_for(std::chrono::minutes(1000000000000));
+
+   }
+   catch (std::exception& ex) {
+      std::cerr << ex.what() << std::endl;
+   }
+   catch (...) {
+      std::cerr << "Caught unknown exception." << std::endl;
+   }
    return 1;
 }
 
