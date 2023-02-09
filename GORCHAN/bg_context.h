@@ -16,7 +16,7 @@ public:
 	void remove(gint index);
 	base_shape* at(gint index);
 	bool exists(base_shape* shape, gint* index);
-	gstring try_merge();
+	gstring try_merge(volatile bool& merged);
 
 	void serialize(gofstream& stream);
 	void deserialize(gifstream& stream);

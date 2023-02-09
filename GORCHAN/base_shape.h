@@ -9,6 +9,7 @@ class base_shape
 public:
 	friend class ls_memory;
 	base_shape();
+	virtual ~base_shape();
 	virtual void serialize(gofstream& stream);
 	virtual void deserialize(gifstream& stream);
 	virtual gguid get_guid();
@@ -19,6 +20,8 @@ public:
 	bool can_be_raised(bool just_check);
 	void reset_daycaster();
 	gint raycast_size();
+	bool get_just_added();
+	void set_just_added(bool value);
 	static bool link_shapes(base_shape* from, base_shape* to, rule* rule, link_type type, bool rewrite, bool replace);// out-in
 protected:
 	static void serialize_type(base_shape* shape, gofstream& stream);
@@ -34,5 +37,6 @@ private:
 	gint m_ray_count_pass;
 	linker* m_links_out;
 	linker* m_links_in;
+	bool m_just_added;
 };
 

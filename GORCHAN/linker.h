@@ -15,6 +15,7 @@ public:
 	void remove(gint index);
 	link* at(gint index);
 	base_shape* get_owner();
+	bool has_link_type(link_type link);
 protected:
 	gint calc_warrings();
 	gint get_warring_weight(link_type link);

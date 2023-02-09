@@ -16,6 +16,17 @@ void bg_context::add_shape(base_shape* shape)
     {
         return;
     }
+
+
+    for (gint i = 0; i < m_context.size(); i++)
+    {
+        if (m_context[i]->get_guid() == shape->get_guid())
+        {
+          //  throw new gexception("");
+        }
+    }
+
+
     auto exists = std::find(m_context.begin(), m_context.end(), shape);
     if(exists == m_context.end())
     {
@@ -23,7 +34,7 @@ void bg_context::add_shape(base_shape* shape)
     }
 }
 
-gstring bg_context::try_merge()
+gstring bg_context::try_merge(volatile bool& merged)
 {
     gmap<shape_type, gint> merge_map;
     for(gint i = 0; i < size(); i++)
@@ -60,8 +71,8 @@ gstring bg_context::try_merge()
 
             if(merged_shapes.size() == 2)
             {
-
-                auto retu = L"MERGED SHAPES ["+merged_shapes[0]->get_guid()+L"] : [" +merged_shapes[1]->get_guid()+L"]\r\n";
+                merged = true;
+                auto retu = L"MERGED SHAPES ******************************************************["+merged_shapes[0]->get_guid()+L"] : [" +merged_shapes[1]->get_guid()+L"]\r\n";
                 auto erase1 = std::find(m_context.begin(), m_context.end(), merged_shapes[0]);
                 m_context.erase(erase1);
 

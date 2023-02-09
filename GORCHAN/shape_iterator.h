@@ -38,8 +38,8 @@ private:
 
 
 
+    volatile bool context_was_merged = false;
     void dump_gvector(gvector<base_shape*> &vector);
     void dump_gvector(bg_context* vector);
-    gofstream* folog;
 };
 

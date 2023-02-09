@@ -46,31 +46,34 @@ void GORCHAN::deinit()
 
 void GORCHAN::percive(std::string signal, bool debug)
 {
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+    std::wstring wide = converter.from_bytes(signal);
+    gvector<base_shape*> shape_signal;
+
+    whois = m_memory->get_shape(L"mshunko");
     if (whois == nullptr)
     {
         whois = new whois_shape(L"mshunko");
         m_memory->add_shape(whois);
     }
+    howis = m_memory->get_shape(L"normal");
     if (howis == nullptr)
     {
         howis = new howis_shape(L"normal");
         m_memory->add_shape(howis);
     }
-
+    whois_gorchan = m_memory->get_shape(L"gorchan");
     if (whois_gorchan == nullptr)
     {
         whois_gorchan = new whois_shape(L"gorchan");
         m_memory->add_shape(whois_gorchan);
     }
+    howis_mindprocess = m_memory->get_shape(L"mindprocess");
     if (howis_mindprocess == nullptr)
     {
         howis_mindprocess = new howis_shape(L"mindprocess");
         m_memory->add_shape(howis_mindprocess);
     }
-
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-    std::wstring wide = converter.from_bytes(signal);
-    gvector<base_shape*> shape_signal;
 
     if (debug == false)
     {
@@ -86,6 +89,7 @@ void GORCHAN::percive(std::string signal, bool debug)
             }
             shape_signal.push_back(exist_shape);
         }
+
 
         shape_signal.insert(shape_signal.begin(), howis);
         shape_signal.insert(shape_signal.begin(), whois);
@@ -134,6 +138,7 @@ void GORCHAN::react_proc()
             gvector<base_shape*> signals = m_input_q.front();
             m_input_q.pop();
             m_memory->reset_raycast();
+            //m_memory->reset_just_added();
             m_shape_iterator->set_initial_shapes(signals);
             m_mind_status = mind_status_in_proc;
         }
@@ -155,7 +160,6 @@ void GORCHAN::mind_proc()
         shape_iterator_state status = m_shape_iterator->build_down();
         if(status == shape_iterator_state_synced)
         {
-            m_memory->reset_raycast();
             m_mind_preservation_service->mind_preserve_operation();
             m_mind_status = mind_status_ready_to_new_signal;
             continue;
@@ -164,7 +168,6 @@ void GORCHAN::mind_proc()
         status = m_shape_iterator->build_up();
         if(status == shape_iterator_state_synced)
         {
-            m_memory->reset_raycast();
             m_mind_preservation_service->mind_preserve_operation();
             m_mind_status = mind_status_ready_to_new_signal;
             continue;
@@ -173,7 +176,6 @@ void GORCHAN::mind_proc()
         status = m_shape_iterator->build_rules();
         if(status == shape_iterator_state_synced)
         {
-            m_memory->reset_raycast();
             m_mind_preservation_service->mind_preserve_operation();
             m_mind_status = mind_status_ready_to_new_signal;
             continue;

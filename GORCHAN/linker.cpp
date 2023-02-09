@@ -167,6 +167,19 @@ bool linker::exists(base_shape* shape, gint* index = nullptr)
     return false;
 }
 
+
+bool linker::has_link_type(link_type link)
+{
+    for (gint i = m_start_pos; i < m_back_pos; i++)
+    {
+        if (m_links[i]->m_type == link)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 void linker::remove(gint index)
 {
     gint start_pos = m_start_pos + index;

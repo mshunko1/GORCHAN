@@ -15,7 +15,6 @@ public:
 
 protected:
     bool is_this_shape_passed_to(base_shape* shape, base_shape* to, gint& raycast, gmap<base_shape*, bool>& passed_shapes);
-
 private:
     ls_memory* m_memory;
     bg_context* m_context;

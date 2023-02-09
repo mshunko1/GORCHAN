@@ -7,24 +7,24 @@ shape_iterator::shape_iterator(ls_memory* memory, bg_context* context)
 m_context(context),
 m_ls_memory(memory)
 {
-    folog = new gofstream("Mind/log.txt", std::ios::trunc);
+   
 }
 
 void shape_iterator::dump_gvector(gvector<base_shape*> &vector)
 {
     for(base_shape* shape:vector)
     {
-        (*folog) << shape->get_guid() << L" ; ";
+        std::wcout << shape->get_guid() << L" ; ";
     }
 
 }
 
 void shape_iterator::dump_gvector(bg_context* vector)
 {
-     (*folog)<<L"CONTEXT:"<<std::endl;
+     std::wcout<<L"CONTEXT:"<<std::endl;
     for(gint i = 0; i < vector->size(); i++)
     {
-        (*folog)<<vector->at(i)->get_guid()<<L"   index:"<<vector->at(i)->get_index()<<std::endl;
+        std::wcout<<vector->at(i)->get_guid()<<L"   index:"<<vector->at(i)->get_index()<<std::endl;
     }
 }
 
@@ -49,29 +49,31 @@ void shape_iterator::set_initial_shapes(gvector<base_shape*> input)
     m_down.clear();
     m_up.clear();
  
-    base_shape::link_shapes(input[0], input[1], new rule() , link_type_temproray, false, true);
+    base_shape::link_shapes(input[0], input[1], new rule() , link_type_temproray, false, false);
     for(gint i = 1; i < input.size() - 1; i++)
     {
-        base_shape::link_shapes(input[i], input[i + 1], new rule() ,link_type_temproray, false, true);
+        base_shape::link_shapes(input[i], input[i + 1], new rule() ,link_type_temproray, false, false);
     }
     m_ls_memory->reset_raycast();
     m_up = input;
 
     m_state = shape_iterator_state_init;
+    context_was_merged = false;
+    std::wcout << L"init_was:---------------------------------------------------------------------------------------------------------";
+    dump_gvector(m_input);
+    std::wcout << std::endl;
 }
 
 shape_iterator_state shape_iterator::build_up()
 {
-    (*folog) << L"init_was:";
-    dump_gvector(m_input);
-    (*folog) << std::endl;
+
 
     m_state = shape_iterator_state_in_up; 
     gmap<linker*, gint> fercher;
     bool ferch = true;
-    (*folog)<<L"build_up look at m_down:";
+    std::wcout<<L"build_up look at m_down:----------------------";
     dump_gvector(m_down);
-    (*folog)<<std::endl;
+    std::wcout<<std::endl;
     m_up.clear(); 
     while(ferch == true)
     {
@@ -86,22 +88,22 @@ shape_iterator_state shape_iterator::build_up()
             }
             link* shape_ray_link = outs->at(index);
             shape_index shape_ray_index = outs->at(index)->m_shape_to;
-            base_shape* shape_ray = m_ls_memory->get_index_to_shape_map()->find(shape_ray_index)->second;
+            base_shape* shape_ray = m_ls_memory->get_shape(shape_ray_index);
             fercher[outs]++;
             auto exist_shape = std::find(m_up.begin(), m_up.end(), shape_ray);
             if(exist_shape == m_up.end())
             {
                 if(shape->can_be_raised(false) == false)
                 {
-                    (*folog)<<L"CAN NOT ADD IN up FROM CONDITION 2: "<<shape->get_guid()<<L" SHAPE:"<<shape_ray->get_guid()<<L" BECAUSE OF RAYCAST?:"<<shape->can_be_raised(true)<<std::endl;
+                    std::wcout<<L"CAN NOT ADD IN up FROM CONDITION 2: "<<shape->get_guid()<<L" SHAPE:"<<shape_ray->get_guid()<<L" BECAUSE OF RAYCAST?:"<<shape->can_be_raised(true)<<std::endl;
                     continue;
                 }
-                (*folog)<<L"up FROM: "<<shape->get_guid()<<L" WE ADD:    "<<shape_ray->get_guid()<<std::endl;
+                std::wcout<<L"up FROM: "<<shape->get_guid()<<L" WE ADD:    "<<shape_ray->get_guid()<<std::endl;
                 m_up.push_back(shape_ray); 
             }
             else
             { 
-                (*folog)<<L"CAN NOT ADD IN up FROM: "<<shape->get_guid()<<L" SHAPE:"<<shape_ray->get_guid()<<L" BECAUSE OF RAYCAST?:"<<shape->can_be_raised(true)<<std::endl;
+                std::wcout<<L"CAN NOT ADD IN up FROM: "<<shape->get_guid()<<L" SHAPE:"<<shape_ray->get_guid()<<L" BECAUSE OF RAYCAST?:"<<shape->can_be_raised(true)<<std::endl;
             }
 
         }
@@ -135,9 +137,9 @@ shape_iterator_state shape_iterator::build_up()
         }
     }
 
-    (*folog)<<L"ups:";
+    std::wcout<<L"ups:";
     dump_gvector(m_up);
-    (*folog)<<std::endl;
+    std::wcout<<std::endl;
 
 
     if(eq == false)
@@ -156,9 +158,9 @@ shape_iterator_state shape_iterator::build_down()
     m_state = shape_iterator_state_in_down;
     gmap<linker*, gint> fercher;
     bool ferch = true;
-    (*folog)<<L"build_down look at m_up:";
+    std::wcout<<L"build_down look at m_up:------------------";
     dump_gvector(m_up);
-    (*folog)<<std::endl;
+    std::wcout<<std::endl;
     m_down.clear();
     
     while(ferch == true)
@@ -174,7 +176,7 @@ shape_iterator_state shape_iterator::build_down()
             }
             link* shape_ray_link = outs->at(index);
             shape_index shape_ray_index = outs->at(index)->m_shape_to;
-            base_shape* shape_ray = m_ls_memory->get_index_to_shape_map()->find(shape_ray_index)->second;
+            base_shape* shape_ray = m_ls_memory->get_shape(shape_ray_index);
 
             fercher[outs]++;
             auto exist_shape = std::find(m_down.begin(), m_down.end(), shape_ray);
@@ -182,16 +184,16 @@ shape_iterator_state shape_iterator::build_down()
             {
                 if(shape->can_be_raised(false) == false)
                 {
-                    (*folog)<<L"CAN NOT ADD IN downd FROM CONDITION 2: "<<shape->get_guid()<<L" SHAPE:"<<shape_ray->get_guid()<<L" BECAUSE OF RAYCAST?:"<<shape->can_be_raised(true)<<std::endl;
+                    std::wcout<<L"CAN NOT ADD IN downd FROM CONDITION 2: "<<shape->get_guid()<<L" SHAPE:"<<shape_ray->get_guid()<<L" BECAUSE OF RAYCAST?:"<<shape->can_be_raised(true)<<std::endl;
                     continue;
                 }
 
-                (*folog)<<L"down FROM: "<<shape->get_guid()<<L" WE ADD:"<<shape_ray->get_guid()<<std::endl;
+                std::wcout<<L"down FROM: "<<shape->get_guid()<<L" WE ADD:"<<shape_ray->get_guid()<<std::endl;
                 m_down.push_back(shape_ray);
             }
             else
             {
-                (*folog)<<L"CAN NOT ADD IN up FROM: "<<shape->get_guid()<<L" SHAPE:"<<shape_ray->get_guid()<<L" BECAUSE OF RAYCAST?:"<<shape->can_be_raised(true)<<std::endl;
+                std::wcout<<L"CAN NOT ADD IN up FROM: "<<shape->get_guid()<<L" SHAPE:"<<shape_ray->get_guid()<<L" BECAUSE OF RAYCAST?:"<<shape->can_be_raised(true)<<std::endl;
             }
         }
         gint ferch_reach_end = 0;
@@ -224,9 +226,9 @@ shape_iterator_state shape_iterator::build_down()
         }
     }
 
-    (*folog)<<L"downs:";
+    std::wcout<<L"downs:";
     dump_gvector(m_down);
-    (*folog)<<std::endl;
+    std::wcout<<std::endl;
 
     if(eq == false)
     {
@@ -241,15 +243,14 @@ shape_iterator_state shape_iterator::build_down()
 
 shape_iterator_state shape_iterator::build_rules()
 {
-    (*folog)<<std::endl;
-    (*folog)<<std::endl;
-
-
-    gvector<base_shape*> shape_was_already_added_to_context;
+    std::wcout<<std::endl;
+    std::wcout<<L" ------- BUILD RULES -------------"<<std::endl;
+     
 
     m_state = shape_iterator_state_in_build_rules;
     gint init_count = 0;
     gint fr_count = 0;
+    gint tr_count = 0;
     for(base_shape* in_shape:m_input)
     {
         for(base_shape* up_shape:m_up)
@@ -260,6 +261,10 @@ shape_iterator_state shape_iterator::build_rules()
             if(exists == true)
             {
                 link* link = up_ins->at(index);
+                if (link->m_type == link_type_temproray)
+                {
+                    tr_count++;
+                }
                 if(link->m_type == link_type_init)
                 {
                     init_count++;
@@ -272,6 +277,25 @@ shape_iterator_state shape_iterator::build_rules()
         }
     }
     // build find_rule, at first check fr_rules
+   /* if (tr_count > 0)
+    {
+        for (base_shape* in_shape : m_input)
+        {
+            for (base_shape* up_shape : m_up)
+            {
+                linker* up_ins = up_shape->get_ins();
+                gint index = -1;
+                if (up_ins->exists(in_shape, &index) == true)
+                {
+                    link* link = up_ins->at(index);
+                    if (link->m_type == link_type_temproray)
+                    {
+                        base_shape::link_shapes(in_shape, up_shape, new rule(), link_type_init, false, true);
+                    }
+                }
+            }
+        }
+    }*/
 
     //1 если нет FR создать все IR
     if(fr_count == 0 && init_count == 0)
@@ -326,26 +350,26 @@ shape_iterator_state shape_iterator::build_rules()
                     {
                         rule* r = new rule();
                         r->m_path = path;
-                        base_shape* soul_matter_shape = m_ls_memory->get_index_to_shape_map()->find(soul_matter_shape_index)->second;
+                        base_shape* soul_matter_shape = m_ls_memory->get_shape(soul_matter_shape_index);
                         base_shape::link_shapes(in_shape, up_shape, r, link_type_friendly, false, true);
                         rule* smr = new rule();
                         base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter, false, true);
                         base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, true);
+ 
 
-                        auto exists = std::find(shape_was_already_added_to_context.begin(), shape_was_already_added_to_context.end(), up_shape);
 
-                        if (exists == shape_was_already_added_to_context.end())
-                        {
-                            shape_was_already_added_to_context.push_back(up_shape);
-                            (*folog) << L"CONTEXT ADD TO CONTEXT:" << up_shape->get_guid() << std::endl;
+                        std::wcout << L"CONTEXT ADD TO CONTEXT:" << up_shape->get_guid() << std::endl;
 
-                            m_context->add_shape(up_shape);
+                        m_context->add_shape(up_shape);
 
-                            (*folog) << L"CONTEXT:";
-                            dump_gvector(m_context);
-                            (*folog) << std::endl;
+                        std::wcout << L"CONTEXT:";
+                        dump_gvector(m_context);
+                        std::wcout << std::endl;
 
-                            (*folog) << L"CONTEXT OPERATION:" << m_context->try_merge() << std::endl;
+                        if ( context_was_merged == false)
+                        { 
+
+                            std::wcout << L"CONTEXT OPERATION:" << m_context->try_merge(context_was_merged) << std::endl;
                         }
                     }
                 }
@@ -406,17 +430,16 @@ shape_iterator_state shape_iterator::build_rules()
                                 rules_for_processed.pop();
                                 //try to pass rule
                                 base_shape* passirov_shape = up_shape;
-                                auto shape_index_to_shape = m_ls_memory->get_index_to_shape_map();
                                 gint passed_way_step_count = 0;
                                 for(shape_index sh_index:rule_for_pass->m_path)
                                 {
-                                    auto find_shape_value = shape_index_to_shape->find(sh_index);
-                                    if(find_shape_value == shape_index_to_shape->end())
+                                    auto find_shape_value = m_ls_memory->get_shape(sh_index);
+                                    if(find_shape_value == nullptr)
                                     {
                                         //break pass rule
                                         break;
                                     }
-                                    base_shape* find_shape_shape = find_shape_value->second;
+                                    base_shape* find_shape_shape = find_shape_value;
                                     //пробуем выяснить, имеют ли образы хотя бы одну связь, т.е исходящую или входящую
                                     //проверяем исходящую
                                     linker* out_links = passirov_shape->get_outs();
@@ -451,26 +474,26 @@ shape_iterator_state shape_iterator::build_rules()
                             // клонируем правило и увеличиваем его вес и добавляем во все fr связи текущего образа
                             find_passed_rule->up_weight();
                             rule* clone_find_passed_rule = find_passed_rule->clone();
-                            base_shape* soul_matter_shape = m_ls_memory->get_index_to_shape_map()->find(soul_matter_shape_index)->second;
+                            base_shape* soul_matter_shape = m_ls_memory->get_shape(soul_matter_shape_index);
                             base_shape::link_shapes(in_shape, up_shape, clone_find_passed_rule, link_type_aquare_by_rule, false, true);
                             rule* smr = new rule();
                             base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter, false, true);
                             base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, true);
 
-                            auto exists = std::find(shape_was_already_added_to_context.begin(), shape_was_already_added_to_context.end(), up_shape);
 
-                            if (exists == shape_was_already_added_to_context.end())
-                            {
-                                shape_was_already_added_to_context.push_back(up_shape);
-                                (*folog) << L"CONTEXT ADD TO CONTEXT:" << up_shape->get_guid() << std::endl;
+                            std::wcout << L"CONTEXT ADD TO CONTEXT:" << up_shape->get_guid() << std::endl;
 
-                                m_context->add_shape(up_shape);
+                            m_context->add_shape(up_shape);
 
-                                (*folog) << L"CONTEXT:";
-                                dump_gvector(m_context);
-                                (*folog) << std::endl;
+                            std::wcout << L"CONTEXT:";
+                            dump_gvector(m_context);
+                            std::wcout << std::endl;
 
-                                (*folog) << L"CONTEXT OPERATION:" << m_context->try_merge() << std::endl;
+                            if (context_was_merged == false)
+                            { 
+
+
+                                std::wcout << L"CONTEXT OPERATION:" << m_context->try_merge(context_was_merged) << std::endl;
                             }
 
                         }
@@ -483,27 +506,24 @@ shape_iterator_state shape_iterator::build_rules()
                             {
                                 rule* r = new rule();
                                 r->m_path = path;
-                                base_shape* soul_matter_shape = m_ls_memory->get_index_to_shape_map()->find(soul_matter_shape_index)->second;
+                                base_shape* soul_matter_shape = m_ls_memory->get_shape(soul_matter_shape_index);
                                 base_shape::link_shapes(in_shape, up_shape, r, link_type_friendly, false, true);
                                 rule* smr = new rule();
                                 base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter, false, true);
                                 base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, true);
 
+                                std::wcout << L"CONTEXT ADD TO CONTEXT:" << up_shape->get_guid() << std::endl;
 
-                                auto exists = std::find(shape_was_already_added_to_context.begin(), shape_was_already_added_to_context.end(), up_shape);
+                                m_context->add_shape(up_shape);
 
-                                if (exists == shape_was_already_added_to_context.end())
-                                {
-                                    shape_was_already_added_to_context.push_back(up_shape);
-                                    (*folog) << L"CONTEXT ADD TO CONTEXT:" << up_shape->get_guid() << std::endl;
+                                std::wcout << L"CONTEXT:";
+                                dump_gvector(m_context);
+                                std::wcout << std::endl;
+                                if ( context_was_merged == false)
+                                { 
+                                
 
-                                    m_context->add_shape(up_shape);
-
-                                    (*folog) << L"CONTEXT:";
-                                    dump_gvector(m_context);
-                                    (*folog) << std::endl;
-
-                                    (*folog) << L"CONTEXT OPERATION:" << m_context->try_merge() << std::endl;
+                                    std::wcout << L"CONTEXT OPERATION:" << m_context->try_merge(context_was_merged) << std::endl;
                                 }
                                
                             }
@@ -513,11 +533,10 @@ shape_iterator_state shape_iterator::build_rules()
             }
         }
     }
-    folog->flush();
 
-    (*folog)<<L"CONTEXT:";
+    std::wcout<<L"CONTEXT:";
     dump_gvector(m_context);
-    (*folog)<<std::endl;
+    std::wcout<<std::endl;
 
     return shape_iterator_state_in_build_rules;
 }

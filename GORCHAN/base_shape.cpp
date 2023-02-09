@@ -6,10 +6,28 @@ base_shape::base_shape()
 :m_links_out(new linker(this)),
 m_links_in(new linker(this)),
 m_ray_count_initial(0),
-m_ray_count_pass(0)
+m_ray_count_pass(0),
+m_just_added(true)
 {
 
 }
+
+base_shape::~base_shape()
+{
+	delete m_links_out;
+	delete m_links_in;
+}
+
+bool base_shape::get_just_added()
+{
+	return m_just_added;
+}
+
+void base_shape::set_just_added(bool value)
+{
+	m_just_added = value;
+}
+
 bool base_shape::can_be_raised(bool just_check)
 {
 	std::wcout << get_guid();

@@ -12,6 +12,10 @@ ls_memory::ls_memory()
 
 void ls_memory::add_shape(base_shape* shape)
 {
+    if (get_shape(shape->get_guid()) != nullptr)
+    {
+        throw new gexception("");
+    }
     shape_index index = m_shape_indexator->get_next_shape_index();
     shape->set_index(index);
     m_gguid_to_shape[shape->get_guid()] = shape;
@@ -64,20 +68,38 @@ void ls_memory::load()
 }
 
 
-gmap<shape_index, base_shape*>* ls_memory::get_index_to_shape_map()
-{
-    return &m_index_to_shape;
-}
-
-
 base_shape* ls_memory::get_shape(shape_index index)
 {
-    return m_index_to_shape[index];
+    auto shape = m_index_to_shape.find(index);
+    if (shape != m_index_to_shape.end())
+    {
+        return shape->second;
+    }
+    else
+    {
+        return nullptr;
+    }
 }
 
 base_shape* ls_memory::get_shape(gguid guid)
 {
-    return m_gguid_to_shape[guid];
+    auto shape = m_gguid_to_shape.find(guid);
+    if (shape != m_gguid_to_shape.end())
+    {
+        return shape->second;
+    }
+    else
+    {
+        return nullptr;
+    }
+}
+
+void ls_memory::reset_just_added()
+{
+    for (auto item : m_index_to_shape)
+    {
+        item.second->set_just_added(false);
+    }
 }
 
 
@@ -89,7 +111,12 @@ gint ls_memory::remove_shape(base_shape* shape)
     {
         link* link = ins->at(i);
         shape_index shape_index_for_remove_out = link->m_shape_to;
-        base_shape* shape_for_remove_out = m_index_to_shape[shape_index_for_remove_out];
+        base_shape* shape_for_remove_out = get_shape(shape_index_for_remove_out);
+        if (shape_for_remove_out == nullptr)
+        {
+            continue;
+        }
+        
         linker* linker_for_remove_out = shape_for_remove_out->get_outs();
         gint index = -1;
         if(linker_for_remove_out->exists(shape, &index) == true)
@@ -97,6 +124,7 @@ gint ls_memory::remove_shape(base_shape* shape)
             linker_for_remove_out->remove(index);
             removed_links_count++;
         }
+
     }
 
     linker* outs = shape->get_outs();
@@ -104,7 +132,11 @@ gint ls_memory::remove_shape(base_shape* shape)
     {
         link* link = outs->at(i);
         shape_index shape_index_for_remove_in = link->m_shape_to;
-        base_shape* shape_for_remove_in = m_index_to_shape[shape_index_for_remove_in];
+        base_shape* shape_for_remove_in = get_shape(shape_index_for_remove_in);
+        if (shape_for_remove_in == nullptr)
+        {
+            continue;
+        }
         linker* linker_for_remove_in = shape_for_remove_in->get_ins();
         gint index = -1;
         if(linker_for_remove_in->exists(shape, &index) == true)
@@ -112,7 +144,19 @@ gint ls_memory::remove_shape(base_shape* shape)
             linker_for_remove_in->remove(index);
             removed_links_count++;
         }
+
     }
+
+    gfs_path file_name = shape->get_filename();
+    shape_type shape_type = shape->get_type();
+    gfs_path path_to_shape_file = m_base_path / gto_gstring(shape_type);
+    path_to_shape_file /= file_name;
+    gfs::remove(path_to_shape_file);
+
+    m_gguid_to_shape.erase(shape->get_guid());
+    m_index_to_shape.erase(shape->get_index());
+
+    delete shape;
 
     return removed_links_count;
 }

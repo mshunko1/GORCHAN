@@ -17,9 +17,14 @@ mind_preservation_service::~mind_preservation_service()
 /// содержимого отвязать их от всех но оставить в памяти
 void mind_preservation_service::mind_preserve_operation()
 {
-    auto shapes = m_memory->get_index_to_shape_map();
+    if (m_context->size() == 0)
+    {
+        std::cout << "Mind preserve operation skiped, context size = 0;";
+        return;
+    }
 
-    for(auto item:*shapes)
+    gvector<base_shape*> shapes_to_remove;
+    for(auto item:m_memory->m_index_to_shape)
     {
         linker* outs_mem_shape = item.second->get_outs();
         linker* ins_mem_shape = item.second->get_ins();
@@ -27,13 +32,17 @@ void mind_preservation_service::mind_preserve_operation()
         {
             continue;
         }
-        if(soul_matter_shape::get_instance() == item.second || eos_shape::get_instance() == item.second)
+        if(soul_matter_shape::get_instance() == item.second || eos_shape::get_instance() == item.second )
         {
             continue;
         }
 
-
-
+       
+        if (item.second->get_just_added() == true)
+        {
+            continue;
+        }
+        
         bool passed = false;
         for(gint i = 0; i < m_context->size(); i++)
         {
@@ -51,11 +60,18 @@ void mind_preservation_service::mind_preserve_operation()
                 break;
             }
         }
-        if(passed == false)
+        if(passed == true)
         {
-            gint removed_links_count = m_memory->remove_shape(item.second);
-            std::cout<<"Removed links:"<<removed_links_count<<std::endl;
+            shapes_to_remove.push_back(item.second);
         }
+    }
+
+    for (base_shape* shape : shapes_to_remove)
+    {
+        gint removed_links_count = m_memory->remove_shape(shape);
+        std::cout << "Remove shape:  [";
+        std::wcout << shape->get_guid();
+        std::cout<< "]   Removed links:"<<"   INDEX:"<<shape->get_index()<<"    " << removed_links_count << std::endl;
     }
 }
 

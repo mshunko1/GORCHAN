@@ -163,15 +163,12 @@ int main()
    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
    _mind->percive("b = b", false);
    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-   _mind->percive("bc", true);
+   _mind->percive("ab", true);
    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
    _mind->percive("c = c", false);
    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-  
-   std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-   _mind->percive("=a", true);
- //  std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-  // _mind->percive("=a", true);
+   //  std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+   // _mind->percive("=a", true);
    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
    _mind->percive("a = b", false);
    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
