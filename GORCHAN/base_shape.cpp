@@ -6,42 +6,33 @@ base_shape::base_shape()
 :m_links_out(new linker(this)),
 m_links_in(new linker(this)),
 m_ray_count_initial(0),
-m_ray_count_additional(0),
 m_ray_count_pass(0)
 {
 
 }
 bool base_shape::can_be_raised(bool just_check)
 {
+	std::wcout << get_guid();
+	std::cout << "RAYCAST:" << raycast_size()<<std::endl;
 	if(just_check == true)
 	{
-		return (m_ray_count_initial + m_ray_count_additional) > 0;
+		return m_ray_count_initial > 0;
 	}
 	else
 	{
-		bool encount = false;
-		if(m_ray_count_initial > 0)
-		{
-			m_ray_count_initial--;
-			encount = true;
-		}
-		if(m_ray_count_additional > 0 && encount == false)
-		{
-			m_ray_count_additional--;
-			encount = true;
-		}
-		return (m_ray_count_initial + m_ray_count_additional) > 0 || (encount == true && (m_ray_count_initial + m_ray_count_additional) == 0);
+		m_ray_count_initial--;
+
+		return (m_ray_count_initial >= 0);
 	}
 }
 
 gint base_shape::raycast_size()
 {
-	return (m_ray_count_initial + m_ray_count_additional);
+	return (m_ray_count_initial);
 }
 
 void base_shape::reset_daycaster()
 {
-	m_ray_count_additional = 0;
 	m_ray_count_initial = m_links_in->size() + m_links_out->size();
 }
 
@@ -70,39 +61,21 @@ shape_type base_shape::deserialize_type(gifstream& stream, bool reset_file_pos =
 	}
 	return (shape_type)type;
 }
-gint ssss = 0;
+
 bool base_shape::link_shapes(base_shape* from, base_shape* to, rule* rule, link_type type, bool rewrite = false, bool replace = false)
-{
-	ssss++;
+{ 
 	if(rewrite == true || (rewrite == true && replace == true))
 	{
 		throw new gexception("not impemented");		
 	}
-	if(ssss == 71 || ssss == 29)
-	{
-		int a = 21;
-		bool ss = true;
-		//while(ss)
-		{
-			std::cout<<L"MAZAFAKA"<<std::endl;
-		}
-	}
+ 
 	gint index = -1;
 	gint ok = 0;
 	const gint okcount = 2;
-	if(from->get_index() == eos_shape_index && to->get_index() == soul_matter_shape_index)
-	{
-		int a = 21;
-		bool ss = true;
-		//while(ss)
-		{
-			std::cout<<L"MAZAFAKA"<<std::endl;
-		}
-	}
+ 
 	if(from->m_links_out->exists(to, &index) == false)
 	{
 		from->m_links_out->add_link(to, rule, type);
-		from->m_ray_count_additional++;
 		ok++;
 	}
 	else
@@ -111,7 +84,7 @@ bool base_shape::link_shapes(base_shape* from, base_shape* to, rule* rule, link_
 		{ 
 			from->m_links_out->remove(index);
 			from->m_links_out->add_link(to, rule, type);
-			from->m_ray_count_additional++;
+			//from->m_ray_count_additional++;
 			ok++;
 		}
 	}
@@ -119,7 +92,6 @@ bool base_shape::link_shapes(base_shape* from, base_shape* to, rule* rule, link_
 	if(to->m_links_in->exists(from, &index) == false)
 	{
 		to->m_links_in->add_link(from, rule, type);
-		to->m_ray_count_additional++;
 		ok++;
 		return ok == okcount;
 	}
@@ -129,7 +101,7 @@ bool base_shape::link_shapes(base_shape* from, base_shape* to, rule* rule, link_
 		{ 
 			to->m_links_in->remove(index);
 			to->m_links_in->add_link(from, rule, type);
-			to->m_ray_count_additional++;
+			//to->m_ray_count_additional++;
 			ok++;
 			return ok == okcount;
 		}

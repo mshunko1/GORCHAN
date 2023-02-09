@@ -31,7 +31,6 @@ protected:
 	gguid m_guid;
 private:
 	gint m_ray_count_initial;
-	gint m_ray_count_additional;
 	gint m_ray_count_pass;
 	linker* m_links_out;
 	linker* m_links_in;

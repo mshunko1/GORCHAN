@@ -54,7 +54,7 @@ void shape_iterator::set_initial_shapes(gvector<base_shape*> input)
     {
         base_shape::link_shapes(input[i], input[i + 1], new rule() ,link_type_temproray, false, true);
     }
-  
+    m_ls_memory->reset_raycast();
     m_up = input;
 
     m_state = shape_iterator_state_init;
@@ -331,8 +331,12 @@ shape_iterator_state shape_iterator::build_rules()
 
                         m_context->add_shape(up_shape);
 
+                        (*folog) << L"CONTEXT:";
+                        dump_gvector(m_context);
+                        (*folog) << std::endl;
                         
                         (*folog)<<L"CONTEXT OPERATION:"<<m_context->try_merge()<<std::endl;
+              
                     }
                 }
             }
@@ -445,7 +449,13 @@ shape_iterator_state shape_iterator::build_rules()
                             
                             m_context->add_shape(up_shape);
 
+                            (*folog) << L"CONTEXT:";
+                            dump_gvector(m_context);
+                            (*folog) << std::endl;
+
+
                             (*folog)<<L"CONTEXT OPERATION:"<<m_context->try_merge()<<std::endl;;
+
                         }
                         else
                         {
@@ -465,7 +475,12 @@ shape_iterator_state shape_iterator::build_rules()
                                 
                                 m_context->add_shape(up_shape);
                                 
+                                (*folog) << L"CONTEXT:";
+                                dump_gvector(m_context);
+                                (*folog) << std::endl;
+
                                 (*folog)<<L"CONTEXT OPERATION:"<<m_context->try_merge()<<std::endl;;
+                               
                             }
                         }
                     }

@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "linker.h"
 
 linker::linker(base_shape* owner)
@@ -71,14 +71,15 @@ void linker::add_link(link* add_link)
         m_links[m_back_pos++] = add_link;
         return;
     }
-    
+    // Задача переработать как можно больше информации
+    // так как контекст merge в момент build fr то это значит что важны IR і не важны все остальные
     if(add_link->m_type <= link_type_temproray)
     {
         action_expand = true;
     }
     else if(start->m_type <= link_type_init && add_link->m_type <= link_type_init)
     {
-        action_circle = true;
+        action_expand = true;
     }
     else if(start->m_type <= link_type_init && add_link->m_type >= link_type_friendly)
     {
@@ -86,7 +87,7 @@ void linker::add_link(link* add_link)
     }
     else if(start->m_type >= link_type_friendly && add_link->m_type <= link_type_init)
     {
-        action_expand = true;
+        action_circle = true;
     }
     else if(start->m_type >= link_type_friendly && add_link->m_type >= link_type_friendly)
     {
@@ -121,11 +122,14 @@ void linker::add_link(link* add_link)
     {
         m_links[m_back_pos++] = add_link;
     }
-    if(action_circle == true && action_expand == true)
+    if (action_narrow == true)
     {
-        throw new gexception("pizdec");
+        link* link = m_links[m_start_pos];
+        m_start_pos++;
+        delete link;
+        m_links[m_back_pos++] = add_link;
     }
-
+ 
 }
 
 link* linker::at(gint index)

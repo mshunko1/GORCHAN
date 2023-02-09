@@ -170,7 +170,7 @@ int main()
    _mind->percive("b = c");
 
 
-   std::this_thread::sleep_for(std::chrono::minutes(1000));
+   std::this_thread::sleep_for(std::chrono::minutes(1));
 
 
    return 111;
