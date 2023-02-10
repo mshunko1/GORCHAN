@@ -7,7 +7,7 @@ base_shape::base_shape()
 m_links_in(new linker(this)),
 m_ray_count_initial(0),
 m_ray_count_pass(0),
-m_just_added(true)
+m_just_added(false)
 {
 
 }

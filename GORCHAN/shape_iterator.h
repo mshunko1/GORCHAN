@@ -29,9 +29,7 @@ protected:
 private:
     gvector<base_shape*> m_input;
     gvector<base_shape*> m_down;
-    gvector<gvector<base_shape*>> m_downs;
     gvector<base_shape*> m_up;
-    gvector<gvector<base_shape*>> m_ups;
     volatile shape_iterator_state m_state;
     ls_memory* m_ls_memory;
     bg_context* m_context;

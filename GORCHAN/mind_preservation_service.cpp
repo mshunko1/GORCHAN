@@ -17,49 +17,38 @@ mind_preservation_service::~mind_preservation_service()
 /// содержимого отвязать их от всех но оставить в памяти
 void mind_preservation_service::mind_preserve_operation()
 {
-    if (m_context->size() == 0)
+    base_shape* sm_shape = soul_matter_shape::get_instance();
+    linker* outs_mem_shape = sm_shape->get_outs();
+    linker* ins_mem_shape = sm_shape->get_ins();
+    if (outs_mem_shape->size() == 0 && ins_mem_shape->size() == 0)
     {
-        std::cout << "Mind preserve operation skiped, context size = 0;";
+        std::cout << "Mind preserve operation skiped, BECAUSE SM EMPTY"<<std::endl;
         return;
     }
-
+ 
     gvector<base_shape*> shapes_to_remove;
     for(auto item:m_memory->m_index_to_shape)
     {
-        linker* outs_mem_shape = item.second->get_outs();
-        linker* ins_mem_shape = item.second->get_ins();
-        if(outs_mem_shape->size() == 0 && ins_mem_shape->size() == 0)
+
+        if(soul_matter_shape::get_instance() == item.second    || eos_shape::get_instance() == item.second   )
         {
+            std::cout << "Mind preserve operation skiped,  BECAUSE IT SM;" << std::endl;
             continue;
         }
-        if(soul_matter_shape::get_instance() == item.second || eos_shape::get_instance() == item.second )
-        {
-            continue;
-        }
+
 
        
         if (item.second->get_just_added() == true)
         {
+            std::cout << "Mind preserve operation skiped, context size = 0;" << std::endl;
             continue;
         }
         
         bool passed = false;
-        for(gint i = 0; i < m_context->size(); i++)
-        {
-            if(item.second == m_context->at(i))
-            {
-                continue;
-            }
- 
-            base_shape* context_shape = m_context->at(i);
-            gmap<base_shape*, bool> passed_shapes;
-            gint ray_cast_limit = item.second->raycast_size();
-            passed = is_this_shape_passed_to(item.second, context_shape, ray_cast_limit, passed_shapes);
-            if(passed == true)
-            {
-                break;
-            }
-        }
+        gint ray_cast_limit = item.second->raycast_size();
+        gmap<base_shape*, bool> passed_shapes;
+        passed = is_this_shape_passed_to(item.second, sm_shape, ray_cast_limit, passed_shapes);
+   
         if(passed == true)
         {
             shapes_to_remove.push_back(item.second);
@@ -68,10 +57,16 @@ void mind_preservation_service::mind_preserve_operation()
 
     for (base_shape* shape : shapes_to_remove)
     {
-        gint removed_links_count = m_memory->remove_shape(shape);
         std::cout << "Remove shape:  [";
         std::wcout << shape->get_guid();
-        std::cout<< "]   Removed links:"<<"   INDEX:"<<shape->get_index()<<"    " << removed_links_count << std::endl;
+        std::cout << "]   Removed links:" << "   INDEX:" << shape->get_index() << std::endl;
+        gint removed_links_count = m_memory->remove_shape(shape);
+        gint index = -1;
+        if (m_context->exists(shape, &index) == true)
+        {
+            m_context->remove(index);
+            std::cout << "ALSO REMOVED FROM CONTEXT"<<std::endl;
+        }
     }
 }
 

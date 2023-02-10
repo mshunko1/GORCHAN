@@ -12,7 +12,7 @@ eos_shape::eos_shape()
 
 eos_shape::~eos_shape()
 {
-
+    m_instance = nullptr;
 }
 
 eos_shape* eos_shape::get_instance()

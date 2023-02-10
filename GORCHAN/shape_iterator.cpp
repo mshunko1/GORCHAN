@@ -35,8 +35,6 @@ void shape_iterator::init()
 
 shape_iterator::~shape_iterator()
 {
-    m_downs.clear();
-    m_ups.clear();
     m_down.clear();
     m_up.clear();
 }
@@ -44,8 +42,6 @@ shape_iterator::~shape_iterator()
 void shape_iterator::set_initial_shapes(gvector<base_shape*> input)
 {
     m_input = input;
-    m_downs.clear();
-    m_ups.clear();
     m_down.clear();
     m_up.clear();
  
@@ -66,8 +62,6 @@ void shape_iterator::set_initial_shapes(gvector<base_shape*> input)
 
 shape_iterator_state shape_iterator::build_up()
 {
-
-
     m_state = shape_iterator_state_in_up; 
     gmap<linker*, gint> fercher;
     bool ferch = true;
@@ -123,30 +117,12 @@ shape_iterator_state shape_iterator::build_up()
         }
     }
 
-    bool eq = false;
-    for(auto up:m_ups)
-    {
-        if (up.size() != m_up.size())
-        {
-            continue;
-        }
-        eq = std::equal(up.begin(), up.end(), m_up.begin());
-        if(eq == true)
-        {
-            break;
-        }
-    }
-
     std::wcout<<L"ups:";
     dump_gvector(m_up);
     std::wcout<<std::endl;
 
 
-    if(eq == false)
-    {
-        m_ups.push_back(m_up);
-    }
-    else
+    if(fercher.size() == 0)
     {
         return shape_iterator_state_synced;
     }
@@ -212,29 +188,12 @@ shape_iterator_state shape_iterator::build_down()
         }
     }
     
-    bool eq = false;
-    for(auto down:m_downs)
-    {
-        if (down.size() != m_down.size())
-        {
-            continue;
-        }
-        eq = std::equal(down.begin(), down.end(), m_down.begin());
-        if(eq == true)
-        {
-            break;
-        }
-    }
-
+ 
     std::wcout<<L"downs:";
     dump_gvector(m_down);
     std::wcout<<std::endl;
 
-    if(eq == false)
-    {
-        m_downs.push_back(m_down);
-    }
-    else
+    if(fercher.size() == 0)
     {
         return shape_iterator_state_synced;
     }
@@ -246,6 +205,7 @@ shape_iterator_state shape_iterator::build_rules()
     std::wcout<<std::endl;
     std::wcout<<L" ------- BUILD RULES -------------"<<std::endl;
      
+    context_was_merged = false;
 
     m_state = shape_iterator_state_in_build_rules;
     gint init_count = 0;
@@ -297,13 +257,38 @@ shape_iterator_state shape_iterator::build_rules()
         }
     }*/
 
+    bool tr_to_init_operation = false;
+    bool init_to_fr_operation = false;
+    bool fr_to_aqr_operation = false;
+
+    if (tr_count > init_count && tr_count > fr_count)
+    {
+        tr_to_init_operation = true;
+    }
+    if (init_count > tr_count  && init_count > fr_count)
+    {
+        init_to_fr_operation = true;
+    }
+    if (fr_count > tr_count && fr_count > init_count)
+    {
+        fr_to_aqr_operation = true;
+    }
+    if ((tr_to_init_operation + init_to_fr_operation + fr_to_aqr_operation) > 1)
+    {
+        throw new gexception("");
+    }
+    bool breaker = false;
     //1 если нет FR создать все IR
-    if(fr_count == 0 && init_count == 0)
+    if(tr_to_init_operation == true)
     {
         for(base_shape* in_shape:m_input)
         {
             for(base_shape* up_shape:m_up)
             {
+                if (soul_matter_shape::get_instance() == up_shape)
+                {
+                    continue;
+                }
                 linker* up_ins = up_shape->get_ins();
                 bool exists = up_ins->exists(in_shape, nullptr);
                 if(exists == false && in_shape != up_shape)
@@ -314,12 +299,16 @@ shape_iterator_state shape_iterator::build_rules()
         }
     }
     //2 если все IR то пройтись по IR и попробывать создать FR
-    else if(fr_count == 0 && init_count > 0)
+    else if(init_to_fr_operation == true)
     {
         for(base_shape* in_shape:m_input)
         {
             for(base_shape* up_shape:m_up)
             {
+                if (soul_matter_shape::get_instance() == up_shape)
+                {
+                    continue;
+                }
                 linker* up_ins = up_shape->get_ins();
                 gint index = 0;
                 bool exists = up_ins->exists(in_shape, &index);
@@ -356,28 +345,41 @@ shape_iterator_state shape_iterator::build_rules()
                         base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter, false, true);
                         base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, true);
  
+                        std::wcout << L"&&&&&&&&&&&&&&&&&&& SM FROM:" << up_shape->get_guid() << L"  TO   " << in_shape->get_guid() << std::endl;
+                        breaker = true;
 
 
-                        std::wcout << L"CONTEXT ADD TO CONTEXT:" << up_shape->get_guid() << std::endl;
-
-                        m_context->add_shape(up_shape);
-
-                        std::wcout << L"CONTEXT:";
-                        dump_gvector(m_context);
-                        std::wcout << std::endl;
 
                         if ( context_was_merged == false)
                         { 
-
-                            std::wcout << L"CONTEXT OPERATION:" << m_context->try_merge(context_was_merged) << std::endl;
+                            std::wcout << L"CONTEXT ADD TO CONTEXT:" << up_shape->get_guid() << std::endl;
+                            m_context->add_shape(up_shape);
+                            std::wcout << L"CONTEXT OPERATION 3:" << m_context->try_merge(context_was_merged) << std::endl;
                         }
+                        else
+                        {
+                            std::wcout << L"CONTEXT OPERATION 3:              ALREADY MERGED BUT WE TRY ADD:" << up_shape->get_guid()<< std::endl;
+                        }
+                        std::wcout << L"CONTEXT:";
+                        dump_gvector(m_context);
+                        std::wcout << std::endl;
+                        breaker = true;
                     }
                 }
+                if (breaker == true)
+                {
+                  //  break;
+                }
+            }
+            //context_was_merged = false;
+            if (breaker == true)
+            {
+               //  break;
             }
         }
     }
     //2.1 если есть FR то собрать все FR и делать FR там где IR анализируя правила всех FR
-    else if(fr_count > 0)
+    else if(fr_to_aqr_operation == true)
     {
         gvector<base_shape*> fr_shapes;
         gvector<link*> fr_links;
@@ -385,6 +387,10 @@ shape_iterator_state shape_iterator::build_rules()
         {
             for(base_shape* up_shape:m_up)
             {
+                if (soul_matter_shape::get_instance() == up_shape)
+                {
+                    continue;
+                }
                 linker* up_ins = up_shape->get_ins();
                 gint index = 0;
                 bool exists = up_ins->exists(in_shape, &index);
@@ -399,11 +405,14 @@ shape_iterator_state shape_iterator::build_rules()
                 }
             }
         }
-
         for(base_shape* in_shape:m_input)
         {
             for(base_shape* up_shape:m_up)
             {
+                if (soul_matter_shape::get_instance() == up_shape)
+                {
+                    continue;
+                }
                 linker* up_ins = up_shape->get_ins();
                 gint index = 0;
                 bool exists = up_ins->exists(in_shape, &index);
@@ -478,24 +487,28 @@ shape_iterator_state shape_iterator::build_rules()
                             base_shape::link_shapes(in_shape, up_shape, clone_find_passed_rule, link_type_aquare_by_rule, false, true);
                             rule* smr = new rule();
                             base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter, false, true);
-                            base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, true);
+                            base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, true); 
+                            std::wcout << L"&&&&&&&&&&&&&&&&&&& SM FROM:" << up_shape->get_guid() << L"  TO   " << in_shape->get_guid() << std::endl;
 
 
-                            std::wcout << L"CONTEXT ADD TO CONTEXT:" << up_shape->get_guid() << std::endl;
 
-                            m_context->add_shape(up_shape);
 
+
+
+                            if (context_was_merged == false)
+                            {
+                                std::wcout << L"CONTEXT ADD TO CONTEXT:" << up_shape->get_guid() << std::endl;
+                                m_context->add_shape(up_shape);
+                                std::wcout << L"CONTEXT OPERATION 1 :" << m_context->try_merge(context_was_merged) << std::endl;
+                            }
+                            else
+                            {
+                                std::wcout << L"CONTEXT OPERATION 1:                         ALREADY MERGED   BUT WE TRY ADD:"<< up_shape->get_guid() << std::endl;
+                            }
+                            breaker = true;
                             std::wcout << L"CONTEXT:";
                             dump_gvector(m_context);
                             std::wcout << std::endl;
-
-                            if (context_was_merged == false)
-                            { 
-
-
-                                std::wcout << L"CONTEXT OPERATION:" << m_context->try_merge(context_was_merged) << std::endl;
-                            }
-
                         }
                         else
                         {
@@ -511,25 +524,38 @@ shape_iterator_state shape_iterator::build_rules()
                                 rule* smr = new rule();
                                 base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter, false, true);
                                 base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, true);
+                                std::wcout << L"&&&&&&&&&&&&&&&&&&& SM FROM:" << up_shape->get_guid() <<L"  TO   "<< in_shape ->get_guid()<< std::endl;
+                               
 
-                                std::wcout << L"CONTEXT ADD TO CONTEXT:" << up_shape->get_guid() << std::endl;
 
-                                m_context->add_shape(up_shape);
-
+                                if ( context_was_merged == false)
+                                {
+                                    std::wcout << L"CONTEXT ADD TO CONTEXT:" << up_shape->get_guid() << std::endl;
+                                    m_context->add_shape(up_shape);
+                                    std::wcout << L"CONTEXT OPERATION 2:" << m_context->try_merge(context_was_merged) << std::endl;
+                                }
+                                else
+                                {
+                                    std::wcout << L"CONTEXT OPERATION 2:                         ALREADY MERGED BUT WE TRY ADD:" << up_shape->get_guid()<< std::endl;
+                                }
+                                breaker = true;
                                 std::wcout << L"CONTEXT:";
                                 dump_gvector(m_context);
                                 std::wcout << std::endl;
-                                if ( context_was_merged == false)
-                                { 
-                                
-
-                                    std::wcout << L"CONTEXT OPERATION:" << m_context->try_merge(context_was_merged) << std::endl;
-                                }
-                               
                             }
                         }
                     }
                 }
+                if (breaker == true)
+                {
+                  //  break;
+                }
+            }
+
+            //context_was_merged = false;
+            if (breaker == true)
+            {
+              //  break;
             }
         }
     }

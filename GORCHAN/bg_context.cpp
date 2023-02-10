@@ -22,7 +22,7 @@ void bg_context::add_shape(base_shape* shape)
     {
         if (m_context[i]->get_guid() == shape->get_guid())
         {
-          //  throw new gexception("");
+           // throw new gexception("");
         }
     }
 
@@ -71,7 +71,7 @@ gstring bg_context::try_merge(volatile bool& merged)
 
             if(merged_shapes.size() == 2)
             {
-                merged = true;
+                //merged = true;
                 auto retu = L"MERGED SHAPES ******************************************************["+merged_shapes[0]->get_guid()+L"] : [" +merged_shapes[1]->get_guid()+L"]\r\n";
                 auto erase1 = std::find(m_context.begin(), m_context.end(), merged_shapes[0]);
                 m_context.erase(erase1);

@@ -26,8 +26,6 @@ void GORCHAN::init()
 
     m_mind_status = mind_status_ready_to_new_signal;
 
-
-
     whois = nullptr;
 
     howis = nullptr;
@@ -46,6 +44,12 @@ void GORCHAN::deinit()
 
 void GORCHAN::percive(std::string signal, bool debug)
 {
+
+    while (m_mind_status != mind_status_ready_to_new_signal)
+    {
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+
     std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
     std::wstring wide = converter.from_bytes(signal);
     gvector<base_shape*> shape_signal;
@@ -73,6 +77,12 @@ void GORCHAN::percive(std::string signal, bool debug)
     {
         howis_mindprocess = new howis_shape(L"mindprocess");
         m_memory->add_shape(howis_mindprocess);
+    }
+    base_shape* eos = m_memory->get_shape(eos_shape_index);
+    if (eos == nullptr)
+    {
+        eos = eos_shape::get_instance();
+        m_memory->add_shape(eos);
     }
 
     if (debug == false)
@@ -110,7 +120,7 @@ void GORCHAN::percive(std::string signal, bool debug)
             exist_shape = shape;
         }
 
-        base_shape* eos = m_memory->get_shape(eos_shape_index);
+
         shape_signal.push_back(whois_gorchan);
         shape_signal.push_back(howis_mindprocess);
         shape_signal.push_back(shape);
@@ -133,6 +143,7 @@ void GORCHAN::react_proc()
         {
             if(m_input_q.empty())
             {
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
                 continue;
             }
             gvector<base_shape*> signals = m_input_q.front();

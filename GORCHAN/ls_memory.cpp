@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "ls_memory.h"
 
 
@@ -16,8 +16,18 @@ void ls_memory::add_shape(base_shape* shape)
     {
         throw new gexception("");
     }
-    shape_index index = m_shape_indexator->get_next_shape_index();
-    shape->set_index(index);
+    shape_index index = -1;
+    if (shape->get_type() == shape_type_eos)
+    {
+        shape->set_index(eos_shape_index);
+        index = eos_shape_index;
+    }
+    else
+    {
+        index = m_shape_indexator->get_next_shape_index();
+        shape->set_index(index);
+    }
+
     m_gguid_to_shape[shape->get_guid()] = shape;
     m_index_to_shape[index] = shape;
 }
