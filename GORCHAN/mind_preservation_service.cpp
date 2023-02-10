@@ -29,8 +29,12 @@ void mind_preservation_service::mind_preserve_operation()
     gvector<base_shape*> shapes_to_remove;
     for(auto item:m_memory->m_index_to_shape)
     {
-
-        if(soul_matter_shape::get_instance() == item.second    || eos_shape::get_instance() == item.second  )
+        if (soul_matter_shape::get_instance()->raycast_size() == 0  /* || eos_shape::get_instance() == item.second*/)
+        {
+            std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@;" << std::endl;
+            continue;
+        }
+        if(soul_matter_shape::get_instance() == item.second  /* || eos_shape::get_instance() == item.second*/)
         {
             std::cout << "Mind preserve operation skiped,  BECAUSE IT SM;" << std::endl;
             continue;

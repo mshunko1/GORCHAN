@@ -46,10 +46,14 @@ shape_iterator::~shape_iterator()
 
 void shape_iterator::set_initial_shapes(gvector<base_shape*> input)
 {
+    its_debug = false;
     m_input = input;
     m_down.clear();
     m_up.clear();
- 
+    if (input[0]->get_guid() == L"gorchan")
+    {
+        its_debug = true;
+    }
     base_shape::link_shapes(input[0], input[1], new rule() , link_type_temproray, false, true);
     for(gint i = 1; i < input.size() - 1; i++)
     {
@@ -57,7 +61,6 @@ void shape_iterator::set_initial_shapes(gvector<base_shape*> input)
     }
     m_ls_memory->reset_raycast();
     m_up = input;
-
     m_state = shape_iterator_state_init;
     context_was_merged = false;
     std::wcout << L"init_was:---------------------------------------------------------------------------------------------------------";
@@ -405,7 +408,7 @@ shape_iterator_state shape_iterator::build_rules()
 
 
 
-                            if (context_was_merged == false)
+                            if (context_was_merged == false && its_debug == false)
                             {
                                 std::wcout << L"CONTEXT ADD TO CONTEXT:" << up_shape->get_guid() << std::endl;
                                 m_context->add_shape(up_shape);
@@ -459,7 +462,7 @@ shape_iterator_state shape_iterator::build_rules()
                 }
                 if (breaker == true)
                 {
-                   break;
+                 //  break;
                 }
             }
 
