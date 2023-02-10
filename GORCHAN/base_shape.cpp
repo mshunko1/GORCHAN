@@ -30,8 +30,8 @@ void base_shape::set_just_added(bool value)
 
 bool base_shape::can_be_raised(bool just_check)
 {
-	std::wcout << get_guid();
-	std::cout << "RAYCAST:" << raycast_size()<<std::endl;
+	//std::wcout << get_guid();
+	//std::cout << "RAYCAST:" << raycast_size()<<std::endl;
 	if(just_check == true)
 	{
 		return m_ray_count_initial > 0;
@@ -95,7 +95,10 @@ bool base_shape::link_shapes(base_shape* from, base_shape* to, rule* rule, link_
 	{
 		throw new gexception("");
 	}
- 
+	if (from->get_index() == 12 || to->get_index() == 12)
+	{
+		int a = 21;
+	}
 	gint index = -1;
 	gint ok = 0;
 	const gint okcount = 2;

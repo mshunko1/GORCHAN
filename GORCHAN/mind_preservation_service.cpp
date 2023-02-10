@@ -30,14 +30,12 @@ void mind_preservation_service::mind_preserve_operation()
     for(auto item:m_memory->m_index_to_shape)
     {
 
-        if(soul_matter_shape::get_instance() == item.second    || eos_shape::get_instance() == item.second )
+        if(soul_matter_shape::get_instance() == item.second    || eos_shape::get_instance() == item.second  )
         {
             std::cout << "Mind preserve operation skiped,  BECAUSE IT SM;" << std::endl;
             continue;
         }
-
-
-       
+        
         if (item.second->get_just_added() == true)
         {
             std::cout << "Mind preserve operation skiped, context size = 0;" << std::endl;

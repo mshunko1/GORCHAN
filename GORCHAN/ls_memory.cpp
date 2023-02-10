@@ -115,47 +115,39 @@ void ls_memory::reset_just_added()
 
 gint ls_memory::remove_shape(base_shape* shape)
 {
+    if (shape->get_guid() == L"=")
+    {
+        int a = 21;
+    }
     gint removed_links_count = 0;
-    linker* ins = shape->get_ins();
-    for(gint i = 0; i < ins->size(); i++)
+
+    for (auto item : m_index_to_shape)
     {
-        link* link = ins->at(i);
-        shape_index shape_index_for_remove_out = link->m_shape_to;
-        base_shape* shape_for_remove_out = get_shape(shape_index_for_remove_out);
-        if (shape_for_remove_out == nullptr)
+        linker* ins = item.second->get_ins();
+        for (gint i = 0; i < ins->size(); i++)
         {
-            continue;
-        }
-        
-        linker* linker_for_remove_out = shape_for_remove_out->get_outs();
-        gint index = -1;
-        if(linker_for_remove_out->exists(shape, &index) == true)
-        {
-            linker_for_remove_out->remove(index);
-            removed_links_count++;
+            link* link = ins->at(i);
+            shape_index shape_index_for_remove_out = link->m_shape_to;
+            if (shape_index_for_remove_out == shape->get_index())
+            {
+                ins->remove(i);
+            }
         }
 
+        linker* outs = item.second->get_outs();
+        for (gint i = 0; i < outs->size(); i++)
+        {
+            link* link = outs->at(i);
+            shape_index shape_index_for_remove_in = link->m_shape_to; 
+            if (shape_index_for_remove_in == shape->get_index())
+            {
+                outs->remove(i);
+            }
+        }
     }
 
-    linker* outs = shape->get_outs();
-    for(gint i = 0; i < outs->size(); i++)
-    {
-        link* link = outs->at(i);
-        shape_index shape_index_for_remove_in = link->m_shape_to;
-        base_shape* shape_for_remove_in = get_shape(shape_index_for_remove_in);
-        if (shape_for_remove_in == nullptr)
-        {
-            continue;
-        }
-        linker* linker_for_remove_in = shape_for_remove_in->get_ins();
-        gint index = -1;
-        if(linker_for_remove_in->exists(shape, &index) == true)
-        {
-            linker_for_remove_in->remove(index);
-            removed_links_count++;
-        }
 
-    }
+    
 
     gfs_path file_name = shape->get_filename();
     shape_type shape_type = shape->get_type();

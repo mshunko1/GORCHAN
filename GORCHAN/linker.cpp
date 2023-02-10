@@ -73,7 +73,7 @@ void linker::add_link(link* add_link)
     }
     // Задача переработать как можно больше информации
     // так как контекст merge в момент build fr то это значит что важны IR і не важны все остальные
-    if(add_link->m_type <= link_type_temproray)
+    if (add_link->m_type <= link_type_temproray)
     {
         action_expand = true;
     }
@@ -93,7 +93,7 @@ void linker::add_link(link* add_link)
     {
         action_expand = true;
     }
-    else if(start->m_type == link_type_init && add_link->m_type == link_type_init)
+    else if (start->m_type == link_type_init && add_link->m_type == link_type_init)
     {
         action_expand = true;
     }
@@ -125,11 +125,11 @@ void linker::add_link(link* add_link)
     {
         action_circle = true;
     }
-    else if(start->m_type == link_type_aquare_by_rule && add_link->m_type == link_type_init)
+    else if (start->m_type == link_type_aquare_by_rule && add_link->m_type == link_type_init)
     {
         action_circle = true;
     }
-    else if(start->m_type == link_type_aquare_by_rule && add_link->m_type == link_type_friendly)
+    else if (start->m_type == link_type_aquare_by_rule && add_link->m_type == link_type_friendly)
     {
         action_expand = true;
     }
