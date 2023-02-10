@@ -261,15 +261,15 @@ shape_iterator_state shape_iterator::build_rules()
     bool init_to_fr_operation = false;
     bool fr_to_aqr_operation = false;
 
-    if (tr_count > init_count && tr_count > fr_count)
+    if (tr_count >= init_count && tr_count >= fr_count)
     {
         tr_to_init_operation = true;
     }
-    if (init_count > tr_count  && init_count > fr_count)
+    else if (init_count >= tr_count  && init_count >= fr_count)
     {
         init_to_fr_operation = true;
     }
-    if (fr_count > tr_count && fr_count > init_count)
+    else if (fr_count >= tr_count && fr_count >= init_count)
     {
         fr_to_aqr_operation = true;
     }
@@ -334,7 +334,8 @@ shape_iterator_state shape_iterator::build_rules()
                     }
                     gvector<shape_index> path;
                     gmap<base_shape*, bool> passed_shapes;
-                    bool way_exist = find_this_way(up_shape, in_shape, path, passed_shapes);
+                    gint ray_cast_size = up_shape->raycast_size();
+                    bool way_exist = find_this_way(up_shape, in_shape, path, ray_cast_size, passed_shapes);
                     if(way_exist == true && in_shape != up_shape)
                     {
                         rule* r = new rule();
@@ -514,7 +515,8 @@ shape_iterator_state shape_iterator::build_rules()
                         {
                             gvector<shape_index> path;
                             gmap<base_shape*, bool> passed_shapes;
-                            bool way_exist = find_this_way(up_shape, in_shape, path, passed_shapes);
+                            gint ray_cast_size = up_shape->raycast_size();
+                            bool way_exist = find_this_way(up_shape, in_shape, path, ray_cast_size, passed_shapes);
                             if(way_exist == true && in_shape != up_shape)
                             {
                                 rule* r = new rule();
@@ -567,12 +569,17 @@ shape_iterator_state shape_iterator::build_rules()
     return shape_iterator_state_in_build_rules;
 }
 
-bool shape_iterator::find_this_way(base_shape* from, base_shape* to, gvector<shape_index>& path, gmap<base_shape*, bool>& passed_shapes)
+bool shape_iterator::find_this_way(base_shape* from, base_shape* to,  gvector<shape_index>& path, gint& ray_caster, gmap<base_shape*, bool>& passed_shapes)
 {
     if(from == to)
     {
        return true;
     }
+    if (ray_caster == 0)
+    {
+        return false;
+    }
+    ray_caster--;
     linker* linker = from->get_outs();
     for(gint i = 0; i < linker->size(); i++)
     {
@@ -582,7 +589,7 @@ bool shape_iterator::find_this_way(base_shape* from, base_shape* to, gvector<sha
         {
             path.push_back(shape->get_index());
             passed_shapes[shape] = true;
-            return find_this_way(shape, to, path, passed_shapes);
+            return find_this_way(shape, to, path, ray_caster, passed_shapes);
         }
     }
     return false;

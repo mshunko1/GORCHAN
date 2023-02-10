@@ -77,23 +77,83 @@ void linker::add_link(link* add_link)
     {
         action_expand = true;
     }
-    else if(start->m_type <= link_type_init && add_link->m_type <= link_type_init)
+    else if (start->m_type == link_type_temproray && add_link->m_type == link_type_init)
     {
         action_expand = true;
     }
-    else if(start->m_type <= link_type_init && add_link->m_type >= link_type_friendly)
+    else if (start->m_type == link_type_temproray && add_link->m_type == link_type_friendly)
     {
         action_expand = true;
     }
-    else if(start->m_type >= link_type_friendly && add_link->m_type <= link_type_init)
+    else if (start->m_type == link_type_temproray && add_link->m_type == link_type_aquare_by_rule)
+    {
+        action_expand = true;
+    }
+    else if (start->m_type == link_type_temproray && add_link->m_type == link_type_soul_matter)
+    {
+        action_expand = true;
+    }
+    else if(start->m_type == link_type_init && add_link->m_type == link_type_init)
+    {
+        action_expand = true;
+    }
+    else if (start->m_type == link_type_init && add_link->m_type == link_type_friendly)
+    {
+        action_expand = true;
+    }
+    else if (start->m_type == link_type_init && add_link->m_type == link_type_aquare_by_rule)
+    {
+        action_expand = true;
+    }
+    else if (start->m_type == link_type_init && add_link->m_type == link_type_soul_matter)
+    {
+        action_expand = true;
+    }
+    else if (start->m_type == link_type_friendly && add_link->m_type == link_type_init)
     {
         action_circle = true;
     }
-    else if(start->m_type == link_type_friendly && add_link->m_type == link_type_friendly)
+    else if (start->m_type == link_type_friendly && add_link->m_type == link_type_friendly)
     {
-        action_narrow = true;
+        action_circle = true;
     }
-    else if (start->m_type >= link_type_aquare_by_rule && add_link->m_type >= link_type_aquare_by_rule)
+    else if (start->m_type == link_type_friendly && add_link->m_type == link_type_aquare_by_rule)
+    {
+        action_circle = true;
+    }
+    else if (start->m_type == link_type_friendly && add_link->m_type == link_type_soul_matter)
+    {
+        action_circle = true;
+    }
+    else if(start->m_type == link_type_aquare_by_rule && add_link->m_type == link_type_init)
+    {
+        action_circle = true;
+    }
+    else if(start->m_type == link_type_aquare_by_rule && add_link->m_type == link_type_friendly)
+    {
+        action_expand = true;
+    }
+    else if (start->m_type == link_type_aquare_by_rule && add_link->m_type == link_type_aquare_by_rule)
+    {
+        action_expand = true;
+    }
+    else if (start->m_type == link_type_aquare_by_rule && add_link->m_type == link_type_soul_matter)
+    {
+        action_expand = true;
+    }
+    else if (start->m_type == link_type_soul_matter && add_link->m_type == link_type_init)
+    {
+        action_expand = true;
+    }
+    else if (start->m_type == link_type_soul_matter && add_link->m_type == link_type_friendly)
+    {
+        action_expand = true;
+    }
+    else if (start->m_type == link_type_soul_matter && add_link->m_type == link_type_aquare_by_rule)
+    {
+        action_expand = true;
+    }
+    else if (start->m_type == link_type_soul_matter && add_link->m_type == link_type_soul_matter)
     {
         action_expand = true;
     }
