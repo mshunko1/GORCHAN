@@ -20,6 +20,7 @@ public:
 	bool can_be_raised(bool just_check);
 	void reset_daycaster();
 	gint raycast_size();
+	void raycast_inc();
 	bool get_just_added();
 	void set_just_added(bool value);
 	static bool link_shapes(base_shape* from, base_shape* to, rule* rule, link_type type, bool rewrite, bool replace);// out-in

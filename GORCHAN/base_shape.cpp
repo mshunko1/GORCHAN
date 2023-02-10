@@ -80,11 +80,20 @@ shape_type base_shape::deserialize_type(gifstream& stream, bool reset_file_pos =
 	return (shape_type)type;
 }
 
+void base_shape::raycast_inc()
+{
+	m_ray_count_initial++;
+}
+
 bool base_shape::link_shapes(base_shape* from, base_shape* to, rule* rule, link_type type, bool rewrite = false, bool replace = false)
 { 
 	if(rewrite == true || (rewrite == true && replace == true))
 	{
 		throw new gexception("not impemented");		
+	}
+	if (from == to)
+	{
+		throw new gexception("");
 	}
  
 	gint index = -1;
@@ -94,6 +103,9 @@ bool base_shape::link_shapes(base_shape* from, base_shape* to, rule* rule, link_
 	if(from->m_links_out->exists(to, &index) == false)
 	{
 		from->m_links_out->add_link(to, rule, type);
+		//from->m_ray_count_initial++;
+		//if (from != soul_matter_shape::get_instance())
+		//	to->raycast_inc();
 		ok++;
 	}
 	else
@@ -102,16 +114,16 @@ bool base_shape::link_shapes(base_shape* from, base_shape* to, rule* rule, link_
 		{ 
 			from->m_links_out->remove(index);
 			from->m_links_out->add_link(to, rule, type);
-			//from->m_ray_count_additional++;
-			ok++;
 		}
 	}
 
 	if(to->m_links_in->exists(from, &index) == false)
 	{
 		to->m_links_in->add_link(from, rule, type);
-		ok++;
-		return ok == okcount;
+		//from->m_ray_count_initial++;
+		//if(to != soul_matter_shape::get_instance())
+		//to->raycast_inc();
+		ok++; 
 	}
 	else
 	{
@@ -120,11 +132,10 @@ bool base_shape::link_shapes(base_shape* from, base_shape* to, rule* rule, link_
 			to->m_links_in->remove(index);
 			to->m_links_in->add_link(from, rule, type);
 			//to->m_ray_count_additional++;
-			ok++;
-			return ok == okcount;
+		  
 		}
 	}
-	return ok == okcount;
+	return ok;
 }
 
 linker* base_shape::get_outs()

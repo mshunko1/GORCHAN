@@ -30,7 +30,7 @@ void mind_preservation_service::mind_preserve_operation()
     for(auto item:m_memory->m_index_to_shape)
     {
 
-        if(soul_matter_shape::get_instance() == item.second    || eos_shape::get_instance() == item.second   )
+        if(soul_matter_shape::get_instance() == item.second    || eos_shape::get_instance() == item.second )
         {
             std::cout << "Mind preserve operation skiped,  BECAUSE IT SM;" << std::endl;
             continue;
@@ -49,7 +49,7 @@ void mind_preservation_service::mind_preserve_operation()
         gmap<base_shape*, bool> passed_shapes;
         passed = is_this_shape_passed_to(item.second, sm_shape, ray_cast_limit, passed_shapes);
    
-        if(passed == true)
+        if(passed == false)
         {
             shapes_to_remove.push_back(item.second);
         }
@@ -80,6 +80,9 @@ bool mind_preservation_service::is_this_shape_passed_to(base_shape* shape, base_
     {
         return false;
     }
+
+    passed_shapes[shape] = true;
+
     --raycast;
     linker* linker = shape->get_outs();
     for(gint i = 0; i < linker->size(); i++)

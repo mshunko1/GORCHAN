@@ -45,10 +45,10 @@ void shape_iterator::set_initial_shapes(gvector<base_shape*> input)
     m_down.clear();
     m_up.clear();
  
-    base_shape::link_shapes(input[0], input[1], new rule() , link_type_temproray, false, false);
+    base_shape::link_shapes(input[0], input[1], new rule() , link_type_temproray, false, true);
     for(gint i = 1; i < input.size() - 1; i++)
     {
-        base_shape::link_shapes(input[i], input[i + 1], new rule() ,link_type_temproray, false, false);
+        base_shape::link_shapes(input[i], input[i + 1], new rule() ,link_type_temproray, false, true);
     }
     m_ls_memory->reset_raycast();
     m_up = input;
@@ -261,15 +261,15 @@ shape_iterator_state shape_iterator::build_rules()
     bool init_to_fr_operation = false;
     bool fr_to_aqr_operation = false;
 
-    if (tr_count >= init_count && tr_count >= fr_count)
+    if (tr_count > init_count && tr_count > fr_count)
     {
         tr_to_init_operation = true;
     }
-    else if (init_count >= tr_count  && init_count >= fr_count)
+    if (init_count > tr_count && init_count > fr_count)
     {
         init_to_fr_operation = true;
     }
-    else if (fr_count >= tr_count && fr_count >= init_count)
+    if (fr_count > tr_count && fr_count > init_count)
     {
         fr_to_aqr_operation = true;
     }
@@ -290,10 +290,13 @@ shape_iterator_state shape_iterator::build_rules()
                     continue;
                 }
                 linker* up_ins = up_shape->get_ins();
+                linker* in_outs = in_shape->get_outs();
                 bool exists = up_ins->exists(in_shape, nullptr);
-                if(exists == false && in_shape != up_shape)
+                bool exists_out = in_outs->exists(up_shape, nullptr);
+                if((exists == false || exists_out == false) && in_shape != up_shape)
                 {
                     base_shape::link_shapes(in_shape, up_shape, new rule() ,link_type_init, false, true);
+                     
                 }
             }
         }
@@ -309,21 +312,31 @@ shape_iterator_state shape_iterator::build_rules()
                 {
                     continue;
                 }
+
+                linker* in_shape_linker = in_shape->get_outs();
+                gint isindex = -1;
+                bool out_exists = in_shape_linker->exists(up_shape, &isindex);
+
+
                 linker* up_ins = up_shape->get_ins();
                 gint index = 0;
-                bool exists = up_ins->exists(in_shape, &index);
+                bool in_exists = up_ins->exists(in_shape, &index);
                 bool do_link = false;
-                if(exists == true)
+                if(in_exists == true)
                 {
                     link* link = up_ins->at(index);
-                    if(link->m_type < link_type_init)
+                    if(link->m_type == link_type_init)
                     {
                         do_link = true;
                     }
                 }
-                else
+                if (out_exists == true)
                 {
-                    do_link = true;
+                    link* link = in_shape_linker->at(isindex);
+                    if (link->m_type == link_type_init)
+                    {
+                        do_link = true;
+                    }
                 }
 
                 if(do_link == true)
@@ -346,7 +359,7 @@ shape_iterator_state shape_iterator::build_rules()
                         base_shape::link_shapes(up_shape, soul_matter_shape, smr, link_type_soul_matter, false, true);
                         base_shape::link_shapes(soul_matter_shape, in_shape, smr, link_type_soul_matter, false, true);
  
-                        std::wcout << L"&&&&&&&&&&&&&&&&&&& SM FROM:" << up_shape->get_guid() << L"  TO   " << in_shape->get_guid() << std::endl;
+                        std::wcout << L"&&&&&&&&&&&&&&&&&&&        SM FROM:" << up_shape->get_guid() << L"  TO   " << in_shape->get_guid() << std::endl;
                         breaker = true;
 
 
@@ -414,15 +427,35 @@ shape_iterator_state shape_iterator::build_rules()
                 {
                     continue;
                 }
-                linker* up_ins = up_shape->get_ins();
-                gint index = 0;
-                bool exists = up_ins->exists(in_shape, &index);
-                if(exists == true)
+                linker* in_shape_outs = in_shape->get_outs();
+                linker* up_shape_ins = up_shape->get_ins();
+                gint in_shape_outs_index = 0, up_shape_ins_index = 0;
+                bool up_exist_in_in = in_shape_outs->exists(up_shape, &up_shape_ins_index);
+                bool in_exist_in_up = up_shape_ins->exists(in_shape, &in_shape_outs_index);
+
+                if(up_exist_in_in == true || in_exist_in_up == true)
                 {
                     rule* find_passed_rule = nullptr;
                     base_shape* find_passed_shape = nullptr;
-                    link* exst_link = up_ins->at(index);
-                    if(exst_link->m_type == link_type_init)
+                    bool allow = false;
+                    if (up_exist_in_in == true)
+                    {
+                        link* l = in_shape_outs->at(up_shape_ins_index);
+                        if (l->m_type == link_type_init)
+                        {
+                            allow = true;
+                        }
+                    }
+                    if (in_exist_in_up == true)
+                    {
+                        link* l = up_shape_ins->at(in_shape_outs_index);
+                        if (l->m_type == link_type_init)
+                        {
+                            allow = true;
+                        }
+                    }
+                    
+                    if(allow == true)
                     {
                         gint o = 0;
                         //foreach all FR rules to find way else build by find_this_way
@@ -550,7 +583,7 @@ shape_iterator_state shape_iterator::build_rules()
                 }
                 if (breaker == true)
                 {
-                  //  break;
+                 //   break;
                 }
             }
 
@@ -579,6 +612,9 @@ bool shape_iterator::find_this_way(base_shape* from, base_shape* to,  gvector<sh
     {
         return false;
     }
+
+
+    passed_shapes[from] = true;
     ray_caster--;
     linker* linker = from->get_outs();
     for(gint i = 0; i < linker->size(); i++)
@@ -588,7 +624,6 @@ bool shape_iterator::find_this_way(base_shape* from, base_shape* to,  gvector<sh
         if(passed_shapes[shape] == false)
         {
             path.push_back(shape->get_index());
-            passed_shapes[shape] = true;
             return find_this_way(shape, to, path, ray_caster, passed_shapes);
         }
     }
