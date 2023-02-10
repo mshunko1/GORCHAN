@@ -89,9 +89,13 @@ void linker::add_link(link* add_link)
     {
         action_circle = true;
     }
-    else if(start->m_type >= link_type_friendly && add_link->m_type >= link_type_friendly)
+    else if(start->m_type == link_type_friendly && add_link->m_type == link_type_friendly)
     {
-        action_circle = true;
+        action_narrow = true;
+    }
+    else if (start->m_type >= link_type_aquare_by_rule && add_link->m_type >= link_type_aquare_by_rule)
+    {
+        action_expand = true;
     }
     else
     {
