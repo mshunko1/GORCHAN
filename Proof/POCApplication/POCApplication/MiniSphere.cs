@@ -24,9 +24,11 @@ namespace POCApplication
                 _signalsA.Add(signal);
             }
             var min =  _signalsA.Min();
-            if(min.IsNeutral())
+            var max = _signalsA.Max();
+            if (min.IsNeutral())
             {
                 _signalsA.Remove(min);
+                _signalsA.Remove(max);
             }
             return min;
         }
@@ -43,9 +45,11 @@ namespace POCApplication
                 _signalsB.Add(signal);
             }
             var min = _signalsB.Min();
+            var max = _signalsB.Max();
             if (min.IsNeutral())
             {
                 _signalsB.Remove(min);
+                _signalsB.Remove(max);
             }
             return min;
         }
@@ -62,9 +66,11 @@ namespace POCApplication
                 _signalsC.Add(signal);
             }
             var min = _signalsC.Min();
+            var max = _signalsC.Max();
             if (min.IsNeutral())
             {
                 _signalsC.Remove(min);
+                _signalsC.Remove(max);
             }
             return min;
         }
