@@ -53,6 +53,10 @@ namespace POCApplication
 
         public static bool operator ==(ChanelSignalA a, ChanelSignalA b)
         {
+            if(a is null || b is null)
+            {
+                return false;
+            }
             var a1 = Convert.ToInt32(new string(a._value), 2);
             var a2 = Convert.ToInt32(new string(b._value), 2);
             return a1 == a2;
@@ -60,6 +64,10 @@ namespace POCApplication
 
         public static bool operator !=(ChanelSignalA a, ChanelSignalA b)
         {
+            if(a is null || b is null)
+            {
+                return true;
+            }
             var a1 = Convert.ToInt32(new string(a._value), 2);
             var a2 = Convert.ToInt32(new string(b._value), 2);
             return a1 != a2;

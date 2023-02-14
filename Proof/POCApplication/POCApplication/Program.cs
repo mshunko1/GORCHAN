@@ -32,21 +32,33 @@ namespace POCApplication
             Console.WriteLine(s.AddChannel1(ch1_b));
             Console.WriteLine(s.AddChannel2(ch2_b));
             Console.WriteLine(s.AddChannel3(ch3_b));
+            PrintImagination(s.GetImagination());
             Console.WriteLine("c=c");
             Console.WriteLine(s.AddChannel1(ch1_c));
             Console.WriteLine(s.AddChannel2(ch2_c));
             Console.WriteLine(s.AddChannel3(ch3_c));
+            PrintImagination(s.GetImagination());
             Console.WriteLine("a=b");
             Console.WriteLine(s.AddChannel1(ch1_a));
             Console.WriteLine(s.AddChannel2(ch2_a + ch2_b));
             Console.WriteLine(s.AddChannel3(ch3_b));
+            PrintImagination(s.GetImagination());
             Console.WriteLine("b=c");
             Console.WriteLine(s.AddChannel1(ch1_b));
             Console.WriteLine(s.AddChannel2(ch2_b + ch2_c));
             Console.WriteLine(s.AddChannel3(ch3_c));
-             
+            PrintImagination(s.GetImagination());
 
 
+
+
+
+        }
+
+        public static void PrintImagination(List<Signal> signals)
+        {
+            Console.WriteLine($" IMAGINATION \t\t {signals[0]}\t\t{signals[2]}\t\t{signals[4]}");
+            Console.WriteLine($" IMAGINATION \t\t {signals[1]}\t\t{signals[3]}\t\t{signals[5]}");
         }
     }
 }
