@@ -135,6 +135,7 @@
     <ClInclude Include="signal_b.h" />
     <ClInclude Include="signal_g.h" />
     <ClInclude Include="signal_r.h" />
+    <ClInclude Include="sintezator_base.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
@@ -144,6 +145,7 @@
     <ClCompile Include="signal_b.cpp" />
     <ClCompile Include="signal_g.cpp" />
     <ClCompile Include="signal_r.cpp" />
+    <ClCompile Include="sintezator_base.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GORCHAN-2.0.rc" />

@@ -54,6 +54,9 @@
     <ClInclude Include="signal_b.h">
       <Filter>Файлы заголовков\g2lib\rgb</Filter>
     </ClInclude>
+    <ClInclude Include="sintezator_base.h">
+      <Filter>Файлы заголовков\g2lib</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GORCHAN-2.0.cpp">
@@ -73,6 +76,9 @@
     </ClCompile>
     <ClCompile Include="signal_b.cpp">
       <Filter>Исходные файлы\g2lib\rgb</Filter>
+    </ClCompile>
+    <ClCompile Include="sintezator_base.cpp">
+      <Filter>Исходные файлы\g2lib</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
