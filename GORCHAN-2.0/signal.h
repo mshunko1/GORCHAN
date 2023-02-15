@@ -5,13 +5,8 @@
 class signal
 {
 public:
-	signal(g2string name, g2int value);
-	virtual signal* add(signal* signal);
-	virtual void add_to(signal* signal);
-	static signal* greatest(signal* l, signal* r);
-	static bool is_neutral(signal* signal);
+	signal(g2int size);
 protected:
-	g2string m_name;
-	g2int m_value;
+	char** m_sensors;
 };
 
