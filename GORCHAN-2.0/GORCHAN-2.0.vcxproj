@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>../G2.0-EXTERNAL-LIB/opencv/build/include;$(IncludePath)</IncludePath>
-    <LibraryPath>../G2.0-EXTERNAL-LIB/opencv/build/x64/vc16/lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>../G2.0-EXTERNAL-LIB/opencv/build/include;../G2.0-EXTERNAL-LIB/SFML-2.5.1/include;$(IncludePath)</IncludePath>
+    <LibraryPath>../G2.0-EXTERNAL-LIB/opencv/build/x64/vc16/lib;../G2.0-EXTERNAL-LIB/SFML-2.5.1/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -132,6 +132,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="audio_capture.h" />
+    <ClInclude Include="audio_sensor.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GORCHAN-2.0.h" />
     <ClInclude Include="mind_sphere.h" />
@@ -143,6 +145,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="audio_capture.cpp" />
+    <ClCompile Include="audio_sensor.cpp" />
     <ClCompile Include="GORCHAN-2.0.cpp" />
     <ClCompile Include="mind_sphere.cpp" />
     <ClCompile Include="vision_sensor.cpp" />

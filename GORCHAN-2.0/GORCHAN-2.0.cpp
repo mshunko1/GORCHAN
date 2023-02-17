@@ -3,16 +3,19 @@
 #include "stdafx.h"
 #include "framework.h"
 #include "GORCHAN-2.0.h"
-
-
+#include <opencv2/core.hpp>
+#include <opencv2/videoio.hpp>
+#include <opencv2/highgui.hpp>
+#include "audio_capture.h"
 #define MAX_LOADSTRING 100
 
-
+using namespace cv;
+using namespace std;
 // Глобальные переменные:
 HINSTANCE hInst;                                // текущий экземпляр
 WCHAR szTitle[MAX_LOADSTRING];                  // Текст строки заголовка
 WCHAR szWindowClass[MAX_LOADSTRING];            // имя класса главного окна
-
+audio_capture c;
 // Отправить объявления функций, включенных в этот модуль кода:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
@@ -27,7 +30,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
       
-
+    bool s = c.start();
     // Инициализация глобальных строк
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_GORCHAN20, szWindowClass, MAX_LOADSTRING);

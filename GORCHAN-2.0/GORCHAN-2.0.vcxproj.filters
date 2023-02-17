@@ -19,6 +19,30 @@
     <Filter Include="Исходные файлы\g2lib">
       <UniqueIdentifier>{a30b569b-792c-4687-8dc0-774eef202b03}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\g2lib\sensors">
+      <UniqueIdentifier>{5b4ad13d-9e6d-4e8e-8491-ebe3c6270680}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\g2lib\signals">
+      <UniqueIdentifier>{b023fea8-b921-4b4a-ab3f-6c63ead27857}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\g2lib\sintezators">
+      <UniqueIdentifier>{7d7301e8-89c8-423e-9e86-dc57b2c040f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\g2lib\sensors">
+      <UniqueIdentifier>{665b019c-1565-4c75-91c8-21e3ce712b0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\g2lib\signals">
+      <UniqueIdentifier>{e7b23798-4699-4ec6-ac0b-ae1a5f95accd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\g2lib\sintezators">
+      <UniqueIdentifier>{b29586cc-62eb-498d-af1c-303b2973e4cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы заголовков\g2lib\sensors\audio_sensor">
+      <UniqueIdentifier>{54bfa274-8eed-4293-a582-8aea43c63056}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Исходные файлы\g2lib\sensors\audio_sensor">
+      <UniqueIdentifier>{2e1095b6-ca96-4ec5-9bb7-d27366f6532d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -36,17 +60,23 @@
     <ClInclude Include="mind_sphere.h">
       <Filter>Файлы заголовков\g2lib</Filter>
     </ClInclude>
-    <ClInclude Include="sintezator_base.h">
-      <Filter>Файлы заголовков\g2lib</Filter>
-    </ClInclude>
-    <ClInclude Include="signal.h">
-      <Filter>Файлы заголовков\g2lib</Filter>
-    </ClInclude>
-    <ClInclude Include="vision_sensor.h">
-      <Filter>Файлы заголовков\g2lib</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="vision_sensor.h">
+      <Filter>Файлы заголовков\g2lib\sensors</Filter>
+    </ClInclude>
+    <ClInclude Include="signal.h">
+      <Filter>Файлы заголовков\g2lib\signals</Filter>
+    </ClInclude>
+    <ClInclude Include="sintezator_base.h">
+      <Filter>Файлы заголовков\g2lib\sintezators</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_sensor.h">
+      <Filter>Файлы заголовков\g2lib\sensors\audio_sensor</Filter>
+    </ClInclude>
+    <ClInclude Include="audio_capture.h">
+      <Filter>Файлы заголовков\g2lib\sensors\audio_sensor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -56,14 +86,20 @@
     <ClCompile Include="mind_sphere.cpp">
       <Filter>Исходные файлы\g2lib</Filter>
     </ClCompile>
-    <ClCompile Include="sintezator_base.cpp">
-      <Filter>Исходные файлы\g2lib</Filter>
+    <ClCompile Include="vision_sensor.cpp">
+      <Filter>Исходные файлы\g2lib\sensors</Filter>
     </ClCompile>
     <ClCompile Include="signal.cpp">
-      <Filter>Исходные файлы\g2lib</Filter>
+      <Filter>Исходные файлы\g2lib\signals</Filter>
     </ClCompile>
-    <ClCompile Include="vision_sensor.cpp">
-      <Filter>Исходные файлы\g2lib</Filter>
+    <ClCompile Include="sintezator_base.cpp">
+      <Filter>Исходные файлы\g2lib\sintezators</Filter>
+    </ClCompile>
+    <ClCompile Include="audio_sensor.cpp">
+      <Filter>Исходные файлы\g2lib\sensors\audio_sensor</Filter>
+    </ClCompile>
+    <ClCompile Include="audio_capture.cpp">
+      <Filter>Исходные файлы\g2lib\sensors\audio_sensor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
