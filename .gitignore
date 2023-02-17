@@ -85,7 +85,6 @@ out/
 
 # Gradle files
 .gradle/
-build/
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -353,8 +352,7 @@ tmtags
 ##### NetBeans
 **/nbproject/private/
 **/nbproject/Makefile-*.mk
-**/nbproject/Package-*.bash
-build/
+**/nbproject/Package-*.bash 
 nbbuild/
 dist/
 nbdist/
@@ -435,7 +433,6 @@ fabric.properties
 
 ##### Eclipse
 .metadata
-bin/
 tmp/
 *.tmp
 *.bak
@@ -505,7 +502,6 @@ local.properties
 *.lai
 *.so
 *.so.*
-*.dll
 *.dylib
 
 # Qt-es
@@ -574,8 +570,6 @@ mono_crash.*
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-x64/
-x86/
 [Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
@@ -629,8 +623,7 @@ StyleCopReport.xml
 *.meta
 *.obj
 *.iobj
-*.pch
-*.pdb
+*.pch 
 *.ipdb
 *.pgc
 *.pgd
@@ -913,8 +906,7 @@ MigrationBackup/
 FodyWeavers.xsd
 
 ##### Gradle
-.gradle
-**/build/
+.gradle 
 !src/**/build/
 
 # Ignore Gradle GUI config
@@ -959,7 +951,6 @@ _deps
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
 
 # Fortran module files
 *.mod
@@ -1005,13 +996,11 @@ _deps
 *.lo
 
 # Shared objects (inc. Windows DLLs)
-*.dll
 *.so
 *.so.*
 *.dylib
 
-# Executables
-*.exe
+# Executables 
 *.out
 *.app
 *.i*86
@@ -1037,3 +1026,4 @@ dkms.conf
 *.uf2
 # Raspberry Pi Pico disassembler file
 *.dis
+*/build/.cmake/*

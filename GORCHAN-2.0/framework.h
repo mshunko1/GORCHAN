@@ -14,9 +14,3 @@
 #include <memory.h>
 #include <tchar.h>
 
-#include <string>
-
-
-
-typedef std::wstring g2string;
-typedef int g2int;
